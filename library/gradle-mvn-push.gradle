@@ -109,9 +109,9 @@ afterEvaluate { project ->
     }
 
     // Excluding aar artifacts from uploading
-    configurations.archives.artifacts.with { archives ->
-        for (def iter = archives.iterator(); iter.hasNext();) {
-            if (iter.next().file =~ 'aar') iter.remove();
-        }
-    }
+//    configurations.archives.artifacts.with { archives ->
+//        for (def iter = archives.iterator(); iter.hasNext();) {
+//            if (iter.next().file =~ 'aar') iter.remove();
+//        }
+//    }
 }

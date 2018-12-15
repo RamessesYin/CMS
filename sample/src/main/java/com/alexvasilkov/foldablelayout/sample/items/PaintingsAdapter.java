@@ -1,6 +1,7 @@
 package com.alexvasilkov.foldablelayout.sample.items;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.FoldableListActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.UnfoldableDetailsActivity;
+import com.alexvasilkov.foldablelayout.sample.activities.fragment.Fragment1;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 
 import java.util.Arrays;
@@ -21,8 +23,11 @@ import java.util.Arrays;
 public class PaintingsAdapter extends ItemsAdapter<Painting, PaintingsAdapter.ViewHolder>
         implements View.OnClickListener {
 
-    public PaintingsAdapter(Context context) {
+    private Fragment1 fragment1;
+
+    public PaintingsAdapter(Context context, Fragment1 fragment) {
         setItemsList(Arrays.asList(Painting.getAllPaintings(context.getResources())));
+        fragment1 = fragment;
     }
 
     @Override
@@ -47,7 +52,7 @@ public class PaintingsAdapter extends ItemsAdapter<Painting, PaintingsAdapter.Vi
         final Activity activity = ContextHelper.asActivity(view.getContext());
 
         if (activity instanceof UnfoldableDetailsActivity) {
-            ((UnfoldableDetailsActivity) activity).openDetails(view, item);
+            fragment1.openDetails(view, item);
         } else if (activity instanceof FoldableListActivity) {
             Toast.makeText(activity, item.getTitle(), Toast.LENGTH_SHORT).show();
         }

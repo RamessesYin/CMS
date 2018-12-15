@@ -15,8 +15,8 @@ public class FoldableListActivity extends BaseActivity {
         setContentView(R.layout.activity_foldable_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FoldableListLayout foldableListLayout = Views.find(this, R.id.foldable_list);
-        foldableListLayout.setAdapter(new PaintingsAdapter(this));
+        //FoldableListLayout foldableListLayout = Views.find(this, R.id.foldable_list);
+        //foldableListLayout.setAdapter(new PaintingsAdapter(this));
     }
 
 }
