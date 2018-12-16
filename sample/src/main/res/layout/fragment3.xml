@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:background="#333"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_import_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="选择名片图片"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/my_card_img"
@@ -19,10 +20,224 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
 
-        <ListView
-            android:id="@+id/my_card_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <!--<ListView-->
+            <!--android:id="@+id/my_card_info"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
 
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+        <TableLayout
+            android:id="@+id/TableLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="#fff" />
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/card_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text="Name:"
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/card_edit_username"
+                    android:hint = ""
+                    android:textColorHint="#E0EEE0"
+                    android:theme="@style/MyEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="18sp"/>
+            </TableRow>>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="#fff" />
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/card_mobile_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text="Mobile Phone"
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/card_edit_mobile_phone"
+                    android:hint = ""
+                    android:textColorHint="#E0EEE0"
+                    android:theme="@style/MyEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="18sp"/>
+            </TableRow>>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="#fff" />
+
+            <TableRow>
+            <TextView
+                android:id="@+id/card_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="2dp"
+                android:text="Email:"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/card_edit_email"
+                android:hint = "您的用户名"
+                android:textColorHint="#E0EEE0"
+                android:theme="@style/MyEditText"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="2dp"
+                android:text=""
+                android:textColor="#fff"
+                android:textSize="18sp"/>
+        </TableRow>>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="#fff" />
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/card_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text="Email:"
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/card_edit_email"
+                    android:hint = "您的用户名"
+                    android:textColorHint="#E0EEE0"
+                    android:theme="@style/MyEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="18sp"/>
+            </TableRow>>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="#fff" />
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/card_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text="Email:"
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/card_edit_address"
+                    android:hint = "您的用户名"
+                    android:textColorHint="#E0EEE0"
+                    android:theme="@style/MyEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="18sp"/>
+            </TableRow>>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="#fff" />
+            <TableRow>
+                <TextView
+                    android:id="@+id/card_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text="Email:"
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/card_edit_company"
+                    android:hint = "您的用户名"
+                    android:textColorHint="#E0EEE0"
+                    android:theme="@style/MyEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginBottom="2dp"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="18sp"/>
+            </TableRow>>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="#fff" />
+
+        </TableLayout>
+
+</LinearLayout>

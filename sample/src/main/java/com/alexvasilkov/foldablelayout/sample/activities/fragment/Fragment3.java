@@ -28,9 +28,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.CardEditActivity;
+import com.alexvasilkov.foldablelayout.sample.data.Card;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -42,6 +44,7 @@ import java.util.Locale;
 public class Fragment3 extends Fragment {
     private static final int SELECT_IMAGE_RESULT_CODE = 2;
     private ImageView card_img;
+    private Button btn_card_img;
     private ListView card_info;
     private Bitmap img_bitmap;
     private AlertDialog dialog;
@@ -51,33 +54,46 @@ public class Fragment3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View my_view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment3, container, false);
         card_img = (ImageView)my_view.findViewById(R.id.my_card_img);
-        card_info = (ListView)my_view.findViewById(R.id.my_card_info);
+        btn_card_img = (Button)my_view.findViewById(R.id.btn_import_image);
 
-        String[] card_info_str = {"姓名：李四", "电话：123456789", "邮箱：123@qq.com"};
-        ArrayAdapter<String> card_adap = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_expandable_list_item_1, card_info_str);
-        card_info.setAdapter(card_adap);
-        card_info.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                setAlertDialog(view);
-                dialog.show();
-                return false;
-            }
-        });
-        pickPhoto();
+        btn_card_img.setOnClickListener(new f3_clickListener());
 
+        //card_info = (ListView)my_view.findViewById(R.id.my_card_info);
+
+//        String[] card_info_str = {"姓名：李四", "电话：123456789", "邮箱：123@qq.com"};
+//        ArrayAdapter<String> card_adap = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_expandable_list_item_1, card_info_str);
+//        card_info.setAdapter(card_adap);
+//        card_info.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view,
+//                                           int position, long id) {
+//                setAlertDialog(view);
+//                dialog.show();
+//                return false;
+//            }
+//        });
         return my_view;
     }
 
-//    public class CardAdapter extends ArrayAdapter{
-//        private String[] card_data;
+    protected class f3_clickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            switch (v.getId()){
+                case R.id.btn_import_image:
+                    pickPhoto();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+//    public class CardAdapter extends BaseAdapter{
+//        private Card card_data;
 //        private Context m_context;
 //
-//        public CardAdapter(Context m_context){
-//            card_data[0] = "姓名：李四";
-//            card_data[1] = "电话：123456789";
-//            card_data[2] = "邮箱：123@qq.com";
+//        public CardAdapter(Card card_data,Context m_context){
+//            this.card_data = card_data;
 //            this.m_context = m_context;
 //        }
 //
@@ -98,7 +114,19 @@ public class Fragment3 extends Fragment {
 //
 //        @Override
 //        public View getView(int position, View convertView, ViewGroup parent){
-//            convertView = LayoutInflater.from(m_context).inflate(R.layout.fragment3, card_data, parent, false);
+//            ItemsAdapter.ViewHolder holder = null;
+//            if (convertView == null) {
+//                convertView = LayoutInflater.from(m_context).inflate(R.layout.item_list, parent, false);
+//                holder = new ItemsAdapter.ViewHolder();
+//                holder.img_icon = (ImageView) convertView.findViewById(R.id.img_icon);
+//                holder.txt_content = (TextView) convertView.findViewById(R.id.txt_content);
+//                convertView.setTag(holder);
+//            } else {
+//                holder = (ViewHolder) convertView.getTag();
+//            }
+//            holder.img_icon.setImageResource(mData.get(position).getImgId());
+//            holder.txt_content.setText(mData.get(position).getContent());
+//            return convertView;
 //
 //        }
 //    }
