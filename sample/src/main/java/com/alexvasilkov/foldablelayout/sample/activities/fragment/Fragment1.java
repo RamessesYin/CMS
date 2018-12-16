@@ -38,7 +38,7 @@ public class Fragment1 extends Fragment {
         ListView listView = (ListView) contacts_view.findViewById(R.id.list_view);
         listView.setAdapter(new CardsAdapter(this.getContext(), this));
 
-        listTouchInterceptor =  contacts_view.findViewById(R.id.touch_interceptor_view);
+        listTouchInterceptor = contacts_view.findViewById(R.id.touch_interceptor_view);
         listTouchInterceptor.setClickable(false);
 
         detailsLayout = contacts_view.findViewById(R.id.details_layout);
@@ -84,7 +84,7 @@ public class Fragment1 extends Fragment {
     }
 
     public void openDetails(View coverView, Card card) {
-        final ImageView image =  Views.find(detailsLayout, R.id.details_image);
+        final ImageView image = Views.find(detailsLayout, R.id.details_image);
         final TextView title = Views.find(detailsLayout, R.id.details_title);
         final TextView description = Views.find(detailsLayout, R.id.details_text);
 
@@ -94,13 +94,37 @@ public class Fragment1 extends Fragment {
         SpannableBuilder builder = new SpannableBuilder(this.getActivity());
         builder
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append( R.string.phone).append(": ")
+                .append(R.string.phone).append(": ")
                 .clearStyle()
-                .append(card.getMobile_phone()).append("\n")
-                .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append(R.string.email).append(": ")
-                .clearStyle()
-                .append(card.getEmail());
+                .append(card.getMobile_phone()).append("\n");
+
+        if (card.getEmail() != null)
+            builder
+                    .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
+                    .append(R.string.email).append(": ")
+                    .clearStyle()
+                    .append(card.getEmail());
+
+        if (card.getAddress() != null)
+            builder
+                    .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
+                    .append(R.string.address).append(": ")
+                    .clearStyle()
+                    .append(card.getAddress());
+
+        if (card.getAddress() != null)
+            builder
+                    .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
+                    .append(R.string.company).append(": ")
+                    .clearStyle()
+                    .append(card.getCompany());
+
+        if (card.getAddress() != null)
+            builder
+                    .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
+                    .append(R.string.title).append(": ")
+                    .clearStyle()
+                    .append(card.getTitle());
         description.setText(builder.build());
 
         unfoldableView.unfold(coverView, detailsLayout);
