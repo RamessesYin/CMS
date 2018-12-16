@@ -3,15 +3,25 @@ package com.alexvasilkov.foldablelayout.sample.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.annotations.Expose;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class Tag {
     public long id;
-    public String count;
+    public int count;
     public String valid;
     public String text;
-    public List<User> taggedto;
+    private String users;
+
+    @Expose(serialize = false, deserialize = false)
+    private transient List<Long> taggedto;
 
     public long getId() {
         return id;
@@ -21,11 +31,11 @@ public class Tag {
         this.id = id;
     }
 
-    public String getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
@@ -45,16 +55,26 @@ public class Tag {
         this.text = text;
     }
 
-    public List<User> getTaggedto() {
+
+    public List<Long> getTaggedto() {
+        if (taggedto == null)
+            taggedto = new Gson().fromJson(users, List.class);
         return taggedto;
     }
 
-    public void setTaggedto(List<User> taggedto) {
+    public void setTaggedto(List<Long> taggedto) {
         this.taggedto = taggedto;
+        if (taggedto == null)
+            users = taggedto.toString();
     }
 
     @Override
     public String toString() {
-        return new GsonBuilder().setPrettyPrinting().create().toJsonTree(this).toString();
+        if (taggedto != null)
+            users = taggedto.toString();
+        return new Gson().toJson(this);
     }
+
+
 }
+

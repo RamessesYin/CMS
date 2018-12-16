@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import okhttp3.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpClient {
 
@@ -23,23 +25,24 @@ public class HttpClient {
             if(data==null)
                 return;
            User user = (User) data;
-            System.out.println(user);
+//            System.out.println(user);
+//            System.out.println(user.getTags());
 
-            System.out.println(user.getTags());
+            Tag tag=user.tags.get(0);
+
+            ArrayList<Long> tags = new ArrayList<Long>();
+            tags.add(user.id);
+            tag.setTaggedto(tags);
+
+            System.out.println("toString: "+ tag);
+            System.out.println(tag.getTaggedto());
+//            updateTag(tag,(d)->{
+//                Tag t = (Tag) d;
+//                System.out.println(t);
+//            });
         });
 
 
-        User u = new User();
-        u.setUser_name("test");
-        u.setMobile_phone("74158654");
-        HttpClient.addUser(u,(data)->{
-            if(data==null)
-                return;
-            User user = (User) data;
-            System.out.println(user);
-
-            System.out.println(user.getTags());
-        });
 
     }
 
@@ -296,3 +299,4 @@ public class HttpClient {
     }
 
 }
+

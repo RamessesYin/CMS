@@ -2,6 +2,7 @@ package com.alexvasilkov.foldablelayout.sample.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 
 import java.util.List;
@@ -17,7 +18,10 @@ public class Card {
     public String source;
     public int image;
     public long valid;
-    public List<User> sharedto;
+    private String users;
+
+    @Expose(serialize = false, deserialize = false)
+    private transient List<Long> sharedto;
 
     public long getId() {
         return id;
@@ -99,17 +103,23 @@ public class Card {
         this.valid = valid;
     }
 
-    public List<User> getSharedto() {
+    public List<Long> getSharedto() {
+        if (sharedto == null)
+            sharedto = new Gson().fromJson(users, List.class);
         return sharedto;
     }
 
-    public void setSharedto(List<User> sharedto) {
+    public void setSharedto(List<Long> sharedto) {
         this.sharedto = sharedto;
+        if(sharedto !=null)
+            users = sharedto.toString();
     }
 
     @Override
     public String toString() {
-
+        if (sharedto != null)
+            users = sharedto.toString();
         return new GsonBuilder().setPrettyPrinting().create().toJsonTree(this).toString();
     }
+
 }

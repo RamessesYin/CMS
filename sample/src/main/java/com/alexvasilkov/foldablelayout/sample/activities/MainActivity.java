@@ -27,6 +27,7 @@ import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
+import com.alexvasilkov.foldablelayout.sample.data.QRCode;
 import com.alexvasilkov.foldablelayout.sample.data.User;
 import com.alexvasilkov.foldablelayout.sample.items.Painting;
 
@@ -63,6 +64,9 @@ public class MainActivity extends BaseActivity implements ListView.OnItemClickLi
                 user.cards = new ArrayList<Card>();
             HttpClient.user = user;
         });
+
+        QRCode.showQRCode("hello world!",this);
+
     }
 
     @Override
@@ -118,7 +122,7 @@ public class MainActivity extends BaseActivity implements ListView.OnItemClickLi
             final ActivityInfo info = getItem(position);
 
             if (TextUtils.isEmpty(info.nonLocalizedLabel)) {
-                holder.text.setText(info.labelRes);
+                holder.text.setText("hehe");
             } else {
                 holder.text.setText(info.nonLocalizedLabel);
             }

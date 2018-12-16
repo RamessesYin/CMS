@@ -18,6 +18,7 @@ import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
+import com.alexvasilkov.foldablelayout.sample.data.QRCode;
 import com.alexvasilkov.foldablelayout.sample.items.CardsAdapter;
 import com.alexvasilkov.foldablelayout.sample.items.Painting;
 import com.alexvasilkov.foldablelayout.sample.items.PaintingsAdapter;
@@ -47,6 +48,12 @@ public class Fragment1 extends Fragment {
 
         Bitmap glance = BitmapFactory.decodeResource(getResources(), R.drawable.unfold_glance);
         unfoldableView.setFoldShading(new GlanceFoldShading(glance));
+
+//        ImageView share = (ImageView) contacts_view.findViewById(R.id.iv_share);
+//        share.setOnClickListener((view)->{
+//            QRCode.showQRCode("hello world!",this.getContext());
+//
+//        });
 
         unfoldableView.setOnFoldingListener(new UnfoldableView.SimpleFoldingListener() {
             @Override
