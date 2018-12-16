@@ -103,28 +103,28 @@ public class Fragment1 extends Fragment {
                     .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                     .append(R.string.email).append(": ")
                     .clearStyle()
-                    .append(card.getEmail());
+                    .append(card.getEmail()).append("\n");
 
         if (card.getAddress() != null)
             builder
                     .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                     .append(R.string.address).append(": ")
                     .clearStyle()
-                    .append(card.getAddress());
+                    .append(card.getAddress()).append("\n");
 
         if (card.getAddress() != null)
             builder
                     .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                     .append(R.string.company).append(": ")
                     .clearStyle()
-                    .append(card.getCompany());
+                    .append(card.getCompany()).append("\n");
 
         if (card.getAddress() != null)
             builder
                     .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                     .append(R.string.title).append(": ")
                     .clearStyle()
-                    .append(card.getTitle());
+                    .append(card.getTitle()).append("\n");
         description.setText(builder.build());
 
         unfoldableView.unfold(coverView, detailsLayout);
