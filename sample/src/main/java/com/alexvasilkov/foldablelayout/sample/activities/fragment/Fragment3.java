@@ -15,6 +15,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +26,11 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,10 +38,17 @@ import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.CardEditActivity;
+import com.alexvasilkov.foldablelayout.sample.activities.CardEditText;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
+import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
+import com.alexvasilkov.foldablelayout.sample.data.User;
+import com.alexvasilkov.foldablelayout.sample.items.TagsAdapter;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -43,11 +56,24 @@ import java.util.Locale;
 
 public class Fragment3 extends Fragment {
     private static final int SELECT_IMAGE_RESULT_CODE = 2;
+    private static final int card_info_count = 6;
     private ImageView card_img;
     private Button btn_card_img;
-    private ListView card_info;
+    private Button btn_save_card;
+    private Button btn_cancel;
+
+    private ListView tag_info;
     private Bitmap img_bitmap;
     private AlertDialog dialog;
+
+    private EditText card_edittext_name;
+    private EditText card_edittext_mobile_phone;
+    private EditText card_edittext_email;
+    private EditText card_edittext_address;
+    private EditText card_edittext_company;
+    private EditText card_edittext_title;
+
+    private f3_clickListener btn_click_listener;
 
     @Nullable
     @Override
@@ -55,8 +81,55 @@ public class Fragment3 extends Fragment {
         View my_view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment3, container, false);
         card_img = (ImageView)my_view.findViewById(R.id.my_card_img);
         btn_card_img = (Button)my_view.findViewById(R.id.btn_import_image);
+        btn_save_card = (Button)my_view.findViewById(R.id.btn_save_card);
+        btn_cancel = (Button)my_view.findViewById(R.id.btn_cancel);
 
-        btn_card_img.setOnClickListener(new f3_clickListener());
+        card_edittext_name = (EditText)my_view.findViewById(R.id.card_edit_username);
+        card_edittext_mobile_phone = (EditText)my_view.findViewById(R.id.card_edit_mobile_phone);
+        card_edittext_email = (EditText)my_view.findViewById(R.id.card_edit_email);
+        card_edittext_address = (EditText)my_view.findViewById(R.id.card_edit_address);
+        card_edittext_company = (EditText)my_view.findViewById(R.id.card_edit_company);
+        card_edittext_title = (EditText)my_view.findViewById(R.id.card_edit_title);
+
+        btn_click_listener = new f3_clickListener();
+        btn_card_img.setOnClickListener(btn_click_listener);
+        btn_save_card.setOnClickListener(btn_click_listener);
+        btn_cancel.setOnClickListener(btn_click_listener);
+
+        tag_info = (ListView) my_view.findViewById(R.id.list_tag_view);
+        tag_info.setAdapter(new TagsAdapter(this.getContext()));
+        //card_tableLayout = (TableLayout) my_view.findViewById(R.id.Card_TableLayout);
+
+//        card_edittext_name.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_name, 1));
+//        card_edittext_mobile_phone.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_mobile_phone, 2));
+//        card_edittext_email.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_email, 3));
+//        card_edittext_address.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_address, 4));
+//        card_edittext_company.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_company, 5));
+//        card_edittext_title.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_title, 6));
+
+        //for (int i = 0; i < card_info_count; i++){
+//            TableRow tr = new TableRow(card_tableLayout.getContext());
+//            TextView card_key = new TextView(tr.getContext());
+//            card_key.setTextColor(0xfff);
+//            card_key.setText("Name:");
+//            layout_param = card_key.getLayoutParams();
+//            layout_param.height = FrameLayout.LayoutParams.WRAP_CONTENT;
+//            layout_param.width = FrameLayout.LayoutParams.MATCH_PARENT;
+//            card_key.setLayoutParams(layout_param);
+//            card_key.setTextSize(18);
+//
+//            CardEditText card_value = new CardEditText(this.getActivity(),this, my_card);
+//            card_value.setTextColor(0xfff);
+//            layout_param = card_value.getLayoutParams();
+//            layout_param.height = FrameLayout.LayoutParams.WRAP_CONTENT;
+//            layout_param.width = FrameLayout.LayoutParams.MATCH_PARENT;
+//            card_value.setLayoutParams(layout_param);
+//            card_value.setTextSize(18);
+//            card_value.setHorizontallyScrolling(true);
+//            card_value.setTheme();
+
+
+        //}
 
         //card_info = (ListView)my_view.findViewById(R.id.my_card_info);
 
@@ -75,6 +148,68 @@ public class Fragment3 extends Fragment {
         return my_view;
     }
 
+//    protected class text_watcher implements TextWatcher {
+//        private int card_info_id;
+//        private EditText m_edit_text;
+//        private Context m_context;
+//
+//        private static final int card_info_name = 1;
+//        private static final int card_info_mobile_phone = 2;
+//        private static final int card_info_email = 3;
+//        private static final int card_info_address = 4;
+//        private static final int card_info_company = 5;
+//        private static final int card_info_title = 6;
+//
+//        public text_watcher(Context m_context, EditText m_edit_text, int card_info_id){
+//            this.card_info_id = card_info_id;
+//            this.m_edit_text = m_edit_text;
+//            this.m_context = m_context;
+//        }
+//
+//        @Override
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//        }
+//
+//        @Override
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//        }
+//
+//        @Override
+//        public void afterTextChanged(Editable s) {
+//            switch (card_info_id){
+//                case  card_info_name:
+//                    HttpClient.user.self_card.setName(s.toString());
+//                    Toast.makeText(m_context, s.toString(), Toast.LENGTH_SHORT).show();
+//                    break;
+//                case card_info_mobile_phone:
+//                    HttpClient.user.self_card.setMobile_phone(s.toString());
+//                    break;
+//                case card_info_email:
+//                    HttpClient.user.self_card.setEmail(s.toString());
+//                    break;
+//                case card_info_address:
+//                    HttpClient.user.self_card.setAddress(s.toString());
+//                    break;
+//                case card_info_company:
+//                    HttpClient.user.self_card.setCompany(s.toString());
+//                    break;
+//                case card_info_title:
+//                    HttpClient.user.self_card.setTitle(s.toString());
+//                    break;
+//                default:
+//                    break;
+//            }
+//            HttpClient.updateCard(HttpClient.user.self_card, (data)->{
+//                if(data == null) {
+//                    Log.d("HttpClient","update card failed!");
+//                    return;
+//                }
+//            });
+//        }
+//    }
+
     protected class f3_clickListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
@@ -82,6 +217,27 @@ public class Fragment3 extends Fragment {
                 case R.id.btn_import_image:
                     pickPhoto();
                     break;
+                case R.id.btn_save_card:
+                    HttpClient.user.self_card.setName(card_edittext_name.getText().toString());
+                    HttpClient.user.self_card.setMobile_phone(card_edittext_mobile_phone.getText().toString());
+                    HttpClient.user.self_card.setEmail(card_edittext_email.getText().toString());
+                    HttpClient.user.self_card.setAddress(card_edittext_address.getText().toString());
+                    HttpClient.user.self_card.setCompany(card_edittext_company.getText().toString());
+                    HttpClient.user.self_card.setTitle(card_edittext_title.getText().toString());
+                    HttpClient.updateCard(HttpClient.user.self_card, (data)->{
+                        if(data == null) {
+                            Log.d("HttpClient","update card failed!");
+                            return;
+                        }
+                    });
+                    break;
+                case R.id.btn_cancel:
+                    card_edittext_name.setText(HttpClient.user.self_card.getName());
+                    card_edittext_mobile_phone.setText(HttpClient.user.self_card.getMobile_phone());
+                    card_edittext_email.setText(HttpClient.user.self_card.getEmail());
+                    card_edittext_address.setText(HttpClient.user.self_card.getAddress());
+                    card_edittext_company.setText(HttpClient.user.self_card.getCompany());
+                    card_edittext_title.setText(HttpClient.user.self_card.getTitle());
                 default:
                     break;
             }

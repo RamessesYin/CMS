@@ -14,7 +14,8 @@
         android:layout_marginTop="184dp"
         android:text="111111111"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="160dp" />
 <!--<merge xmlns:tools="http://schemas.android.com/tools"-->
     <!--xmlns:android="http://schemas.android.com/apk/res/android">-->
 
