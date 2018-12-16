@@ -1,15 +1,17 @@
 package com.alexvasilkov.foldablelayout.sample.data;
 
-import net.sf.json.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
 public class Tag {
-    private long id;
-    private String count;
-    private String valid;
-    private String text;
-    private List<User> taggedto;
+    public long id;
+    public String count;
+    public String valid;
+    public String text;
+    public List<User> taggedto;
 
     public long getId() {
         return id;
@@ -53,6 +55,6 @@ public class Tag {
 
     @Override
     public String toString() {
-        return JSONObject.fromObject(this).toString(2);
+        return new GsonBuilder().setPrettyPrinting().create().toJsonTree(this).toString();
     }
 }

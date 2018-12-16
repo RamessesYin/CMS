@@ -1,12 +1,14 @@
 package com.alexvasilkov.foldablelayout.sample.data;
 
-import net.sf.json.JSONObject;
+
+import com.google.gson.Gson;
+
 import okhttp3.*;
 import java.io.IOException;
 
 public class HttpClient {
 
-    static User user;
+    public static User user;
 
     public interface OnDataReceived {
         void callback(Object data);
@@ -61,8 +63,8 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                User user = (User) JSONObject.toBean(json,User.class);
+
+                User user = (User) new Gson().fromJson(res,User.class);
                 onDataReceived.callback(user);
             }
         });
@@ -90,8 +92,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                User user = (User) JSONObject.toBean(json,User.class);
+                User user = (User) new Gson().fromJson(res,User.class);
                 onDataReceived.callback(user);
             }
         });
@@ -123,8 +124,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                User user = (User) JSONObject.toBean(json,User.class);
+                User user = (User) new Gson().fromJson(res,User.class);
                 onDataReceived.callback(user);
             }
         });
@@ -150,8 +150,8 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                Tag tag = (Tag) JSONObject.toBean(json,Tag.class);
+
+                Tag tag = (Tag) new Gson().fromJson(res,Tag.class);
                 onDataReceived.callback(tag);
             }
         });
@@ -179,8 +179,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                Tag tag = (Tag) JSONObject.toBean(json,Tag.class);
+                Tag tag = (Tag) new Gson().fromJson(res,Tag.class);
                 onDataReceived.callback(tag);
             }
         });
@@ -208,8 +207,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                Tag tag = (Tag) JSONObject.toBean(json,Tag.class);
+                Tag tag = (Tag) new Gson().fromJson(res,Tag.class);
                 onDataReceived.callback(tag);
             }
         });
@@ -235,8 +233,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                Card card = (Card) JSONObject.toBean(json,Card.class);
+                Card card = (Card) new Gson().fromJson(res,Card.class);
                 onDataReceived.callback(card);
             }
         });
@@ -264,8 +261,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                Card card = (Card) JSONObject.toBean(json,Card.class);
+                Card card = (Card) new Gson().fromJson(res,Card.class);
                 onDataReceived.callback(card);
             }
         });
@@ -293,8 +289,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 System.out.println( "onResponse: " + res);
-                JSONObject json = JSONObject.fromObject(res);
-                Card card = (Card) JSONObject.toBean(json,Card.class);
+                Card card = (Card) new Gson().fromJson(res,Card.class);
                 onDataReceived.callback(card);
             }
         });

@@ -17,6 +17,8 @@ import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.sample.R;
+import com.alexvasilkov.foldablelayout.sample.data.Card;
+import com.alexvasilkov.foldablelayout.sample.items.CardsAdapter;
 import com.alexvasilkov.foldablelayout.sample.items.Painting;
 import com.alexvasilkov.foldablelayout.sample.items.PaintingsAdapter;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
@@ -33,7 +35,7 @@ public class Fragment1 extends Fragment {
         View contacts_view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment1, container, false);
 
         ListView listView = (ListView) contacts_view.findViewById(R.id.list_view);
-        listView.setAdapter(new PaintingsAdapter(this.getContext(), this));
+        listView.setAdapter(new CardsAdapter(this.getContext(), this));
 
         listTouchInterceptor =  contacts_view.findViewById(R.id.touch_interceptor_view);
         listTouchInterceptor.setClickable(false);
@@ -74,24 +76,24 @@ public class Fragment1 extends Fragment {
         //return LayoutInflater.from(getActivity()).inflate(R.layout.fragment1, container, false);
     }
 
-    public void openDetails(View coverView, Painting painting) {
+    public void openDetails(View coverView, Card card) {
         final ImageView image =  Views.find(detailsLayout, R.id.details_image);
         final TextView title = Views.find(detailsLayout, R.id.details_title);
         final TextView description = Views.find(detailsLayout, R.id.details_text);
 
-        GlideHelper.loadPaintingImage(image, painting);
-        title.setText(painting.getTitle());
+        GlideHelper.loadPaintingImage(image, card.getImage());
+        title.setText(card.getName());
 
         SpannableBuilder builder = new SpannableBuilder(this.getActivity());
         builder
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append(R.string.year).append(": ")
+                .append( R.string.phone).append(": ")
                 .clearStyle()
-                .append(painting.getYear()).append("\n")
+                .append(card.getMobile_phone()).append("\n")
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append(R.string.location).append(": ")
+                .append(R.string.email).append(": ")
                 .clearStyle()
-                .append(painting.getLocation());
+                .append(card.getEmail());
         description.setText(builder.build());
 
         unfoldableView.unfold(coverView, detailsLayout);

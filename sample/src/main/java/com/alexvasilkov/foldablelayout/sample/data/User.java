@@ -1,23 +1,26 @@
 package com.alexvasilkov.foldablelayout.sample.data;
 
-import net.sf.json.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
 public class User {
 
-    private long id;
-    private String user_name;
-    private String mobile_phone;
-    private String email;
-    private String address;
-    private String company;
-    private String title;
-    private String birthday;
-    private long authority;
-    private long card_id;
-    private List<Tag> tags;
-    private List<Card> cards;
+    public long id;
+    public String user_name;
+    public String mobile_phone;
+    public String email;
+    public String address;
+    public String company;
+    public String title;
+    public String birthday;
+    public long authority;
+    public long card_id;
+    public Card self_card;
+    public List<Tag> tags;
+    public List<Card> cards;
 
 
     public long getId() {
@@ -116,9 +119,16 @@ public class User {
         this.cards = cards;
     }
 
+    public Card getSelf_card() {
+        return self_card;
+    }
+
+    public void setSelf_card(Card self_card) {
+        this.self_card = self_card;
+    }
 
     @Override
     public String toString() {
-        return JSONObject.fromObject(this).toString(2);
+        return new GsonBuilder().setPrettyPrinting().create().toJsonTree(this).toString();
     }
 }

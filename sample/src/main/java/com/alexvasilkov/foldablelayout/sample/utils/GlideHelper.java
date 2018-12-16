@@ -10,9 +10,9 @@ public class GlideHelper {
 
     private GlideHelper() {}
 
-    public static void loadPaintingImage(ImageView image, Painting painting) {
+    public static void loadPaintingImage(ImageView image, int imaageId) {
         Glide.with(image.getContext().getApplicationContext())
-                .load(painting.getImageId())
+                .load(imaageId)
                 .dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(image);
