@@ -70,38 +70,7 @@ public class Fragment3 extends Fragment {
         return my_view;
     }
 
-//    public class CardAdapter extends ArrayAdapter{
-//        private String[] card_data;
-//        private Context m_context;
-//
-//        public CardAdapter(Context m_context){
-//            card_data[0] = "姓名：李四";
-//            card_data[1] = "电话：123456789";
-//            card_data[2] = "邮箱：123@qq.com";
-//            this.m_context = m_context;
-//        }
-//
-//        @Override
-//        public int getCount(){
-//            return card_data.length;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent){
-//            convertView = LayoutInflater.from(m_context).inflate(R.layout.fragment3, card_data, parent, false);
-//
-//        }
-//    }
+
 
     private void pickPhoto(){
         Intent intent = new Intent(Intent.ACTION_PICK);

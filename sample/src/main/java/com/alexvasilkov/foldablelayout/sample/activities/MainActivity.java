@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +25,10 @@ import android.widget.Toast;
 import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
 import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.sample.R;
+import com.alexvasilkov.foldablelayout.sample.data.Card;
+import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
+import com.alexvasilkov.foldablelayout.sample.data.User;
+import com.alexvasilkov.foldablelayout.sample.items.Painting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +44,25 @@ public class MainActivity extends BaseActivity implements ListView.OnItemClickLi
         ListView listView = Views.find(this, R.id.main_list);
         listView.setAdapter(getSampleAdapter());
         listView.setOnItemClickListener(this);
+
+        Painting [] paintings = Painting.getAllPaintings(this.getResources());
+        for(Painting p:paintings){
+            Log.d("HttpClient","pid:"+p.getImageId());
+        }
+        HttpClient.getUser(1544704862401l,(data)->{
+
+
+            User user = (User) data;
+            if(user==null) {
+                Log.d("HttpClient","get user failed.");
+                HttpClient.user = new User();
+                return;
+            }
+            Log.d("HttpClient",user.toString());
+            if(user.getCards()==null)
+                user.cards = new ArrayList<Card>();
+            HttpClient.user = user;
+        });
     }
 
     @Override
