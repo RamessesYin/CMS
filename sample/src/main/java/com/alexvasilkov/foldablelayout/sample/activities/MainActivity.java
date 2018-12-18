@@ -1,11 +1,14 @@
 package com.alexvasilkov.foldablelayout.sample.activities;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -35,12 +38,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements ListView.OnItemClickListener {
+    private static final int PERMISSIONS_REQUEST_OPEN_ALBUM = 1;
+    private static final int PERMISSIONS_REQUEST_CAMERA = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        getAuthority();
 
         ListView listView = Views.find(this, R.id.main_list);
         listView.setAdapter(getSampleAdapter());
@@ -65,8 +70,6 @@ public class MainActivity extends BaseActivity implements ListView.OnItemClickLi
             HttpClient.user = user;
         });
 
-        QRCode.showQRCode("hello world!",this);
-
     }
 
     @Override
@@ -85,6 +88,34 @@ public class MainActivity extends BaseActivity implements ListView.OnItemClickLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getAuthority(){
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            //权限还没有授予，需要在这里写申请权限的代码
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_OPEN_ALBUM);
+        }
+
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+            //权限还没有授予，需要在这里写申请权限的代码
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_OPEN_ALBUM || requestCode == PERMISSIONS_REQUEST_CAMERA) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //授权成功
+                Toast.makeText(this, "Permission Passed", Toast.LENGTH_SHORT).show();
+
+            } else {
+                //授权失败
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private BaseAdapter getSampleAdapter() {

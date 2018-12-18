@@ -37,12 +37,15 @@ import android.widget.Toast;
 import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseActivity;
+import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
 import com.alexvasilkov.foldablelayout.sample.activities.CardEditActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.CardEditText;
-import com.alexvasilkov.foldablelayout.sample.data.Card;
+import com.alexvasilkov.foldablelayout.sample.activities.FoldableListActivity;
+import com.alexvasilkov.foldablelayout.sample.data.Tag;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.User;
 import com.alexvasilkov.foldablelayout.sample.items.TagsAdapter;
+import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 
 import org.w3c.dom.Text;
 
@@ -51,20 +54,26 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 
-public class Fragment3 extends Fragment {
+public class Fragment3 extends BaseFragment {
+    private static final int SELECT_LOCAL_IMAGE_RESULT_CODE = 1;
     private static final int SELECT_IMAGE_RESULT_CODE = 2;
+
     private static final int card_info_count = 6;
     private ImageView card_img;
     private Button btn_card_img;
     private Button btn_save_card;
     private Button btn_cancel;
+    private ImageView btn_add_tag;
 
     private ListView tag_info;
     private Bitmap img_bitmap;
     private AlertDialog dialog;
+
+    private TagsAdapter tag_adapter;
 
     private EditText card_edittext_name;
     private EditText card_edittext_mobile_phone;
@@ -72,6 +81,8 @@ public class Fragment3 extends Fragment {
     private EditText card_edittext_address;
     private EditText card_edittext_company;
     private EditText card_edittext_title;
+
+    private int image_id = 0;
 
     private f3_clickListener btn_click_listener;
 
@@ -83,6 +94,7 @@ public class Fragment3 extends Fragment {
         btn_card_img = (Button)my_view.findViewById(R.id.btn_import_image);
         btn_save_card = (Button)my_view.findViewById(R.id.btn_save_card);
         btn_cancel = (Button)my_view.findViewById(R.id.btn_cancel);
+        btn_add_tag = (ImageView) my_view.findViewById(R.id.add_tags);
 
         card_edittext_name = (EditText)my_view.findViewById(R.id.card_edit_username);
         card_edittext_mobile_phone = (EditText)my_view.findViewById(R.id.card_edit_mobile_phone);
@@ -90,14 +102,17 @@ public class Fragment3 extends Fragment {
         card_edittext_address = (EditText)my_view.findViewById(R.id.card_edit_address);
         card_edittext_company = (EditText)my_view.findViewById(R.id.card_edit_company);
         card_edittext_title = (EditText)my_view.findViewById(R.id.card_edit_title);
+        InitSelfCard();
 
         btn_click_listener = new f3_clickListener();
         btn_card_img.setOnClickListener(btn_click_listener);
         btn_save_card.setOnClickListener(btn_click_listener);
         btn_cancel.setOnClickListener(btn_click_listener);
+        btn_add_tag.setOnClickListener(btn_click_listener);
 
         tag_info = (ListView) my_view.findViewById(R.id.list_tag_view);
-        tag_info.setAdapter(new TagsAdapter(this.getContext()));
+        tag_adapter = new TagsAdapter(this.getContext());
+        tag_info.setAdapter(tag_adapter);
         //card_tableLayout = (TableLayout) my_view.findViewById(R.id.Card_TableLayout);
 
 //        card_edittext_name.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_name, 1));
@@ -146,6 +161,22 @@ public class Fragment3 extends Fragment {
 //            }
 //        });
         return my_view;
+    }
+
+    @Override
+    public void onVisible(){
+
+    }
+
+    public void InitSelfCard(){
+        image_id = HttpClient.user.self_card.getImage();
+        GlideHelper.loadPaintingImage(card_img, image_id);
+        card_edittext_name.setText(HttpClient.user.getUser_name());
+        card_edittext_mobile_phone.setText(HttpClient.user.getMobile_phone());
+        card_edittext_email.setText(HttpClient.user.getEmail());
+        card_edittext_address.setText(HttpClient.user.getAddress());
+        card_edittext_company.setText(HttpClient.user.getCompany());
+        card_edittext_title.setText(HttpClient.user.getTitle());
     }
 
 //    protected class text_watcher implements TextWatcher {
@@ -211,6 +242,16 @@ public class Fragment3 extends Fragment {
 //    }
 
     protected class f3_clickListener implements View.OnClickListener{
+        private EditText edit = null;
+        private TagsAdapter tag_adapter = null;
+
+        public f3_clickListener(){}
+
+        public f3_clickListener(EditText edit, TagsAdapter tag_adapter){
+            this.edit = edit;
+            this.tag_adapter = tag_adapter;
+        }
+
         @Override
         public void onClick(View v){
             switch (v.getId()){
@@ -238,6 +279,44 @@ public class Fragment3 extends Fragment {
                     card_edittext_address.setText(HttpClient.user.self_card.getAddress());
                     card_edittext_company.setText(HttpClient.user.self_card.getCompany());
                     card_edittext_title.setText(HttpClient.user.self_card.getTitle());
+                    break;
+                case R.id.add_tags:
+                    setAlertDialog(v);
+                    dialog.show();
+                    break;
+                case R.id.btn_tag_OK_dialog:
+                    if (edit != null) {
+                        Tag new_tag = new Tag();
+                        new_tag.setText(edit.getText().toString());
+                        new_tag.setCount(1);
+                        List<Long> taggedto = new LinkedList<>();
+                        taggedto.add(HttpClient.user.getId());
+                        new_tag.setTaggedto(taggedto);
+                        HttpClient.addTag(new_tag, (data)->{
+                            if(data == null) {
+                                Log.d("HttpClient","add new tag failed!");
+                            }
+                            else{
+                                List<Tag> tag_list = HttpClient.user.getTags();
+                                tag_list.add(new_tag);
+                                HttpClient.user.setTags(tag_list);
+                                HttpClient.updateUser(HttpClient.user, (data_1)->{
+                                    if(data_1 == null) {
+                                        Log.d("HttpClient","update when adding new tag failed!");
+                                        return;
+                                    }
+                                });
+                            }
+                        });
+
+                    }
+
+                    tag_adapter.resetTags();
+                    dialog.dismiss();
+                    break;
+                case R.id.btn_tag_cancel_dialog:
+                    dialog.dismiss();
+                    break;
                 default:
                     break;
             }
@@ -287,33 +366,17 @@ public class Fragment3 extends Fragment {
 //        }
 //    }
 
+
+    private void pickLocalPhoto(){
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(getActivity(), FoldableListActivity.class));
+        startActivityForResult(intent, SELECT_LOCAL_IMAGE_RESULT_CODE);
+    }
+
     private void pickPhoto(){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(intent, SELECT_IMAGE_RESULT_CODE);
-    }
-
-    private void takePhoto() {
-        // 执行拍照前，应该先判断SD卡是否存在
-        String SDState = Environment.getExternalStorageState();
-        if (SDState.equals(Environment.MEDIA_MOUNTED)) {
-
-            //通过指定图片存储路径，解决部分机型onActivityResult回调 data返回为null的情况
-
-            //获取与应用相关联的路径
-            String imageFilePath = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
-            //根据当前时间生成图片的名称
-            String timestamp = "/"+formatter.format(new Date())+".png";
-            File imageFile = new File(imageFilePath,timestamp);// 通过路径创建保存文件
-            String mImagePath = imageFile.getAbsolutePath();
-            Uri imageFileUri = Uri.fromFile(imageFile);// 获取文件的Uri
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,imageFileUri);// 告诉相机拍摄完毕输出图片到指定的Uri
-            startActivityForResult(intent, SELECT_IMAGE_RESULT_CODE);
-        } else {
-            Toast.makeText(this.getActivity(), "内存卡不存在!", Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
@@ -321,6 +384,16 @@ public class Fragment3 extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK){
             switch(requestCode){
+                case SELECT_LOCAL_IMAGE_RESULT_CODE:
+                    if (data != null){
+                        image_id = data.getExtras().getInt("img_id");
+                        Toast.makeText(this.getActivity(), image_id, Toast.LENGTH_LONG).show();
+                        GlideHelper.loadPaintingImage(card_img, image_id);
+                    }
+                    else{
+                        Toast.makeText(this.getActivity(), "data is null", Toast.LENGTH_LONG).show();
+                    }
+                    break;
                 case SELECT_IMAGE_RESULT_CODE:
                     if (data != null){
                         //Toast.makeText(this.getActivity(), "Succeed!", Toast.LENGTH_LONG).show();
@@ -341,6 +414,7 @@ public class Fragment3 extends Fragment {
     }
 
     private void showImage(String image_path){
+        Log.d("pickPhoto", image_path);
         img_bitmap = BitmapFactory.decodeFile(image_path);
         if (img_bitmap == null){
             Toast.makeText(this.getActivity(), image_path, Toast.LENGTH_LONG).show();
@@ -354,16 +428,11 @@ public class Fragment3 extends Fragment {
         contview.setBackgroundColor(Color.WHITE);// 设置该外部布局的背景
         final EditText edit = (EditText) contview
                 .findViewById(R.id.edit_dialog);// 找到该外部布局对应的EditText控件
-        Button btOK = (Button) contview.findViewById(R.id.btOK_dialog);
-        btOK.setOnClickListener(new View.OnClickListener() {// 设置按钮的点击事件
-
-            @Override
-            public void onClick(View v) {
-                //TextView text = my_view.
-                ((TextView) view).setText(edit.getText().toString());
-                dialog.dismiss();
-            }
-        });
+        Button btn_OK = (Button) contview.findViewById(R.id.btn_tag_OK_dialog);
+        Button btn_cancel = (Button) contview.findViewById(R.id.btn_tag_cancel_dialog);
+        f3_clickListener btn_tag_click_listener = new f3_clickListener(edit, tag_adapter);
+        btn_OK.setOnClickListener(btn_tag_click_listener);
+        btn_cancel.setOnClickListener(btn_tag_click_listener);
         dialog = new AlertDialog.Builder(getActivity()).setView(contview)
                 .create();
     }

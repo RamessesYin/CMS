@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.sample.R;
 
 @SuppressLint("Registered")
@@ -36,18 +37,24 @@ public class BaseActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.plus:
-                Toast.makeText(BaseActivity.this, "plus selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(BaseActivity.this, "plus selected", Toast.LENGTH_SHORT).show();
+                View contentView = Views.find(this, R.id.plus);
                 View popupView = this.getLayoutInflater().inflate(R.layout.popupwindow, null);
                 final PopupWindow popWindow = new PopupWindow(popupView,
                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                 popWindow.setTouchable(true);
                 popWindow.setTouchInterceptor(new BaseActivity.base_touchListerner());
                 popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-                popWindow.showAsDropDown(popupView, 50, 50);
-
+                popWindow.showAsDropDown(contentView);
 
                 Button add_card_btn = (Button) popupView.findViewById(R.id.btn_edit_card);
+                Button take_card_photo_btn = (Button) popupView.findViewById(R.id.btn_take_card_photo);
+                Button scan_card_btn = (Button) popupView.findViewById(R.id.btn_scan);
+                Button recommond_card_btn = (Button) popupView.findViewById(R.id.btn_recommond_user);
                 add_card_btn.setOnClickListener(new BaseActivity.base_clickListener());
+                take_card_photo_btn.setOnClickListener(new BaseActivity.base_clickListener());
+                scan_card_btn.setOnClickListener(new BaseActivity.base_clickListener());
+                recommond_card_btn.setOnClickListener(new BaseActivity.base_clickListener());
 
                 return true;
             default:
@@ -70,6 +77,13 @@ public class BaseActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setComponent(new ComponentName(BaseActivity.this, CardEditActivity.class));
                     startActivity(intent);
+                    break;
+                case R.id.btn_take_card_photo:
+                    Intent intent_1 = new Intent();
+                    intent_1.setComponent(new ComponentName(BaseActivity.this, CardImportActivity.class));
+                    startActivity(intent_1);
+                    break;
+                case R.id.btn_recommond_user:
                     break;
                 case R.id.btn_scan:
                     break;

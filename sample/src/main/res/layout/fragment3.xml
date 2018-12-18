@@ -288,11 +288,15 @@
 
         <ImageView
             android:id="@+id/add_tags"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:background="#dde"
             android:src ="@drawable/plus_sign"
             android:scaleType="centerCrop" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"/>
 
 
     </LinearLayout>

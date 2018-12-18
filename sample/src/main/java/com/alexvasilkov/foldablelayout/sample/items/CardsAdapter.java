@@ -30,6 +30,9 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         setItemsList(HttpClient.user.getCards());
         fragment1 = fragment;
     }
+    public void resetCards(){
+        setItemsList(HttpClient.user.getCards());
+    }
 
     @Override
     protected CardsAdapter.ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
