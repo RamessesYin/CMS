@@ -30,7 +30,7 @@ public class BusinessCardOCR {
     public String company;
 
 
-    public Card ScanBusinessCard(String path) {
+    public void ScanBusinessCard(String path,HttpClient.OnDataReceived onDataReceived) {
         // 初始化一个AipOcr
         AipOcr client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
 
@@ -46,43 +46,39 @@ public class BusinessCardOCR {
         // 也可以直接通过jvm启动参数设置此环境变量
 //        System.setProperty("aip.log4j.conf", "path/to/your/log4j.properties");
 
-        // 调用接口
-//        JSONObject json = client.basicGeneral(path, opt);
-        JSONObject json = client.businessCard(path, new HashMap<String, String>());
-//        System.out.println(json.toString(2));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Card card = new Card();
+                try {
+                    JSONObject json = client.businessCard(path, new HashMap<String, String>());
 
-        Card card = new Card();
+                    Log.d("BusinessCardOCR", json.toString(2));
+                    JSONArray words = null;
+                    words = json.getJSONArray("words_result");
 
-        try {
-            Log.d("BusinessCardOCR", json.toString(2));
+                    for (int i = 0; i < words.length(); i++) {
+                        JSONObject j = (JSONObject) words.get(i);
+                        res.add(j.get("words").toString());
 
-            JSONArray words = null;
-            try {
-                words = json.getJSONArray("words_result");
+                    }
 
-                for (int i = 0; i < words.length(); i++) {
-                    JSONObject j = (JSONObject) words.get(i);
-                    res.add(j.get("words").toString());
+                    card.setName(json.getJSONArray("NAME").getString(0));
+                    card.setTitle(json.getJSONArray("TITLE").getString(0));
+                    card.setAddress(json.getJSONArray("ADDR").getString(0));
+                    card.setCompany(json.getJSONArray("COMPANY").getString(0));
+                    card.setEmail(json.getJSONArray("EMAIL").getString(0));
+                    card.setMobile_phone(json.getJSONArray("MOBILE").getString(0));
+                    onDataReceived.callback(card);
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    onDataReceived.callback(card);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+
             }
+        }).start();
 
-
-            card.setName(json.getJSONArray("NAME").getString(0));
-            card.setTitle(json.getJSONArray("TITLE").getString(0));
-            card.setAddress(json.getJSONArray("ADDR").getString(0));
-            card.setCompany(json.getJSONArray("COMPANY").getString(0));
-            card.setEmail(json.getJSONArray("EMAIL").getString(0));
-            card.setMobile_phone(json.getJSONArray("MOBILE").getString(0));
-
-            return card;
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return card;
-        }
 
 //        for (String s : res) {
 //            if (s.matches("^[\u4E00-\u9FA5a-zA-Z]{2,4}")) {
