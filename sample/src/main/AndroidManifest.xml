@@ -49,6 +49,9 @@
         <activity
             android:name=".activities.CardImportActivity"
             android:label="Import Card"/>
+        <activity
+            android:name=".activities.RecommondUserActivity"
+            android:label="Recommond User"/>
     </application>
 
 </manifest>

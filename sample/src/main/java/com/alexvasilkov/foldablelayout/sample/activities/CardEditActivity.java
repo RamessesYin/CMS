@@ -26,6 +26,7 @@ import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class CardEditActivity extends BaseActivity{
     private static final int SELECT_LOCAL_IMAGE_RESULT_CODE = 1;
     private static final int SELECT_IMAGE_RESULT_CODE = 2;
 
+    private Card photo_card;
     private ImageView card_img;
     //private ListView tag_info;
     private Bitmap img_bitmap;
@@ -82,6 +84,12 @@ public class CardEditActivity extends BaseActivity{
         card_edittext_company = (EditText)Views.find(this, R.id.card_edit_company);
         card_edittext_title = (EditText)Views.find(this, R.id.card_edit_title);
 
+        Intent intent = getIntent();
+        String card_str = intent.getStringExtra("card");
+        photo_card = new Gson().fromJson(card_str,Card.class);
+        if (photo_card != null){
+            InitCard(photo_card);
+        }
 
         btn_click_listener = new ce_clickListener();
         btn_card_img.setOnClickListener(btn_click_listener);
@@ -94,6 +102,17 @@ public class CardEditActivity extends BaseActivity{
 
         //loading_image_view.setOnClickListener(new ce_clickListener());
 
+    }
+
+    public void InitCard(Card photo_card){
+        image_id = photo_card.getImage();
+        GlideHelper.loadPaintingImage(card_img, image_id);
+        card_edittext_name.setText(photo_card.getName());
+        card_edittext_mobile_phone.setText(photo_card.getMobile_phone());
+        card_edittext_email.setText(photo_card.getEmail());
+        card_edittext_address.setText(photo_card.getAddress());
+        card_edittext_company.setText(photo_card.getCompany());
+        card_edittext_title.setText(photo_card.getTitle());
     }
 
     protected class ce_clickListener implements View.OnClickListener {

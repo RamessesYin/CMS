@@ -48,7 +48,7 @@ public class Fragment1 extends BaseFragment {
 
         ListView listView = (ListView) contacts_view.findViewById(R.id.list_view);
         card_adapter = new CardsAdapter(this.getContext(), this);
-        listView.setAdapter(new CardsAdapter(this.getContext(), this));
+        listView.setAdapter(card_adapter);
 
         listTouchInterceptor = contacts_view.findViewById(R.id.touch_interceptor_view);
         listTouchInterceptor.setClickable(false);
@@ -122,19 +122,19 @@ public class Fragment1 extends BaseFragment {
 
     @Override
     public void onVisible(){
-        HttpClient.getUser(1544704862401l,(data)->{
-            User user = (User) data;
-            if(user==null) {
-                Log.d("HttpClient","get user failed.");
-                HttpClient.user = new User();
-                return;
-            }
-            Log.d("HttpClient",user.toString());
-            if(user.getCards()==null)
-                user.cards = new ArrayList<Card>();
-            HttpClient.user = user;
-            card_adapter.resetCards();
-        });
+//        HttpClient.getUser(1544704862401l,(data)->{
+//            User user = (User) data;
+//            if(user==null) {
+//                Log.d("HttpClient","get user failed.");
+//                HttpClient.user = new User();
+//                return;
+//            }
+//            Log.d("HttpClient",user.toString());
+//            if(user.getCards()==null)
+//                user.cards = new ArrayList<Card>();
+//            HttpClient.user = user;
+//            card_adapter.resetCards();
+//        });
     }
 
     public void openDetails(View coverView, Card card) {

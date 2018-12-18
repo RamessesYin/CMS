@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,12 @@ import android.widget.Toast;
 
 import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.sample.R;
+import com.alexvasilkov.foldablelayout.sample.data.Card;
+import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
+import com.alexvasilkov.foldablelayout.sample.data.User;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 @SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
@@ -27,6 +34,19 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.plus_icon, menu);
+        HttpClient.getUser(1544704862401l,(data)->{
+            User user = (User) data;
+            if(user==null) {
+                Log.d("HttpClient","get user failed.");
+                HttpClient.user = new User();
+                return;
+            }
+            Log.d("HttpClient",user.toString());
+            if(user.getCards()==null)
+                user.cards = new ArrayList<Card>();
+            HttpClient.user = user;
+        });
+
         return true;
     }
 
@@ -74,17 +94,19 @@ public class BaseActivity extends AppCompatActivity {
         public void onClick(View v){
             switch (v.getId()){
                 case R.id.btn_edit_card:
-                    Intent intent = new Intent();
-                    intent.setComponent(new ComponentName(BaseActivity.this, CardEditActivity.class));
-                    startActivity(intent);
+                    Intent intent_edit_card = new Intent();
+                    intent_edit_card.setComponent(new ComponentName(BaseActivity.this, CardEditActivity.class));
+                    startActivity(intent_edit_card);
                     break;
                 case R.id.btn_take_card_photo:
-                    Intent intent_1 = new Intent();
-                    intent_1.setComponent(new ComponentName(BaseActivity.this, CardImportActivity.class));
-                    startActivity(intent_1);
+                    Intent intent_take_photo = new Intent();
+                    intent_take_photo.setComponent(new ComponentName(BaseActivity.this, CardImportActivity.class));
+                    startActivity(intent_take_photo);
                     break;
                 case R.id.btn_recommond_user:
-
+                    Intent intent_recommond_user = new Intent();
+                    intent_recommond_user.setComponent(new ComponentName(BaseActivity.this, RecommondUserActivity.class));
+                    startActivity(intent_recommond_user);
                     break;
                 case R.id.btn_scan:
                     break;

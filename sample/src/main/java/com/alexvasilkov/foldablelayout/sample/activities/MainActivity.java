@@ -52,23 +52,9 @@ public class MainActivity extends BaseActivity implements ListView.OnItemClickLi
         listView.setOnItemClickListener(this);
 
         Painting [] paintings = Painting.getAllPaintings(this.getResources());
-        for(Painting p:paintings){
-            Log.d("HttpClient","pid:"+p.getImageId());
+        for(Painting p:paintings) {
+            Log.d("HttpClient", "pid:" + p.getImageId());
         }
-        HttpClient.getUser(1544704862401l,(data)->{
-
-
-            User user = (User) data;
-            if(user==null) {
-                Log.d("HttpClient","get user failed.");
-                HttpClient.user = new User();
-                return;
-            }
-            Log.d("HttpClient",user.toString());
-            if(user.getCards()==null)
-                user.cards = new ArrayList<Card>();
-            HttpClient.user = user;
-        });
 
     }
 

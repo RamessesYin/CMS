@@ -2,6 +2,7 @@ package com.alexvasilkov.foldablelayout.sample.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.sample.BuildConfig;
 import com.alexvasilkov.foldablelayout.sample.R;
+import com.alexvasilkov.foldablelayout.sample.data.BusinessCardOCR;
+import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.utils.IoUtils;
 
 import java.io.File;
@@ -32,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,6 +47,7 @@ public class CardImportActivity extends BaseActivity{
     private Bitmap img_bitmap;
     private ImageView card_photo_img;
     private static String TEMP_DIR_PATH = "";
+    private Card new_card;
     //public static String DIRECTORY_DCIM = "DCIM";
 
     public Uri photoUri;
@@ -119,6 +124,14 @@ public class CardImportActivity extends BaseActivity{
                     if (uri != null) {
                         String image_path = getFilePathFromURI(this, uri);
                         showImage(image_path);
+
+                        new_card = new BusinessCardOCR().ScanBusinessCard(image_path);
+                        new_card.setImage(1);
+
+                        Intent intent = new Intent();
+                        intent.setComponent(new ComponentName(this, CardEditText.class));
+                        intent.putExtra("card", new_card.toString());
+                        startActivity(intent);
                     }
 
                     //Todo: 识别名片
