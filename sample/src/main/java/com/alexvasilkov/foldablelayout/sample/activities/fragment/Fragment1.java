@@ -21,6 +21,7 @@ import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
+import com.alexvasilkov.foldablelayout.sample.activities.BottomBar;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.QRCode;
@@ -40,6 +41,9 @@ public class Fragment1 extends BaseFragment {
     private CardsAdapter card_adapter;
     private ImageView btn_share;
     private f1_clickListener btn_click_listener;
+    private static boolean is_check = false;
+
+    private BottomBar bottom_bar;
 
     @Nullable
     @Override
@@ -64,6 +68,7 @@ public class Fragment1 extends BaseFragment {
         btn_click_listener = new f1_clickListener(this.getContext());
         btn_share = (ImageView)contacts_view.findViewById(R.id.iv_share);
         btn_share.setOnClickListener(btn_click_listener);
+        bottom_bar = (BottomBar) Views.find(this.getActivity(), R.id.bottom_bar);
 
         //QRCode.showQRCode("hello world!",this.getActivity());
 
@@ -77,6 +82,7 @@ public class Fragment1 extends BaseFragment {
             @Override
             public void onUnfolding(UnfoldableView unfoldableView) {
                 listTouchInterceptor.setClickable(true);
+                bottom_bar.setVisibility(View.INVISIBLE);
                 detailsLayout.setVisibility(View.VISIBLE);
             }
 
@@ -93,6 +99,7 @@ public class Fragment1 extends BaseFragment {
             @Override
             public void onFoldedBack(UnfoldableView unfoldableView) {
                 listTouchInterceptor.setClickable(false);
+                bottom_bar.setVisibility(View.VISIBLE);
                 detailsLayout.setVisibility(View.INVISIBLE);
             }
         });
@@ -120,8 +127,8 @@ public class Fragment1 extends BaseFragment {
         }
     }
 
-    @Override
-    public void onVisible(){
+//    @Override
+//    public void onVisible(){
 //        HttpClient.getUser(1544704862401l,(data)->{
 //            User user = (User) data;
 //            if(user==null) {
@@ -133,9 +140,15 @@ public class Fragment1 extends BaseFragment {
 //            if(user.getCards()==null)
 //                user.cards = new ArrayList<Card>();
 //            HttpClient.user = user;
-//            card_adapter.resetCards();
+//            //is_check = true;
 //        });
-    }
+//
+////        while (is_check == true) {
+////            card_adapter.resetCards();
+////            card_adapter.notifyDataSetChanged();
+////        }
+////        is_check = false;
+//    }
 
     public void openDetails(View coverView, Card card) {
         final ImageView image = Views.find(detailsLayout, R.id.details_image);

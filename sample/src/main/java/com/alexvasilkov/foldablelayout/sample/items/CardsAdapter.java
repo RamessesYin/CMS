@@ -53,6 +53,9 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         holder.image.setTag(R.id.list_item_image, item);
         GlideHelper.loadPaintingImage(holder.image, item.getImage());
         holder.title.setText(item.getName());
+        if (fragment1 != null){
+            holder.btn_add.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

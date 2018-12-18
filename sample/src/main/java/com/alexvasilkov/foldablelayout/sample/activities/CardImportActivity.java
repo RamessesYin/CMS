@@ -86,10 +86,11 @@ public class CardImportActivity extends BaseActivity{
         String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
         Toast.makeText(this, dir, Toast.LENGTH_LONG);
 
-        String fileName = dir + "/picFolder/" + getPhotoFileName() + ".jpg";
+        String fileName = dir + '/' + getPhotoFileName() + ".jpg";
         File newfile = new File(fileName);
         try{
             newfile.createNewFile();
+
         }
         catch (IOException e)
         {
@@ -125,13 +126,16 @@ public class CardImportActivity extends BaseActivity{
                         String image_path = getFilePathFromURI(this, uri);
                         showImage(image_path);
 
-                        new_card = new BusinessCardOCR().ScanBusinessCard(image_path);
-                        new_card.setImage(1);
+                        new BusinessCardOCR().ScanBusinessCard(image_path, (card)->{
+                            new_card = (Card) card;
+                            new_card.setImage(1);
 
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName(this, CardEditText.class));
-                        intent.putExtra("card", new_card.toString());
-                        startActivity(intent);
+                            Intent intent = new Intent();
+                            intent.setComponent(new ComponentName(this, CardEditActivity.class));
+                            intent.putExtra("card", new_card.toString());
+                            startActivity(intent);
+                        });
+
                     }
 
                     //Todo: 识别名片
