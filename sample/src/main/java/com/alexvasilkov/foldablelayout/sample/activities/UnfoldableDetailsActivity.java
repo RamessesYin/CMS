@@ -84,7 +84,6 @@ public class UnfoldableDetailsActivity extends BaseActivity {
     @Override
     public void onResume(){
         super.onResume();
-
     }
 
     @Override

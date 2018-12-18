@@ -17,7 +17,6 @@ allprojects { project ->
         jcenter()
         google()
         maven { url 'https://jitpack.io' }
-
     }
 
     // Enabling checkstyle for all sub projects
