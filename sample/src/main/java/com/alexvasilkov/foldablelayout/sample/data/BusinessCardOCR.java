@@ -1,5 +1,7 @@
 package com.alexvasilkov.foldablelayout.sample.data;
 
+import android.util.Log;
+
 import com.baidu.aip.ocr.AipOcr;
 
 import org.json.JSONArray;
@@ -28,7 +30,7 @@ public class BusinessCardOCR {
     public String company;
 
 
-    public void ScanBusinessCard(String path) {
+    public Card ScanBusinessCard(String path) {
         // 初始化一个AipOcr
         AipOcr client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
 
@@ -45,71 +47,92 @@ public class BusinessCardOCR {
 //        System.setProperty("aip.log4j.conf", "path/to/your/log4j.properties");
 
         // 调用接口
-        JSONObject json = client.basicGeneral(path, opt);
-//        JSONObject res = client.businessCard(path, new HashMap<String, String>());
+//        JSONObject json = client.basicGeneral(path, opt);
+        JSONObject json = client.businessCard(path, new HashMap<String, String>());
 //        System.out.println(json.toString(2));
-        JSONArray words = null;
+
+        Card card = new Card();
+
         try {
-            words = json.getJSONArray("words_result");
+            Log.d("BusinessCardOCR", json.toString(2));
 
-            for (int i = 0; i < words.length(); i++) {
-                JSONObject j = (JSONObject) words.get(i);
-                res.add(j.get("words").toString());
+            JSONArray words = null;
+            try {
+                words = json.getJSONArray("words_result");
 
+                for (int i = 0; i < words.length(); i++) {
+                    JSONObject j = (JSONObject) words.get(i);
+                    res.add(j.get("words").toString());
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+
+            card.setName(json.getJSONArray("NAME").getString(0));
+            card.setTitle(json.getJSONArray("TITLE").getString(0));
+            card.setAddress(json.getJSONArray("ADDR").getString(0));
+            card.setCompany(json.getJSONArray("COMPANY").getString(0));
+            card.setEmail(json.getJSONArray("EMAIL").getString(0));
+            card.setMobile_phone(json.getJSONArray("MOBILE").getString(0));
+
+            return card;
+
         } catch (JSONException e) {
             e.printStackTrace();
+            return card;
         }
 
-        for (String s : res) {
-            if (s.matches("^[\u4E00-\u9FA5a-zA-Z]{2,4}")) {
-                name = s;
-                System.out.println(name);
-                break;
-            }
-        }
-
-        for (String s : res) {
-            if (s.contains("地址")) {
-                int begin = s.lastIndexOf("地址");
-                s = s.substring(begin + 2).replace(":", "");
-                address = s;
-                System.out.println(address);
-                break;
-            }
-        }
-
-        for (String s : res) {
-            Pattern p = Pattern.compile(".*(1[0-9]{10}).*");
-            Matcher m = p.matcher(s);
-            if (m.matches()) {
-                mobileePhone = m.group(1);
-                System.out.println(mobileePhone);
-                break;
-            }
-        }
-
-        for (String s : res) {
-            Pattern p = Pattern.compile(".*([0-9]{4}-[0-9]{8}).*");
-            Matcher m = p.matcher(s);
-            if (m.matches()) {
-                fax = m.group(1);
-                System.out.println(fax);
-                break;
-            }
-        }
-
-        for (String s : res) {
-            Pattern p = Pattern.compile("(E-mail|email|e-mail|E-Mail)[ :]?([a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z0-9]{2,6}).*");
-            Matcher m = p.matcher(s);
-            if (m.matches()) {
-                email = m.group(2);
-                System.out.println(email);
-                break;
-            }
-        }
-
-        System.out.println(res);
+//        for (String s : res) {
+//            if (s.matches("^[\u4E00-\u9FA5a-zA-Z]{2,4}")) {
+//                name = s;
+//                System.out.println(name);
+//                break;
+//            }
+//        }
+//
+//        for (String s : res) {
+//            if (s.contains("地址")) {
+//                int begin = s.lastIndexOf("地址");
+//                s = s.substring(begin + 2).replace(":", "");
+//                address = s;
+//                System.out.println(address);
+//                break;
+//            }
+//        }
+//
+//        for (String s : res) {
+//            Pattern p = Pattern.compile(".*(1[0-9]{10}).*");
+//            Matcher m = p.matcher(s);
+//            if (m.matches()) {
+//                mobileePhone = m.group(1);
+//                System.out.println(mobileePhone);
+//                break;
+//            }
+//        }
+//
+//        for (String s : res) {
+//            Pattern p = Pattern.compile(".*([0-9]{4}-[0-9]{8}).*");
+//            Matcher m = p.matcher(s);
+//            if (m.matches()) {
+//                fax = m.group(1);
+//                System.out.println(fax);
+//                break;
+//            }
+//        }
+//
+//        for (String s : res) {
+//            Pattern p = Pattern.compile("(E-mail|email|e-mail|E-Mail)[ :]?([a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z0-9]{2,6}).*");
+//            Matcher m = p.matcher(s);
+//            if (m.matches()) {
+//                email = m.group(2);
+//                System.out.println(email);
+//                break;
+//            }
+//        }
+//
+//        System.out.println(res);
     }
 
 }
