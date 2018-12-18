@@ -39,7 +39,6 @@ public class UnfoldableDetailsActivity extends BaseActivity {
 //    private View detailsLayout;
 //    private UnfoldableView unfoldableView;
     private BottomBar bottomBar;
-    private static final int PERMISSIONS_REQUEST_OPEN_ALBUM = 1;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -56,12 +55,6 @@ public class UnfoldableDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unfoldable_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            //权限还没有授予，需要在这里写申请权限的代码
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_OPEN_ALBUM);
-        }
 
         bottomBar = (BottomBar) findViewById(R.id.bottom_bar);
         bottomBar.setContainer(R.id.fl_container)
@@ -84,20 +77,6 @@ public class UnfoldableDetailsActivity extends BaseActivity {
     @Override
     public void onResume(){
         super.onResume();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_OPEN_ALBUM) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //授权成功
-                Toast.makeText(this, "Permission Passed", Toast.LENGTH_SHORT).show();
-
-            } else {
-                //授权失败
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
 }

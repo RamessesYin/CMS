@@ -1,77 +1,74 @@
-package com.alexvasilkov.foldablelayout.sample.activities.fragment;
+package com.alexvasilkov.foldablelayout.sample.activities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.sample.R;
-import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
-import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.QRCode;
-import com.alexvasilkov.foldablelayout.sample.data.User;
 import com.alexvasilkov.foldablelayout.sample.items.CardsAdapter;
-import com.alexvasilkov.foldablelayout.sample.items.Painting;
-import com.alexvasilkov.foldablelayout.sample.items.PaintingsAdapter;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 import com.alexvasilkov.foldablelayout.shading.GlanceFoldShading;
 
-import java.util.ArrayList;
-
-public class Fragment1 extends BaseFragment {
+public class RecommondUserActivity extends BaseActivity{
+    private CardsAdapter card_adapter;
     private View listTouchInterceptor;
     private View detailsLayout;
     private UnfoldableView unfoldableView;
-    private CardsAdapter card_adapter;
-    private ImageView btn_share;
-    private f1_clickListener btn_click_listener;
+    private ListView listView;
 
-    @Nullable
+    private Button btn_submit;
+    private Button btn_cancel;
+    //private ru_clickListener btn_click_listener;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View contacts_view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment1, container, false);
+    public boolean onCreateOptionsMenu(Menu menu){
+        return super.onCreateOptionsMenu(menu);
+    }
 
-        ListView listView = (ListView) contacts_view.findViewById(R.id.list_view);
-        card_adapter = new CardsAdapter(this.getContext(), this);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.recommond_user);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        listView = (ListView) Views.find(this, R.id.list_view);
+        card_adapter = new CardsAdapter(this, null);
         listView.setAdapter(card_adapter);
 
-        listTouchInterceptor = contacts_view.findViewById(R.id.touch_interceptor_view);
+        listTouchInterceptor = Views.find(this, R.id.touch_interceptor_view);
         listTouchInterceptor.setClickable(false);
 
-        detailsLayout = contacts_view.findViewById(R.id.details_layout);
+        detailsLayout = Views.find(this, R.id.details_layout);
         detailsLayout.setVisibility(View.INVISIBLE);
 
-        unfoldableView = (UnfoldableView) contacts_view.findViewById(R.id.unfoldable_view);
+        unfoldableView = (UnfoldableView) Views.find(this, R.id.unfoldable_view);
 
         Bitmap glance = BitmapFactory.decodeResource(getResources(), R.drawable.unfold_glance);
         unfoldableView.setFoldShading(new GlanceFoldShading(glance));
 
-        btn_click_listener = new f1_clickListener(this.getContext());
-        btn_share = (ImageView)contacts_view.findViewById(R.id.iv_share);
-        btn_share.setOnClickListener(btn_click_listener);
-
-        //QRCode.showQRCode("hello world!",this.getActivity());
-
-//        ImageView share = (ImageView) contacts_view.findViewById(R.id.iv_share);
-//        share.setOnClickListener((view)->{
-//            QRCode.showQRCode("hello world!",this.getContext());
-//
-//        });
+        //btn_click_listener = new ru_clickListener(this, card_adapter, listView);
 
         unfoldableView.setOnFoldingListener(new UnfoldableView.SimpleFoldingListener() {
             @Override
@@ -97,45 +94,39 @@ public class Fragment1 extends BaseFragment {
             }
         });
 
-        return contacts_view;
-        //return LayoutInflater.from(getActivity()).inflate(R.layout.fragment1, container, false);
-    }
-
-    protected class f1_clickListener implements View.OnClickListener{
-        Context m_context;
-        public f1_clickListener(Context m_context){
-            this.m_context = m_context;
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.iv_share:
-                    QRCode.showQRCode("hello world!",m_context);
-                    break;
-                default:
-                    break;
-            }
 
         }
-    }
-
-    @Override
-    public void onVisible(){
-//        HttpClient.getUser(1544704862401l,(data)->{
-//            User user = (User) data;
-//            if(user==null) {
-//                Log.d("HttpClient","get user failed.");
-//                HttpClient.user = new User();
-//                return;
+//    protected class ru_clickListener implements View.OnClickListener{
+//        Context m_context;
+//        CardsAdapter card_adapter;
+//        ListView list_view;
+//
+//        public ru_clickListener(Context m_context, CardsAdapter card_adpater, ListView list_view){
+//            this.m_context = m_context;
+//            this.card_adapter = card_adpater;
+//            this.list_view = list_view;
+//        }
+//
+//        @Override
+//        public void onClick(View v) {
+//            switch (v.getId()){
+//                case R.id.btn_submit:
+//                    //QRCode.showQRCode("hello world!",m_context);
+//                    break;
+//                case R.id.btn_cancel:
+//                    for (int i = 0; i < card_adapter.getCount(); i++){
+//                        LinearLayout relativeLayout= (LinearLayout) list_view.getAdapter().getView(i,null,null);
+//                        CheckBox cb = (CheckBox)relativeLayout.findViewById(R.id.selected_checkbox);
+//                        cb.setChecked(false);
+//                    }
+//                    //QRCode.showQRCode("hello world!",m_context);
+//                    break;
+//                default:
+//                    break;
 //            }
-//            Log.d("HttpClient",user.toString());
-//            if(user.getCards()==null)
-//                user.cards = new ArrayList<Card>();
-//            HttpClient.user = user;
-//            card_adapter.resetCards();
-//        });
-    }
+//
+//        }
+//    }
 
     public void openDetails(View coverView, Card card) {
         final ImageView image = Views.find(detailsLayout, R.id.details_image);
@@ -145,7 +136,7 @@ public class Fragment1 extends BaseFragment {
         GlideHelper.loadPaintingImage(image, card.getImage());
         title.setText(card.getName());
 
-        SpannableBuilder builder = new SpannableBuilder(this.getActivity());
+        SpannableBuilder builder = new SpannableBuilder(this);
         builder
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                 .append(R.string.phone).append(": ")

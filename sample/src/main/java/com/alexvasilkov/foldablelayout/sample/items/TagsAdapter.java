@@ -27,6 +27,10 @@ public class TagsAdapter extends ItemsAdapter<Tag, TagsAdapter.ViewHolder>
         setItemsList(HttpClient.user.getTags());
     }
 
+    public void resetTags(){
+        setItemsList(HttpClient.user.getTags());
+    }
+
     @Override
     protected TagsAdapter.ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
         final TagsAdapter.ViewHolder holder = new TagsAdapter.ViewHolder(parent);
@@ -40,7 +44,8 @@ public class TagsAdapter extends ItemsAdapter<Tag, TagsAdapter.ViewHolder>
 
         holder.tag_thumb_up.setTag(R.id.list_item_thumb_up, item);
         holder.tag_name.setText(item.getText());
-        holder.tag_count.setText(item.getCount());
+        //holder.tag_count.setText(item.getCount());
+        holder.tag_count.setText("1");
     }
 
     @Override
@@ -48,6 +53,7 @@ public class TagsAdapter extends ItemsAdapter<Tag, TagsAdapter.ViewHolder>
         final Tag item = (Tag) view.getTag(R.id.list_item_image);
         final Activity activity = ContextHelper.asActivity(view.getContext());
 
+        item.setCount(1);
         item.setCount(item.getCount() + 1);
         HttpClient.updateTag(item, (data)->{
             if(data == null) {
@@ -56,6 +62,7 @@ public class TagsAdapter extends ItemsAdapter<Tag, TagsAdapter.ViewHolder>
             }
         });
 
+        ((TextView)view.findViewById(R.id.list_item_tag_count)).setText(item.getCount());
     }
 
     static class ViewHolder extends ItemsAdapter.ViewHolder {
