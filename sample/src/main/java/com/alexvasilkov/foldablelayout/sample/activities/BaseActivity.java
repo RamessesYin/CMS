@@ -84,6 +84,7 @@ public class BaseActivity extends AppCompatActivity {
                     startActivity(intent_1);
                     break;
                 case R.id.btn_recommond_user:
+
                     break;
                 case R.id.btn_scan:
                     break;
