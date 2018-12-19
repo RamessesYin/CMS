@@ -190,7 +190,7 @@ public class CardEditActivity extends BaseActivity{
                 case SELECT_LOCAL_IMAGE_RESULT_CODE:
                     if (data != null){
                         image_id = data.getExtras().getInt("img_id");
-                        Toast.makeText(this, image_id, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(this, image_id, Toast.LENGTH_LONG).show();
                         GlideHelper.loadPaintingImage(card_img, image_id);
                     }
                     else{

@@ -43,7 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#333"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/details_image"
@@ -97,8 +98,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="14dp"
                 android:layout_alignParentBottom="true"
-                android:baselineAligned="true"
                 android:background="#fff"
+                android:baselineAligned="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -156,8 +157,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_above="@+id/bottom_tab_text"
-                android:baselineAligned="true"
                 android:background="#fff"
+                android:baselineAligned="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -213,7 +214,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="55dp"/>
+            android:layout_height="55dp" />
 
     </LinearLayout>
 

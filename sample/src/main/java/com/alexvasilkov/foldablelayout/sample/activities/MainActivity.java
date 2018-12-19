@@ -33,6 +33,7 @@ import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.QRCode;
 import com.alexvasilkov.foldablelayout.sample.data.User;
 import com.alexvasilkov.foldablelayout.sample.items.Painting;
+import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class MainActivity extends BaseActivity implements ListView.OnItemClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        GlideHelper.init(getResources());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getAuthority();

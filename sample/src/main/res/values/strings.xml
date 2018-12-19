@@ -8,6 +8,7 @@
     <string name="address">Address</string>
     <string name="company">Company</string>
     <string name="title">Title</string>
+    <string name="title_activity_tags">TagsActivity</string>
 
-    
+
 </resources>

@@ -89,29 +89,26 @@ public class Fragment3 extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View my_view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment3, container, false);
-        card_img = (ImageView)my_view.findViewById(R.id.my_card_img);
-        btn_card_img = (Button)my_view.findViewById(R.id.btn_import_image);
-        btn_save_card = (Button)my_view.findViewById(R.id.btn_save_card);
-        btn_cancel = (Button)my_view.findViewById(R.id.btn_cancel);
-        btn_add_tag = (ImageView) my_view.findViewById(R.id.add_tags);
+        card_img = (ImageView) my_view.findViewById(R.id.my_card_img);
+        btn_card_img = (Button) my_view.findViewById(R.id.btn_import_image);
+        btn_save_card = (Button) my_view.findViewById(R.id.btn_save_card);
+        btn_cancel = (Button) my_view.findViewById(R.id.btn_cancel);
 
-        card_edittext_name = (EditText)my_view.findViewById(R.id.card_edit_username);
-        card_edittext_mobile_phone = (EditText)my_view.findViewById(R.id.card_edit_mobile_phone);
-        card_edittext_email = (EditText)my_view.findViewById(R.id.card_edit_email);
-        card_edittext_address = (EditText)my_view.findViewById(R.id.card_edit_address);
-        card_edittext_company = (EditText)my_view.findViewById(R.id.card_edit_company);
-        card_edittext_title = (EditText)my_view.findViewById(R.id.card_edit_title);
+
+        card_edittext_name = (EditText) my_view.findViewById(R.id.card_edit_username);
+        card_edittext_mobile_phone = (EditText) my_view.findViewById(R.id.card_edit_mobile_phone);
+        card_edittext_email = (EditText) my_view.findViewById(R.id.card_edit_email);
+        card_edittext_address = (EditText) my_view.findViewById(R.id.card_edit_address);
+        card_edittext_company = (EditText) my_view.findViewById(R.id.card_edit_company);
+        card_edittext_title = (EditText) my_view.findViewById(R.id.card_edit_title);
         InitSelfCard();
 
         btn_click_listener = new f3_clickListener();
         btn_card_img.setOnClickListener(btn_click_listener);
         btn_save_card.setOnClickListener(btn_click_listener);
         btn_cancel.setOnClickListener(btn_click_listener);
-        btn_add_tag.setOnClickListener(btn_click_listener);
 
-        tag_info = (ListView) my_view.findViewById(R.id.list_tag_view);
-        tag_adapter = new TagsAdapter(this.getContext());
-        tag_info.setAdapter(tag_adapter);
+
         //card_tableLayout = (TableLayout) my_view.findViewById(R.id.Card_TableLayout);
 
 //        card_edittext_name.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_name, 1));
@@ -162,11 +159,11 @@ public class Fragment3 extends BaseFragment {
     }
 
     @Override
-    public void onVisible(){
+    public void onVisible() {
 
     }
 
-    public void InitSelfCard(){
+    public void InitSelfCard() {
         image_id = HttpClient.user.self_card.getImage();
         GlideHelper.loadPaintingImage(card_img, image_id);
         card_edittext_name.setText(HttpClient.user.getUser_name());
@@ -239,20 +236,21 @@ public class Fragment3 extends BaseFragment {
 //        }
 //    }
 
-    protected class f3_clickListener implements View.OnClickListener{
+    protected class f3_clickListener implements View.OnClickListener {
         private EditText edit = null;
         private TagsAdapter tag_adapter = null;
 
-        public f3_clickListener(){}
+        public f3_clickListener() {
+        }
 
-        public f3_clickListener(EditText edit, TagsAdapter tag_adapter){
+        public f3_clickListener(EditText edit, TagsAdapter tag_adapter) {
             this.edit = edit;
             this.tag_adapter = tag_adapter;
         }
 
         @Override
-        public void onClick(View v){
-            switch (v.getId()){
+        public void onClick(View v) {
+            switch (v.getId()) {
                 case R.id.btn_import_image:
                     pickLocalPhoto();
                     break;
@@ -263,9 +261,9 @@ public class Fragment3 extends BaseFragment {
                     HttpClient.user.self_card.setAddress(card_edittext_address.getText().toString());
                     HttpClient.user.self_card.setCompany(card_edittext_company.getText().toString());
                     HttpClient.user.self_card.setTitle(card_edittext_title.getText().toString());
-                    HttpClient.updateCard(HttpClient.user.self_card, (data)->{
-                        if(data == null) {
-                            Log.d("HttpClient","update card failed!");
+                    HttpClient.updateCard(HttpClient.user.self_card, (data) -> {
+                        if (data == null) {
+                            Log.d("HttpClient", "update card failed!");
                             return;
                         }
                     });
@@ -278,10 +276,7 @@ public class Fragment3 extends BaseFragment {
                     card_edittext_company.setText(HttpClient.user.self_card.getCompany());
                     card_edittext_title.setText(HttpClient.user.self_card.getTitle());
                     break;
-                case R.id.add_tags:
-                    setAlertDialog(v);
-                    dialog.show();
-                    break;
+
                 case R.id.btn_tag_OK_dialog:
                     if (edit != null) {
                         Tag new_tag = new Tag();
@@ -290,17 +285,21 @@ public class Fragment3 extends BaseFragment {
                         List<Long> taggedto = new LinkedList<>();
                         taggedto.add(HttpClient.user.getId());
                         new_tag.setTaggedto(taggedto);
-                        HttpClient.addTag(new_tag, (data)->{
-                            if(data == null) {
-                                Log.d("HttpClient","add new tag failed!");
-                            }
-                            else{
+                        Log.d("TAGS", "add tag");
+                        Log.d("TAGS", "" + tag_adapter.getCount());
+                        tag_adapter.getItemsList().add(new_tag);
+                        tag_adapter.notifyDataSetChanged();
+                        HttpClient.addTag(new_tag, (data) -> {
+                            if (data == null) {
+                                Log.d("HttpClient", "add new tag failed!");
+                            } else {
                                 List<Tag> tag_list = HttpClient.user.getTags();
-                                tag_list.add((Tag)data);
+                                tag_list.add((Tag) data);
                                 HttpClient.user.setTags(tag_list);
-                                HttpClient.updateUser(HttpClient.user, (data_1)->{
-                                    if(data_1 == null) {
-                                        Log.d("HttpClient","update when adding new tag failed!");
+                                Log.d("TAGS", HttpClient.user.toString());
+                                HttpClient.updateUser(HttpClient.user, (data_1) -> {
+                                    if (data_1 == null) {
+                                        Log.d("HttpClient", "update when adding new tag failed!");
                                         return;
                                     }
                                 });
@@ -367,13 +366,13 @@ public class Fragment3 extends BaseFragment {
 //    }
 
 
-    private void pickLocalPhoto(){
+    private void pickLocalPhoto() {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName(getActivity(), FoldableListActivity.class));
         startActivityForResult(intent, SELECT_LOCAL_IMAGE_RESULT_CODE);
     }
 
-    private void pickPhoto(){
+    private void pickPhoto() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(intent, SELECT_IMAGE_RESULT_CODE);
@@ -382,20 +381,20 @@ public class Fragment3 extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK){
-            switch(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case SELECT_LOCAL_IMAGE_RESULT_CODE:
-                    if (data != null){
+                    if (data != null) {
                         image_id = data.getExtras().getInt("img_id");
-                        Toast.makeText(this.getActivity(), image_id, Toast.LENGTH_LONG).show();
+                        String[] titles = getResources().getStringArray(R.array.paintings_titles);
+                        Toast.makeText(this.getActivity(), titles[image_id % titles.length], Toast.LENGTH_LONG).show();
                         GlideHelper.loadPaintingImage(card_img, image_id);
-                    }
-                    else{
+                    } else {
                         Toast.makeText(this.getActivity(), "data is null", Toast.LENGTH_LONG).show();
                     }
                     break;
                 case SELECT_IMAGE_RESULT_CODE:
-                    if (data != null){
+                    if (data != null) {
                         //Toast.makeText(this.getActivity(), "Succeed!", Toast.LENGTH_LONG).show();
                         Uri img = data.getData();
                         String[] filePathColumns = {MediaStore.Images.Media.DATA};
@@ -413,10 +412,10 @@ public class Fragment3 extends BaseFragment {
         }
     }
 
-    private void showImage(String image_path){
+    private void showImage(String image_path) {
         Log.d("pickPhoto", image_path);
         img_bitmap = BitmapFactory.decodeFile(image_path);
-        if (img_bitmap == null){
+        if (img_bitmap == null) {
             Toast.makeText(this.getActivity(), image_path, Toast.LENGTH_LONG).show();
         }
         card_img.setImageBitmap(img_bitmap);

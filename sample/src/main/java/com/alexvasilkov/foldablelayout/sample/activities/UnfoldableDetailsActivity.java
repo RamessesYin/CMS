@@ -52,6 +52,7 @@ public class UnfoldableDetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        GlideHelper.init(getResources());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unfoldable_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,6 +73,8 @@ public class UnfoldableDetailsActivity extends BaseActivity {
                         R.drawable.item3_before,
                         R.drawable.item3_after)
                 .build();
+
+
     }
 
     @Override
