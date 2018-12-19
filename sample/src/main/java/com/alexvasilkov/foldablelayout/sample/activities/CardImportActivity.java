@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +31,14 @@ import com.alexvasilkov.foldablelayout.sample.data.BusinessCardOCR;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.utils.IoUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,8 +77,8 @@ public class CardImportActivity extends BaseActivity{
         //checkPermissions();
         //path = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DCIM + File.separator;
 
-        //takePhoto();
-        pickPhoto();
+        takePhoto();
+        //pickPhoto();
     }
 
     private String getPhotoFileName() {
@@ -111,6 +114,12 @@ public class CardImportActivity extends BaseActivity{
         startActivityForResult(intent, TAKE_PHOTO_RESULT_CODE);
     }
 
+    public static String convertIconToString(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] appicon = baos.toByteArray();// 转为byte数组  
+        return Base64.encodeToString(appicon, Base64.NO_WRAP);//注意这Base64.NO_WRAP参数很重要，一定是它。去除空格
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -134,10 +143,25 @@ public class CardImportActivity extends BaseActivity{
                         String image_path = getFilePathFromURI(this, uri);
                         showImage(image_path);
 
-                        new BusinessCardOCR().ScanBusinessCard(image_path, (card)->{
+                        Bitmap bmp = BitmapFactory.decodeFile(image_path);
+                        String image = convertIconToString(bmp);
+
+                        int bytes = bmp.getByteCount();
+
+                        ByteBuffer buf = ByteBuffer.allocate(bytes);
+                        bmp.copyPixelsToBuffer(buf);
+
+                        byte[] byteArray = buf.array();
+
+                        Log.d("tags", image);
+                        Log.d("tags", byteArray.toString());
+
+
+                        new BusinessCardOCR().ScanBusinessCard(byteArray, (card)->{
                             new_card = (Card) card;
                             new_card.setImage(1);
 
+                            Log.d("return_card", card.toString());
                             Intent intent = new Intent();
                             intent.setComponent(new ComponentName(this, CardEditActivity.class));
                             intent.putExtra("card", new_card.toString());
@@ -159,6 +183,16 @@ public class CardImportActivity extends BaseActivity{
                         String image_path = c.getString(columnIndex);
                         showImage(image_path);
                         c.close();
+
+//                        new BusinessCardOCR().ScanBusinessCard(image_path, (card)->{
+//                            new_card = (Card) card;
+//                            new_card.setImage(1);
+//
+//                            Intent intent = new Intent();
+//                            intent.setComponent(new ComponentName(this, CardEditActivity.class));
+//                            intent.putExtra("card", new_card.toString());
+//                            startActivity(intent);
+//                        });
                     }
                 default:
                     break;

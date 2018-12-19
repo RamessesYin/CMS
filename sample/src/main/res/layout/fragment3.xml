@@ -123,6 +123,7 @@
                         android:textColor="#fff"
                         android:textSize="18sp" />
 
+
                     <EditText
                         android:id="@+id/card_edit_email"
                         android:layout_width="250dp"
@@ -137,7 +138,7 @@
                         android:textColorHint="#E0EEE0"
                         android:textSize="18sp" />
                 </TableRow>
-                >
+
 
                 <View
                     android:layout_width="match_parent"
@@ -160,6 +161,7 @@
 
                     <EditText
                         android:id="@+id/card_edit_address"
+
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/default_margin"
@@ -172,7 +174,7 @@
                         android:textColorHint="#E0EEE0"
                         android:textSize="18sp" />
                 </TableRow>
-                >
+
 
                 <View
                     android:layout_width="match_parent"
@@ -207,7 +209,7 @@
                         android:textColorHint="#E0EEE0"
                         android:textSize="18sp" />
                 </TableRow>
-                >
+
 
                 <View
                     android:layout_width="match_parent"
@@ -242,7 +244,7 @@
                         android:textColorHint="#E0EEE0"
                         android:textSize="18sp" />
                 </TableRow>
-                >
+
 
                 <View
                     android:layout_width="match_parent"

@@ -46,6 +46,7 @@ import com.alexvasilkov.foldablelayout.sample.data.User;
 import com.alexvasilkov.foldablelayout.sample.items.TagsAdapter;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 
+import org.json.HTTP;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -107,7 +108,6 @@ public class Fragment3 extends BaseFragment {
         btn_card_img.setOnClickListener(btn_click_listener);
         btn_save_card.setOnClickListener(btn_click_listener);
         btn_cancel.setOnClickListener(btn_click_listener);
-
 
         //card_tableLayout = (TableLayout) my_view.findViewById(R.id.Card_TableLayout);
 
@@ -293,6 +293,7 @@ public class Fragment3 extends BaseFragment {
                             if (data == null) {
                                 Log.d("HttpClient", "add new tag failed!");
                             } else {
+
                                 List<Tag> tag_list = HttpClient.user.getTags();
                                 tag_list.add((Tag) data);
                                 HttpClient.user.setTags(tag_list);
@@ -307,7 +308,6 @@ public class Fragment3 extends BaseFragment {
                         });
 
 
-                        tag_adapter.resetTags();
                         tag_adapter.notifyDataSetChanged();
                     }
 
