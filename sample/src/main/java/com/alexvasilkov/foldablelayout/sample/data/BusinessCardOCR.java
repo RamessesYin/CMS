@@ -30,7 +30,7 @@ public class BusinessCardOCR {
     public String company;
 
 
-    public void ScanBusinessCard(String path,HttpClient.OnDataReceived onDataReceived) {
+    public void ScanBusinessCard(byte[] byte_array,HttpClient.OnDataReceived onDataReceived) {
         // 初始化一个AipOcr
         AipOcr client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
 
@@ -51,7 +51,7 @@ public class BusinessCardOCR {
             public void run() {
                 Card card = new Card();
                 try {
-                    JSONObject json = client.businessCard(path, new HashMap<String, String>());
+                    JSONObject json = client.businessCard(byte_array, new HashMap<String, String>());
 
                     Log.d("BusinessCardOCR", json.toString(2));
                     JSONArray words = null;

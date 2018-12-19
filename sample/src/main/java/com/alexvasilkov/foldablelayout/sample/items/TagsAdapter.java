@@ -20,15 +20,19 @@ import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 import com.alexvasilkov.foldablelayout.sample.data.Tag;
 
+import java.util.List;
+
 public class TagsAdapter extends ItemsAdapter<Tag, TagsAdapter.ViewHolder>
         implements View.OnClickListener{
 
-    public TagsAdapter(Context context) {
-        setItemsList(HttpClient.user.getTags());
+    public List<Tag> tags;
+    public TagsAdapter(Context context,List<Tag> tags) {
+        this.tags =tags;
+        setItemsList(this.tags);
     }
 
     public void resetTags(){
-        setItemsList(HttpClient.user.getTags());
+        setItemsList(this.tags);
     }
 
     @Override

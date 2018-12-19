@@ -46,6 +46,7 @@ import com.alexvasilkov.foldablelayout.sample.data.User;
 import com.alexvasilkov.foldablelayout.sample.items.TagsAdapter;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 
+import org.json.HTTP;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -110,7 +111,7 @@ public class Fragment3 extends BaseFragment {
         btn_add_tag.setOnClickListener(btn_click_listener);
 
         tag_info = (ListView) my_view.findViewById(R.id.list_tag_view);
-        tag_adapter = new TagsAdapter(this.getContext());
+        tag_adapter = new TagsAdapter(this.getContext(),HttpClient.user.getTags());
         tag_info.setAdapter(tag_adapter);
         //card_tableLayout = (TableLayout) my_view.findViewById(R.id.Card_TableLayout);
 
@@ -290,6 +291,9 @@ public class Fragment3 extends BaseFragment {
                         List<Long> taggedto = new LinkedList<>();
                         taggedto.add(HttpClient.user.getId());
                         new_tag.setTaggedto(taggedto);
+
+                        tag_adapter.tags.add(new_tag);
+                        tag_adapter.resetTags();
                         HttpClient.addTag(new_tag, (data)->{
                             if(data == null) {
                                 Log.d("HttpClient","add new tag failed!");
@@ -308,7 +312,6 @@ public class Fragment3 extends BaseFragment {
                         });
 
 
-                        tag_adapter.resetTags();
                         tag_adapter.notifyDataSetChanged();
                     }
 
