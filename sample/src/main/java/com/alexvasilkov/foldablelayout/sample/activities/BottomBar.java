@@ -54,7 +54,7 @@ public class BottomBar extends View {
     private int firstCheckedIndex;
 
     private int titleColorBefore = Color.parseColor("#999999");
-    private int titleColorAfter = Color.parseColor("#ff5d5e");
+    private int titleColorAfter = Color.parseColor("#3a5775");
 
     private int titleSizeInDp = 10;
     private int iconWidth = 20;

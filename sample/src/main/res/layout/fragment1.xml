@@ -98,7 +98,6 @@
                 android:layout_height="14dp"
                 android:layout_alignParentBottom="true"
                 android:baselineAligned="true"
-                android:background="#fff"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -114,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:text="@string/bottom_tag_share"
-                        android:textColor="#000"
+                        android:textColor="#fff"
                         android:textSize="12sp" />
                 </RelativeLayout>
 
@@ -130,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:text="@string/bottom_tag_edit"
-                        android:textColor="#000"
+                        android:textColor="#fff"
                         android:textSize="12sp" />
                 </RelativeLayout>
 
@@ -146,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:text="@string/bottom_tag_delete"
-                        android:textColor="#000"
+                        android:textColor="#fff"
                         android:textSize="12sp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -157,7 +156,7 @@
                 android:layout_height="54dp"
                 android:layout_above="@+id/bottom_tab_text"
                 android:baselineAligned="true"
-                android:background="#fff"
+                android:background="#333"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -173,7 +172,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:contentDescription="@null"
-                        android:src="@drawable/btn_share" />
+                        android:src="@drawable/share_icon1" />
 
                 </RelativeLayout>
 
@@ -189,7 +188,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:contentDescription="@null"
-                        android:src="@drawable/btn_edit" />
+                        android:src="@drawable/edit_icon1" />
 
                 </RelativeLayout>
 
@@ -205,7 +204,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:contentDescription="@null"
-                        android:src="@drawable/btn_delete" />
+                        android:src="@drawable/delete_icon1" />
 
                 </RelativeLayout>
             </LinearLayout>

@@ -159,6 +159,7 @@ public class Fragment3 extends BaseFragment {
 //                return false;
 //            }
 //        });
+
         return my_view;
     }
 

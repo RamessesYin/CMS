@@ -26,12 +26,26 @@
         android:layout_height="match_parent"
         android:layout_weight="1"></FrameLayout>
 
-    <com.alexvasilkov.foldablelayout.sample.activities.BottomBar
-        android:background="#FFFFFF"
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_gravity="bottom" />
+
+    <!--<linearLayout-->
+        <!--android:layout_width= "match_parent"-->
+        <!--android:layout_height="48dp"-->
+        <!--android:layout_gravity="bottom">-->
+
+        <!--<view-->
+            <!--android:layout_width ="match_parent"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:background="#d9d9d9">-->
+
+        <!--</view>-->
+
+        <com.alexvasilkov.foldablelayout.sample.activities.BottomBar
+            android:background="#FFFFFF"
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_gravity="bottom" />
+    <!--</linearLayout>-->
 
     <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
         <!--&lt;!&ndash;android:id="@+id/selection_menu"&ndash;&gt;-->

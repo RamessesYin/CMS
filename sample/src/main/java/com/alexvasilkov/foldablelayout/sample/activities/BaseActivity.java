@@ -34,19 +34,6 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.plus_icon, menu);
-        HttpClient.getUser(1544704862401l,(data)->{
-            User user = (User) data;
-            if(user==null) {
-                Log.d("HttpClient","get user failed.");
-                HttpClient.user = new User();
-                return;
-            }
-            Log.d("HttpClient",user.toString());
-            if(user.getCards()==null)
-                user.cards = new ArrayList<Card>();
-            HttpClient.user = user;
-        });
-
         return true;
     }
 

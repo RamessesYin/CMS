@@ -2,6 +2,7 @@ package com.alexvasilkov.foldablelayout.sample.data;
 
 import android.util.Log;
 
+import com.alexvasilkov.foldablelayout.sample.activities.AipOcr_test;
 import com.baidu.aip.ocr.AipOcr;
 
 import org.json.JSONArray;
@@ -32,7 +33,7 @@ public class BusinessCardOCR {
 
     public void ScanBusinessCard(byte[] byte_array,HttpClient.OnDataReceived onDataReceived) {
         // 初始化一个AipOcr
-        AipOcr client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
+        AipOcr_test client = new AipOcr_test(APP_ID, API_KEY, SECRET_KEY);
 
         // 可选：设置网络连接参数
         client.setConnectionTimeoutInMillis(2000);

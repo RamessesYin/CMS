@@ -90,12 +90,22 @@ public class CardEditActivity extends BaseActivity{
         if (photo_card != null){
             InitCard(photo_card);
         }
+        else{
+            GlideHelper.loadPaintingImage(card_img, 1);
+        }
 
         btn_click_listener = new ce_clickListener();
         btn_card_img.setOnClickListener(btn_click_listener);
         btn_save_card.setOnClickListener(btn_click_listener);
         btn_cancel.setOnClickListener(btn_click_listener);
 
+        card_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickLocalPhoto();
+                //return false;
+            }
+        });
 
         //ImageView loading_image_view = Views.find(this, R.id.loading_image);
         //View title_view = Views.find(this, R.id.edit_title);
