@@ -12,12 +12,7 @@ import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
 import com.alexvasilkov.android.commons.ui.ContextHelper;
 import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.sample.R;
-import com.alexvasilkov.foldablelayout.sample.activities.FoldableListActivity;
-import com.alexvasilkov.foldablelayout.sample.activities.UnfoldableDetailsActivity;
-import com.alexvasilkov.foldablelayout.sample.activities.fragment.Fragment1;
-import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
-import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 import com.alexvasilkov.foldablelayout.sample.data.Tag;
 
 import java.util.List;
@@ -25,14 +20,13 @@ import java.util.List;
 public class TagsAdapter extends ItemsAdapter<Tag, TagsAdapter.ViewHolder>
         implements View.OnClickListener{
 
-    public List<Tag> tags;
-    public TagsAdapter(Context context,List<Tag> tags) {
-        this.tags =tags;
-        setItemsList(this.tags);
+
+    public TagsAdapter(Context context) {
+        setItemsList(HttpClient.user.tags);
     }
 
     public void resetTags(){
-        setItemsList(this.tags);
+        setItemsList(HttpClient.user.tags);
     }
 
     @Override
@@ -47,26 +41,28 @@ public class TagsAdapter extends ItemsAdapter<Tag, TagsAdapter.ViewHolder>
         final Tag item = getItem(position);
 
         holder.tag_thumb_up.setTag(R.id.list_item_thumb_up, item);
+        holder.tag_thumb_up.setTag(R.id.list_item_tag_count, holder.tag_count);
         holder.tag_name.setText(item.getText());
-        //holder.tag_count.setText(item.getCount());
-        holder.tag_count.setText("1");
+        holder.tag_count.setText(String.valueOf(item.getCount()) );
+        //holder.tag_count.setText("1");
     }
 
     @Override
     public void onClick(View view) {
-        final Tag item = (Tag) view.getTag(R.id.list_item_image);
+        final Tag tag = (Tag) view.getTag(R.id.list_item_thumb_up);
+        final TextView count = (TextView) view.getTag(R.id.list_item_tag_count);
         final Activity activity = ContextHelper.asActivity(view.getContext());
 
-        item.setCount(1);
-        item.setCount(item.getCount() + 1);
-        HttpClient.updateTag(item, (data)->{
+//        tag.setCount(1);
+        tag.setCount(tag.getCount() + 1);
+        HttpClient.updateTag(tag, (data)->{
             if(data == null) {
                 Log.d("HttpClient","update tag failed!");
                 return;
             }
         });
 
-        ((TextView)view.findViewById(R.id.list_item_tag_count)).setText(item.getCount());
+        count.setText(String.valueOf(tag.getCount()));
     }
 
     static class ViewHolder extends ItemsAdapter.ViewHolder {

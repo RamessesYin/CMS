@@ -29,10 +29,13 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         implements View.OnClickListener {
 
     private Fragment1 fragment1;
+    public Painting [] paintings;
+
 
     public CardsAdapter(Context context, Fragment1 fragment) {
         setItemsList(HttpClient.user.getCards());
         fragment1 = fragment;
+        paintings = Painting.getAllPaintings(context.getResources());
     }
     public void resetCards(){
         setItemsList(HttpClient.user.getCards());
@@ -51,7 +54,9 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         final Card item = getItem(position);
 
         holder.image.setTag(R.id.list_item_image, item);
-        GlideHelper.loadPaintingImage(holder.image, item.getImage());
+
+        int imgId = paintings[item.getImage()% paintings.length].getImageId();
+        GlideHelper.loadPaintingImage(holder.image, imgId);
         holder.title.setText(item.getName());
         if (fragment1 != null){
             holder.btn_add.setVisibility(View.INVISIBLE);

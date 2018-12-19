@@ -22,6 +22,7 @@ import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
 import com.alexvasilkov.foldablelayout.sample.activities.BottomBar;
+import com.alexvasilkov.foldablelayout.sample.activities.UnfoldableDetailsActivity;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.QRCode;
@@ -31,6 +32,8 @@ import com.alexvasilkov.foldablelayout.sample.items.Painting;
 import com.alexvasilkov.foldablelayout.sample.items.PaintingsAdapter;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 import com.alexvasilkov.foldablelayout.shading.GlanceFoldShading;
+
+import org.json.HTTP;
 
 import java.util.ArrayList;
 
@@ -51,8 +54,31 @@ public class Fragment1 extends BaseFragment {
         View contacts_view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment1, container, false);
 
         ListView listView = (ListView) contacts_view.findViewById(R.id.list_view);
-        card_adapter = new CardsAdapter(this.getContext(), this);
-        listView.setAdapter(card_adapter);
+
+        HttpClient.getUser(1544704862401l,(data)->{
+            User user = (User) data;
+            if(user==null) {
+                Log.d("HttpClient","get user failed.");
+                HttpClient.user = new User();
+                return;
+            }
+            Log.d("HttpClient",user.toString());
+            if(user.getCards()==null)
+                user.cards = new ArrayList<Card>();
+            HttpClient.user = user;
+
+            Fragment1 fragment1 = this;
+            UnfoldableDetailsActivity main = (UnfoldableDetailsActivity) this.getActivity();
+            main.handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    card_adapter = new CardsAdapter(main ,fragment1);
+                    listView.setAdapter(card_adapter);
+                }
+            });
+        });
+
+
 
         listTouchInterceptor = contacts_view.findViewById(R.id.touch_interceptor_view);
         listTouchInterceptor.setClickable(false);
@@ -142,8 +168,10 @@ public class Fragment1 extends BaseFragment {
 //            HttpClient.user = user;
 //            //is_check = true;
 //        });
-        card_adapter.resetCards();
-        card_adapter.notifyDataSetChanged();
+        if(card_adapter != null) {
+            //card_adapter.resetCards();
+            card_adapter.notifyDataSetChanged();
+        }
 //        while (is_check == true) {
 //            card_adapter.resetCards();
 //            card_adapter.notifyDataSetChanged();

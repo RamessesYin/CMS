@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -41,6 +42,7 @@ import java.util.concurrent.CountDownLatch;
 
 
 public class UnfoldableDetailsActivity extends BaseActivity {
+    public Handler handler = new Handler();
     private static final int PERMISSIONS_REQUEST_OPEN_ALBUM = 1;
     private static final int PERMISSIONS_REQUEST_CAMERA = 2;
 //    private View listTouchInterceptor;
@@ -60,28 +62,29 @@ public class UnfoldableDetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        GlideHelper.init(getResources());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unfoldable_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getAuthority();
 
-        CountDownLatch is_check = new CountDownLatch(1);
-        HttpClient.getUser(1544704862401l,(data)->{
-            User user = (User) data;
-            if(user==null) {
-                Log.d("HttpClient","get user failed.");
-                HttpClient.user = new User();
-                return;
-            }
-            Log.d("HttpClient",user.toString());
-            if(user.getCards()==null)
-                user.cards = new ArrayList<Card>();
-            HttpClient.user = user;
-            is_check.countDown();
-        });
-
-        try {
-            is_check.await();
+//        CountDownLatch is_check = new CountDownLatch(1);
+//        HttpClient.getUser(1544704862401l,(data)->{
+//            User user = (User) data;
+//            if(user==null) {
+//                Log.d("HttpClient","get user failed.");
+//                HttpClient.user = new User();
+//                return;
+//            }
+//            Log.d("HttpClient",user.toString());
+//            if(user.getCards()==null)
+//                user.cards = new ArrayList<Card>();
+//            HttpClient.user = user;
+//            is_check.countDown();
+//        });
+//
+//        try {
+//            is_check.await();
             bottomBar = (BottomBar) findViewById(R.id.bottom_bar);
             bottomBar.setContainer(R.id.fl_container)
                     .setTitleBeforeAndAfterColor("#999999", "#3a5775")
@@ -98,9 +101,9 @@ public class UnfoldableDetailsActivity extends BaseActivity {
                             R.drawable.my_icon2,
                             R.drawable.my_icon3)
                     .build();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void getAuthority(){
