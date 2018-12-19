@@ -55,6 +55,7 @@ public class PaintingsAdapter extends ItemsAdapter<Painting, PaintingsAdapter.Vi
         holder.image.setTag(R.id.list_item_image, item);
         GlideHelper.loadPaintingImage(holder.image, item.getImageId());
         holder.title.setText(item.getTitle());
+        holder.btn_add_image.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -74,11 +75,13 @@ public class PaintingsAdapter extends ItemsAdapter<Painting, PaintingsAdapter.Vi
     static class ViewHolder extends ItemsAdapter.ViewHolder {
         final ImageView image;
         final TextView title;
+        final Button btn_add_image;
 
         ViewHolder(ViewGroup parent) {
             super(Views.inflate(parent, R.layout.list_item));
             image = Views.find(itemView, R.id.list_item_image);
             title = Views.find(itemView, R.id.list_item_title);
+            btn_add_image = Views.find(itemView, R.id.btn_add_new_card);
         }
     }
 

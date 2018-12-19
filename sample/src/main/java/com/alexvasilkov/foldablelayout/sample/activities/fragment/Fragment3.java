@@ -39,7 +39,6 @@ import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
 import com.alexvasilkov.foldablelayout.sample.activities.CardEditActivity;
-import com.alexvasilkov.foldablelayout.sample.activities.CardEditText;
 import com.alexvasilkov.foldablelayout.sample.activities.FoldableListActivity;
 import com.alexvasilkov.foldablelayout.sample.data.Tag;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
@@ -133,7 +132,6 @@ public class Fragment3 extends BaseFragment {
 //            card_key.setLayoutParams(layout_param);
 //            card_key.setTextSize(18);
 //
-//            CardEditText card_value = new CardEditText(this.getActivity(),this, my_card);
 //            card_value.setTextColor(0xfff);
 //            layout_param = card_value.getLayoutParams();
 //            layout_param.height = FrameLayout.LayoutParams.WRAP_CONTENT;
@@ -256,7 +254,7 @@ public class Fragment3 extends BaseFragment {
         public void onClick(View v){
             switch (v.getId()){
                 case R.id.btn_import_image:
-                    pickPhoto();
+                    pickLocalPhoto();
                     break;
                 case R.id.btn_save_card:
                     HttpClient.user.self_card.setName(card_edittext_name.getText().toString());
@@ -298,7 +296,7 @@ public class Fragment3 extends BaseFragment {
                             }
                             else{
                                 List<Tag> tag_list = HttpClient.user.getTags();
-                                tag_list.add(new_tag);
+                                tag_list.add((Tag)data);
                                 HttpClient.user.setTags(tag_list);
                                 HttpClient.updateUser(HttpClient.user, (data_1)->{
                                     if(data_1 == null) {
@@ -309,9 +307,11 @@ public class Fragment3 extends BaseFragment {
                             }
                         });
 
+
+                        tag_adapter.resetTags();
+                        tag_adapter.notifyDataSetChanged();
                     }
 
-                    tag_adapter.resetTags();
                     dialog.dismiss();
                     break;
                 case R.id.btn_tag_cancel_dialog:

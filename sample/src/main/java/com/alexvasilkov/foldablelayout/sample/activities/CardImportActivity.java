@@ -44,6 +44,7 @@ import java.util.Locale;
 
 public class CardImportActivity extends BaseActivity{
     private static final int TAKE_PHOTO_RESULT_CODE = 1;
+    private static final int SELECT_IMAGE_RESULT_CODE = 2;
     private Bitmap img_bitmap;
     private ImageView card_photo_img;
     private static String TEMP_DIR_PATH = "";
@@ -73,13 +74,20 @@ public class CardImportActivity extends BaseActivity{
         //checkPermissions();
         //path = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DCIM + File.separator;
 
-        takePhoto();
+        //takePhoto();
+        pickPhoto();
     }
 
     private String getPhotoFileName() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         return "IMG_" + dateFormat.format(date);
+    }
+
+    private void pickPhoto(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intent, SELECT_IMAGE_RESULT_CODE);
     }
 
     private void takePhoto() {
@@ -140,6 +148,18 @@ public class CardImportActivity extends BaseActivity{
 
                     //Todo: 识别名片
                     break;
+                case SELECT_IMAGE_RESULT_CODE:
+                    if (data != null){
+                        //Toast.makeText(this.getActivity(), "Succeed!", Toast.LENGTH_LONG).show();
+                        Uri img = data.getData();
+                        String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                        Cursor c = this.getContentResolver().query(img, filePathColumns, null, null, null);
+                        c.moveToFirst();
+                        int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                        String image_path = c.getString(columnIndex);
+                        showImage(image_path);
+                        c.close();
+                    }
                 default:
                     break;
             }

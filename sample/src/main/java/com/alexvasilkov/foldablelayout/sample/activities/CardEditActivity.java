@@ -132,17 +132,26 @@ public class CardEditActivity extends BaseActivity{
                     new_card.setCompany(card_edittext_company.getText().toString());
                     new_card.setTitle(card_edittext_title.getText().toString());
                     HttpClient.addCard(new_card, (data)->{
-                        if(data == null) {
-                            Log.d("HttpClient","add new card failed!");
+                        if(data != null) {
+
                             List<Card> self_card_list = HttpClient.user.getCards();
-                            self_card_list.add(new_card);
+                            Log.d("card_check",data.toString());
                             HttpClient.user.setCards(self_card_list);
+                            Log.d("card_check",HttpClient.user.toString());
                             HttpClient.updateUser(HttpClient.user, (data_1)->{
                                 if(data_1 == null) {
                                     Log.d("HttpClient","update user  failed after adding new card!");
                                     return;
                                 }
+                                else{
+                                    self_card_list.add((Card)data);
+                                    finish();
+                                }
                             });
+                            return;
+                        }
+                        else{
+                            Log.d("HttpClient","add new card failed!");
                             return;
                         }
                     });

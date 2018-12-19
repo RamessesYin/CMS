@@ -127,8 +127,8 @@ public class Fragment1 extends BaseFragment {
         }
     }
 
-//    @Override
-//    public void onVisible(){
+    @Override
+    public void onVisible(){
 //        HttpClient.getUser(1544704862401l,(data)->{
 //            User user = (User) data;
 //            if(user==null) {
@@ -142,13 +142,14 @@ public class Fragment1 extends BaseFragment {
 //            HttpClient.user = user;
 //            //is_check = true;
 //        });
-//
-////        while (is_check == true) {
-////            card_adapter.resetCards();
-////            card_adapter.notifyDataSetChanged();
-////        }
-////        is_check = false;
-//    }
+        card_adapter.resetCards();
+        card_adapter.notifyDataSetChanged();
+//        while (is_check == true) {
+//            card_adapter.resetCards();
+//            card_adapter.notifyDataSetChanged();
+//        }
+//        is_check = false;
+    }
 
     public void openDetails(View coverView, Card card) {
         final ImageView image = Views.find(detailsLayout, R.id.details_image);
