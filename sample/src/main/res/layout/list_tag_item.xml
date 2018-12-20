@@ -12,15 +12,23 @@
 
     <LinearLayout
         android:layout_height="match_parent"
-        android:layout_width="238dp">
+        android:layout_width="238dp"
+        android:clickable="false"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/list_item_tag_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="0.5"
             android:background="@drawable/border_line"
-            android:textSize="38sp"
-            android:text="带点击" />
+            android:text="test"
+            android:textColor="@color/tag_num"
+            android:paddingLeft ="18dp"
+            android:paddingRight="18dp"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
@@ -32,18 +40,23 @@
         <!--android:text="TextView"-->
         <!--android:textAppearance="@style/TextAppearance.AppCompat.Display1" />-->
 
-    <TextView
-        android:id="@+id/list_item_tag_count"
-        android:layout_width="105dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
     <ImageView
         android:id="@+id/list_item_thumb_up"
         android:layout_width="93dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:srcCompat="@drawable/btn_edit" />
+        android:clickable="true"
+        app:srcCompat="@drawable/thumb_up_selector" />
+
+    <TextView
+        android:id="@+id/list_item_tag_count"
+        android:layout_width="105dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/tag_num"
+        android:textSize="30sp"
+        android:text="1" />
+
+
 </LinearLayout>
