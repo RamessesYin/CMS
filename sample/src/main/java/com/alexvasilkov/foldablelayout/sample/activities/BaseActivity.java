@@ -120,20 +120,24 @@ public class BaseActivity extends AppCompatActivity {
         Log.d("scan_card", "tttttt");
         Toast.makeText(this, "ttttt", Toast.LENGTH_LONG).show();
         if (resultCode == Activity.RESULT_OK){
-            if (data != null){
-                String card_id = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
-                Log.d("scan_card", card_id);
-                Toast.makeText(this, card_id, Toast.LENGTH_LONG).show();
-                HttpClient.getCard(Long.parseLong(card_id),(card)->{
-                    if(card==null){
-                        Toast.makeText(this, "获取名片失败", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    Intent i = new Intent(this, CardEditActivity.class);
-                    i.putExtra("card", card.toString());
-                    startActivity(i);
-                });
-
+            switch (requestCode){
+                case REQUEST_CODE_QR_SCAN:
+                if (data != null) {
+                    String card_id = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
+                    Log.d("scan_card", card_id);
+                    Toast.makeText(this, card_id, Toast.LENGTH_LONG).show();
+                    HttpClient.getCard(Long.parseLong(card_id), (card) -> {
+                        if (card == null) {
+                            Toast.makeText(this, "获取名片失败", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        Intent i = new Intent(this, CardEditActivity.class);
+                        i.putExtra("card", card.toString());
+                        startActivity(i);
+                    });
+                }
+                default:
+                    break;
             }
         }
     }
