@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,11 +25,17 @@ import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
+import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.QRCode;
+import com.alexvasilkov.foldablelayout.sample.data.User;
+import com.alexvasilkov.foldablelayout.sample.data.UserRecommand;
 import com.alexvasilkov.foldablelayout.sample.items.CardsAdapter;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 import com.alexvasilkov.foldablelayout.shading.GlanceFoldShading;
 import com.blikoon.qrcodescanner.QrCodeActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecommondUserActivity extends BaseActivity{
     private CardsAdapter card_adapter;
@@ -41,6 +48,8 @@ public class RecommondUserActivity extends BaseActivity{
     private Button btn_cancel;
 
     //private ru_clickListener btn_click_listener;
+    private List<Card> cards = new ArrayList<>();
+    public Handler handler = new Handler();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -60,7 +69,23 @@ public class RecommondUserActivity extends BaseActivity{
 
         listView = (ListView) Views.find(this, R.id.list_view);
         card_adapter = new CardsAdapter(this, null);
+        card_adapter.setItemsList(cards);
         listView.setAdapter(card_adapter);
+
+        List<Long> ids = UserRecommand.recommandUser(HttpClient.user,5);
+        for (long id : ids){
+            Log.d("UserRecommand", ""+id);
+            HttpClient.getUser(id,(data)->{
+                if(data!=null)
+                    handler.post(() -> {
+                        User user = (User) data;
+                        Log.d("UserRecommand", ""+user.self_card.toString());
+                        cards.add(user.self_card);
+                        card_adapter.notifyDataSetChanged();
+                    });
+            });
+        }
+
 
         listTouchInterceptor = Views.find(this, R.id.touch_interceptor_view);
         listTouchInterceptor.setClickable(false);

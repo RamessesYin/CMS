@@ -167,9 +167,9 @@ public class CardImportActivity extends BaseActivity{
 
     public static byte[] convertIconToBytes(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] appicon = baos.toByteArray();// 转为byte数组  
-        return appicon;//注意这Base64.NO_WRAP参数很重要，一定是它。去除空格
+        return appicon;
     }
 
     @Override
@@ -201,8 +201,6 @@ public class CardImportActivity extends BaseActivity{
 //                        int bytes = bmp.getByteCount();
 //
 //                        ByteBuffer buf = ByteBuffer.allocate(bytes);
-//                        bmp.copyPixelsToBuffer(buf);
-
                         byte[] byteArray = convertIconToBytes(bmp);
 
                         Log.d("tags", image);

@@ -1,28 +1,33 @@
 package com.alexvasilkov.foldablelayout.sample.data;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class UserRecommand {
 
 
-    public static List<Long> recommandUser(User user,int top_n) {
+    public static List<Long> recommandUser(User user, int top_n) {
 
         List<Map.Entry<Long, Double>> commonFriends = getNeighbourScores(user);
         List<Map.Entry<Long, Double>> commonTags = getTagScores(user);
 
-        List<Long>ids = new ArrayList<>();
-        for(int i=0;i<top_n;i++){
+        List<Long> ids = new ArrayList<>();
+        for (int i = 0; i < top_n && i < commonFriends.size(); i++) {
             ids.add(commonFriends.get(i).getKey());
         }
 
-        for(int i=0;i<top_n;i++){
+        for (int i = 0; i < top_n && i < commonTags.size(); i++) {
             ids.add(commonTags.get(i).getKey());
         }
+
+        //Log.d("UserRecommand", new ArrayList(ids).toString());
         return ids;
     }
 
@@ -32,7 +37,10 @@ public class UserRecommand {
         for (Card card : user.cards) {
             double score = 1.0 / Math.log(card.getSharedto().size());
             for (long id : card.getSharedto()) {
-                scores.put(id, scores.get(id) + score);
+                if (scores.containsKey(id))
+                    scores.put(id, scores.get(id) + score);
+                else
+                    scores.put(id, score);
             }
         }
         List<Map.Entry<Long, Double>> list = new ArrayList<>(scores.entrySet());
@@ -50,7 +58,10 @@ public class UserRecommand {
         for (Tag tag : user.tags) {
             double score = ((double) tag.count) / (totalCnt * Math.log(tag.getTaggedto().size()));
             for (long id : tag.getTaggedto()) {
-                scores.put(id, scores.get(id) + score);
+                if (scores.containsKey(id))
+                    scores.put(id, scores.get(id) + score);
+                else
+                    scores.put(id, score);
             }
         }
 

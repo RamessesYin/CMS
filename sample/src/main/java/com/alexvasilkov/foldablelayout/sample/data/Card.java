@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Card {
@@ -104,14 +105,21 @@ public class Card {
     }
 
     public List<Long> getSharedto() {
-        if (sharedto == null)
-            sharedto = new Gson().fromJson(users, List.class);
+        if (sharedto == null) {
+            sharedto = new ArrayList<>();
+            if (users != null) {
+                String[] ids = users.split("[\\[\\],]");
+                for (String id : ids)
+                    if (!id.isEmpty())
+                        sharedto.add(Long.parseLong(id));
+            }
+        }
         return sharedto;
     }
 
     public void setSharedto(List<Long> sharedto) {
         this.sharedto = sharedto;
-        if(sharedto !=null)
+        if (sharedto != null)
             users = sharedto.toString();
     }
 
