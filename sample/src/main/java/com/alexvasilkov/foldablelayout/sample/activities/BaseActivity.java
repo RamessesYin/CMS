@@ -52,7 +52,7 @@ public class BaseActivity extends AppCompatActivity {
                 View contentView = Views.find(this, R.id.plus);
                 View popupView = this.getLayoutInflater().inflate(R.layout.popupwindow, null);
                 final PopupWindow popWindow = new PopupWindow(popupView,
-                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                        400, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                 popWindow.setTouchable(true);
                 popWindow.setTouchInterceptor(new BaseActivity.base_touchListerner());
                 popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
