@@ -58,7 +58,11 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         int imgId = paintings[item.getImage()% paintings.length].getImageId();
         GlideHelper.loadPaintingImage(holder.image, imgId);
         holder.title.setText(item.getName());
-        if (!unfordable.addCardBtn()){
+        if (unfordable instanceof View.OnClickListener){
+            holder.btn_add.setVisibility(View.VISIBLE);
+            holder.btn_add.setOnClickListener(((View.OnClickListener) unfordable));
+        }
+        else{
             holder.btn_add.setVisibility(View.INVISIBLE);
         }
     }
@@ -99,10 +103,10 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         }
     }
 
-    public interface Unfordable {
+    public interface Unfordable{
 
         public void openDetails(View coverView, Card card);
-        public boolean addCardBtn();
+
     }
 
 }

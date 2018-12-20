@@ -47,7 +47,7 @@ import com.blikoon.qrcodescanner.QrCodeActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable {
+public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable, View.OnClickListener {
     private CardsAdapter card_adapter;
     private View listTouchInterceptor;
     private View detailsLayout;
@@ -208,8 +208,9 @@ public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable {
         unfoldableView.unfold(coverView, detailsLayout);
     }
 
+
     @Override
-    public boolean addCardBtn() {
-        return true;
+    public void onClick(View view) {
+        return;
     }
 }

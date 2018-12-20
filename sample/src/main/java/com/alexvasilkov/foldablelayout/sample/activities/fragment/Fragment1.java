@@ -227,8 +227,5 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
         unfoldableView.unfold(coverView, detailsLayout);
     }
 
-    @Override
-    public boolean addCardBtn() {
-        return false;
-    }
+
 }
