@@ -1,6 +1,7 @@
 package com.alexvasilkov.foldablelayout.sample.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -23,12 +24,15 @@ import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.User;
+import com.blikoon.qrcodescanner.QrCodeActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 @SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_QR_SCAN = 101;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -93,12 +97,86 @@ public class BaseActivity extends AppCompatActivity {
                 case R.id.btn_recommond_user:
                     Intent intent_recommond_user = new Intent();
                     intent_recommond_user.setComponent(new ComponentName(BaseActivity.this, RecommondUserActivity.class));
+                    //intent_recommond_user.setComponent(new ComponentName(BaseActivity.this, TagsActivity.class));
                     startActivity(intent_recommond_user);
                     break;
                 case R.id.btn_scan:
+                    scanAddress();
                     break;
                 default:
                     break;
+            }
+        }
+    }
+
+    private void scanAddress() {
+//        new IntentIntegrator(getActivity())
+//                // 扫码的类型,条形码或者二维码
+//                .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+//                //这个参数可以设置也可以不设置，设置后使用自定义的二维码扫描框，不设置使用默认的
+//                .setPrompt("将二维码放到框内")
+//                //是否在扫描完成后有提示音
+//                .setBeepEnabled(true)
+//                //扫完码之后生成二维码的图片
+//                .setBarcodeImageEnabled(true)
+//                //初始化扫描
+//                .initiateScan();
+
+        Intent i = new Intent(this, QrCodeActivity.class);
+        startActivityForResult(i, REQUEST_CODE_QR_SCAN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("scan_card", "tttttt");
+        Toast.makeText(this, "ttttt", Toast.LENGTH_LONG).show();
+        if (data != null) {
+            Toast.makeText(this, data.getData().toString(), Toast.LENGTH_LONG).show();
+        }
+        if (resultCode == Activity.RESULT_OK){
+            if (data != null){
+                String card_id = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
+                Log.d("scan_card", card_id);
+                Toast.makeText(this, card_id, Toast.LENGTH_LONG).show();
+
+//                TextView debug_text = (TextView) Views.find(this, R.id.debug_text);
+//                debug_text.setText(card_id);
+//                Toast.makeText(this, card_id, Toast.LENGTH_LONG).show();
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                builder.setTitle("");
+//                builder.setMessage("确认要添加CardId为" + card_id + "的名片？");
+//                builder.setNegativeButton("Cancel", (dialog, which) -> {
+//                    dialog.dismiss();
+//                });
+//                builder.setPositiveButton("OK", (dialog, which) -> {
+//                    Log.d("scan_card", card_id);
+//                    HttpClient.getCard(Long.valueOf(card_id).longValue(),(card_data)-> {
+//                        Card card = (Card) card_data;
+//                        if (card == null) {
+//                            Log.d("HttpClient", "get card failed.");
+//                            return;
+//                        }
+//                        else{
+//                            Log.d("scan_card", card.toString());
+//                            HttpClient.user.cards.add(card);
+//                            HttpClient.updateUser(HttpClient.user, (user_data) -> {
+//                                if (user_data == null) {
+//                                    Log.d("HttpClient", "update user failed!");
+//                                }
+//                                else{
+//                                    Log.d("scan_card", user_data.toString());
+//                                }
+//                                return;
+//                            });
+//                        }
+//                    });
+//                    dialog.dismiss();
+//                });
+//                builder.create().show();
+                //setAlertDialog(scan_view, card_id.toString());
+                //dialog.show();
             }
         }
     }

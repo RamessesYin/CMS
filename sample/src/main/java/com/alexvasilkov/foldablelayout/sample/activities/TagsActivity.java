@@ -1,6 +1,8 @@
 package com.alexvasilkov.foldablelayout.sample.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.Tag;
 import com.alexvasilkov.foldablelayout.sample.items.TagsAdapter;
+import com.blikoon.qrcodescanner.QrCodeActivity;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,12 +31,10 @@ public class TagsActivity extends AppCompatActivity {
 
     private Handler mHandler = new Handler();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tags);
-
 
         tag_info = (ListView) findViewById(R.id.list_tag_view);
         tag_adapter = new TagsAdapter(this);
@@ -105,6 +107,4 @@ public class TagsActivity extends AppCompatActivity {
         });
 
     }
-
-
 }

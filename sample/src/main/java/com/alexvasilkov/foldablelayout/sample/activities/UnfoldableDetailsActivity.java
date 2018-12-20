@@ -2,6 +2,7 @@ package com.alexvasilkov.foldablelayout.sample.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -36,13 +37,16 @@ import com.alexvasilkov.foldablelayout.sample.activities.fragment.Fragment1;
 import com.alexvasilkov.foldablelayout.sample.activities.fragment.Fragment2;
 import com.alexvasilkov.foldablelayout.sample.activities.fragment.Fragment3;
 import com.alexvasilkov.foldablelayout.sample.activities.BottomBar;
+import com.blikoon.qrcodescanner.QrCodeActivity;
 
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 
 public class UnfoldableDetailsActivity extends BaseActivity {
+
     public Handler handler = new Handler();
+    private static final int REQUEST_CODE_QR_SCAN = 101;
     private static final int PERMISSIONS_REQUEST_OPEN_ALBUM = 1;
     private static final int PERMISSIONS_REQUEST_CAMERA = 2;
 //    private View listTouchInterceptor;
@@ -65,7 +69,8 @@ public class UnfoldableDetailsActivity extends BaseActivity {
         GlideHelper.init(getResources());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unfoldable_details);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getAuthority();
 
 //        CountDownLatch is_check = new CountDownLatch(1);
@@ -119,6 +124,60 @@ public class UnfoldableDetailsActivity extends BaseActivity {
                     new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
         }
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Log.d("scan_card", "tttttt");
+//        if (data != null) {
+//            Toast.makeText(this, data.getData().toString(), Toast.LENGTH_LONG).show();
+//        }
+//        if (resultCode == Activity.RESULT_OK){
+//            if (data != null){
+//                String card_id = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
+//                Log.d("scan_card", card_id);
+//                Toast.makeText(this, card_id, Toast.LENGTH_LONG).show();
+//
+////                TextView debug_text = (TextView) Views.find(this, R.id.debug_text);
+////                debug_text.setText(card_id);
+////                Toast.makeText(this, card_id, Toast.LENGTH_LONG).show();
+////
+////                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+////                builder.setTitle("");
+////                builder.setMessage("确认要添加CardId为" + card_id + "的名片？");
+////                builder.setNegativeButton("Cancel", (dialog, which) -> {
+////                    dialog.dismiss();
+////                });
+////                builder.setPositiveButton("OK", (dialog, which) -> {
+////                    Log.d("scan_card", card_id);
+////                    HttpClient.getCard(Long.valueOf(card_id).longValue(),(card_data)-> {
+////                        Card card = (Card) card_data;
+////                        if (card == null) {
+////                            Log.d("HttpClient", "get card failed.");
+////                            return;
+////                        }
+////                        else{
+////                            Log.d("scan_card", card.toString());
+////                            HttpClient.user.cards.add(card);
+////                            HttpClient.updateUser(HttpClient.user, (user_data) -> {
+////                                if (user_data == null) {
+////                                    Log.d("HttpClient", "update user failed!");
+////                                }
+////                                else{
+////                                    Log.d("scan_card", user_data.toString());
+////                                }
+////                                return;
+////                            });
+////                        }
+////                    });
+////                    dialog.dismiss();
+////                });
+////                builder.create().show();
+//                //setAlertDialog(scan_view, card_id.toString());
+//                //dialog.show();
+//            }
+//        }
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

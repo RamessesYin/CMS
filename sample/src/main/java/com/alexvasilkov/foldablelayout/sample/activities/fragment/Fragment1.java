@@ -144,7 +144,7 @@ public class Fragment1 extends BaseFragment {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.iv_share:
-                    QRCode.showQRCode("hello world!",m_context);
+                    QRCode.showQRCode(String.valueOf(HttpClient.user.self_card.id), m_context);
                     break;
                 default:
                     break;
@@ -169,7 +169,7 @@ public class Fragment1 extends BaseFragment {
 //            //is_check = true;
 //        });
         if(card_adapter != null) {
-            //card_adapter.resetCards();
+            card_adapter.resetCards();
             card_adapter.notifyDataSetChanged();
         }
 //        while (is_check == true) {

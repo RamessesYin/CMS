@@ -40,6 +40,7 @@ import com.alexvasilkov.foldablelayout.sample.activities.BaseActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
 import com.alexvasilkov.foldablelayout.sample.activities.CardEditActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.FoldableListActivity;
+import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.Tag;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.User;
@@ -165,14 +166,19 @@ public class Fragment3 extends BaseFragment {
     }
 
     public void InitSelfCard() {
-        image_id = HttpClient.user.self_card.getImage();
-        GlideHelper.loadPaintingImage(card_img, image_id);
-        card_edittext_name.setText(HttpClient.user.getUser_name());
-        card_edittext_mobile_phone.setText(HttpClient.user.getMobile_phone());
-        card_edittext_email.setText(HttpClient.user.getEmail());
-        card_edittext_address.setText(HttpClient.user.getAddress());
-        card_edittext_company.setText(HttpClient.user.getCompany());
-        card_edittext_title.setText(HttpClient.user.getTitle());
+        if (HttpClient.user.self_card != null) {
+            image_id = HttpClient.user.self_card.getImage();
+            GlideHelper.loadPaintingImage(card_img, image_id);
+            card_edittext_name.setText(HttpClient.user.getUser_name());
+            card_edittext_mobile_phone.setText(HttpClient.user.getMobile_phone());
+            card_edittext_email.setText(HttpClient.user.getEmail());
+            card_edittext_address.setText(HttpClient.user.getAddress());
+            card_edittext_company.setText(HttpClient.user.getCompany());
+            card_edittext_title.setText(HttpClient.user.getTitle());
+        }
+        else{
+            GlideHelper.loadPaintingImage(card_img, image_id);
+        }
     }
 
 //    protected class text_watcher implements TextWatcher {
@@ -256,18 +262,56 @@ public class Fragment3 extends BaseFragment {
                     pickLocalPhoto();
                     break;
                 case R.id.btn_save_card:
+                    Log.d("edit_self_card", String.valueOf(image_id));
+
+                    if (HttpClient.user.self_card == null) {
+                        HttpClient.user.self_card = new Card();
+                    }
+
+                    HttpClient.user.self_card.setImage(image_id);
                     HttpClient.user.self_card.setName(card_edittext_name.getText().toString());
                     HttpClient.user.self_card.setMobile_phone(card_edittext_mobile_phone.getText().toString());
                     HttpClient.user.self_card.setEmail(card_edittext_email.getText().toString());
                     HttpClient.user.self_card.setAddress(card_edittext_address.getText().toString());
                     HttpClient.user.self_card.setCompany(card_edittext_company.getText().toString());
                     HttpClient.user.self_card.setTitle(card_edittext_title.getText().toString());
-                    HttpClient.updateCard(HttpClient.user.self_card, (data) -> {
-                        if (data == null) {
-                            Log.d("HttpClient", "update card failed!");
-                            return;
-                        }
-                    });
+                    Log.d("edit_self_card", HttpClient.user.self_card.getTitle());
+
+                    if (HttpClient.user.self_card != null) {
+                        HttpClient.updateCard(HttpClient.user.self_card, (data) -> {
+                            if (data == null) {
+                                Log.d("HttpClient", "update card failed!");
+                            } else {
+                                Log.d("edit_self_card", data.toString());
+                                HttpClient.updateUser(HttpClient.user, (data_1) -> {
+                                    if (data_1 == null) {
+                                        Log.d("HttpClient", "update user failed!");
+                                    } else {
+                                        Log.d("edit_self_card", data_1.toString());
+                                    }
+                                    return;
+                                });
+                            }
+                        });
+                    }
+                    else{
+                        HttpClient.addCard(HttpClient.user.self_card, (data) -> {
+                            if (data == null) {
+                                Log.d("HttpClient", "update card failed!");
+                            } else {
+                                Log.d("edit_self_card", data.toString());
+                                HttpClient.updateUser(HttpClient.user, (data_1) -> {
+                                    if (data_1 == null) {
+                                        Log.d("HttpClient", "update user failed!");
+                                    } else {
+                                        Log.d("edit_self_card", data_1.toString());
+                                    }
+                                    return;
+                                });
+                            }
+                        });
+                    }
+
                     break;
                 case R.id.btn_cancel:
                     card_edittext_name.setText(HttpClient.user.self_card.getName());

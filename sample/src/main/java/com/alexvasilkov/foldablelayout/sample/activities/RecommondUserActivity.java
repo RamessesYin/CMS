@@ -1,6 +1,8 @@
 package com.alexvasilkov.foldablelayout.sample.activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.android.commons.ui.Views;
@@ -25,6 +28,7 @@ import com.alexvasilkov.foldablelayout.sample.data.QRCode;
 import com.alexvasilkov.foldablelayout.sample.items.CardsAdapter;
 import com.alexvasilkov.foldablelayout.sample.utils.GlideHelper;
 import com.alexvasilkov.foldablelayout.shading.GlanceFoldShading;
+import com.blikoon.qrcodescanner.QrCodeActivity;
 
 public class RecommondUserActivity extends BaseActivity{
     private CardsAdapter card_adapter;
@@ -35,6 +39,7 @@ public class RecommondUserActivity extends BaseActivity{
 
     private Button btn_submit;
     private Button btn_cancel;
+
     //private ru_clickListener btn_click_listener;
 
     @Override
@@ -96,6 +101,7 @@ public class RecommondUserActivity extends BaseActivity{
 
 
         }
+
 //    protected class ru_clickListener implements View.OnClickListener{
 //        Context m_context;
 //        CardsAdapter card_adapter;
@@ -126,7 +132,7 @@ public class RecommondUserActivity extends BaseActivity{
 //            }
 //
 //        }
-//    }
+//
 
     public void openDetails(View coverView, Card card) {
         final ImageView image = Views.find(detailsLayout, R.id.details_image);
