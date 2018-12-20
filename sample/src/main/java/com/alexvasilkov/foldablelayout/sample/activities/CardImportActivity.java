@@ -121,6 +121,13 @@ public class CardImportActivity extends BaseActivity{
         return Base64.encodeToString(appicon, Base64.NO_WRAP);//注意这Base64.NO_WRAP参数很重要，一定是它。去除空格
     }
 
+    public static byte[] convertIconToBytes(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] appicon = baos.toByteArray();// 转为byte数组  
+        return appicon;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -146,12 +153,13 @@ public class CardImportActivity extends BaseActivity{
                         Bitmap bmp = BitmapFactory.decodeFile(image_path);
                         String image = convertIconToString(bmp);
 
-                        int bytes = bmp.getByteCount();
-
-                        ByteBuffer buf = ByteBuffer.allocate(bytes);
-                        bmp.copyPixelsToBuffer(buf);
-
-                        byte[] byteArray = buf.array();
+//                        int bytes = bmp.getByteCount();
+//
+//                        ByteBuffer buf = ByteBuffer.allocate(bytes);
+//                        bmp.copyPixelsToBghituffer(buf);
+//
+//                        byte[] byteArray = buf.array();
+                        byte[] byteArray = convertIconToBytes(bmp);
 
                         Log.d("tags", image);
                         Log.d("tags", byteArray.toString());

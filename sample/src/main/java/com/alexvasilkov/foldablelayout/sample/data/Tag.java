@@ -11,6 +11,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tag {
@@ -57,14 +58,21 @@ public class Tag {
 
 
     public List<Long> getTaggedto() {
-        if (taggedto == null)
-            taggedto = new Gson().fromJson(users, List.class);
+        if (taggedto == null){
+            taggedto = new ArrayList<>();
+            if(users!=null){
+                String[] ids = users.split("[\\[\\],]");
+                for(String id : ids)
+                    if(!id.isEmpty())
+                        taggedto.add(Long.parseLong(id));
+            }
+        }
         return taggedto;
     }
 
     public void setTaggedto(List<Long> taggedto) {
         this.taggedto = taggedto;
-        if (taggedto == null)
+        if (taggedto != null)
             users = taggedto.toString();
     }
 

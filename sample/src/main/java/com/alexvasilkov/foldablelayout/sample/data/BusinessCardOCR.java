@@ -51,7 +51,7 @@ public class BusinessCardOCR {
             public void run() {
                 Card card = new Card();
                 try {
-                    JSONObject json = client.businessCard(byte_array, new HashMap<String, String>());
+                    JSONObject json = client.general(byte_array, new HashMap<String, String>());
 
                     Log.d("BusinessCardOCR", json.toString(2));
                     JSONArray words = null;
@@ -63,12 +63,70 @@ public class BusinessCardOCR {
 
                     }
 
-                    card.setName(json.getJSONArray("NAME").getString(0));
-                    card.setTitle(json.getJSONArray("TITLE").getString(0));
-                    card.setAddress(json.getJSONArray("ADDR").getString(0));
-                    card.setCompany(json.getJSONArray("COMPANY").getString(0));
-                    card.setEmail(json.getJSONArray("EMAIL").getString(0));
-                    card.setMobile_phone(json.getJSONArray("MOBILE").getString(0));
+
+
+
+        for (String s : res) {
+            if (s.matches("^[\u4E00-\u9FA5a-zA-Z]{2,4}")) {
+                name = s;
+                System.out.println(name);
+                break;
+            }
+        }
+
+        for (String s : res) {
+            if (s.contains("地址")) {
+                int begin = s.lastIndexOf("地址");
+                s = s.substring(begin + 2).replace(":", "");
+                address = s;
+                System.out.println(address);
+                break;
+            }
+        }
+
+        for (String s : res) {
+            Pattern p = Pattern.compile(".*(1[0-9]{10}).*");
+            Matcher m = p.matcher(s);
+            if (m.matches()) {
+                mobileePhone = m.group(1);
+                System.out.println(mobileePhone);
+                break;
+            }
+        }
+
+        for (String s : res) {
+            Pattern p = Pattern.compile(".*([0-9]{4}-[0-9]{8}).*");
+            Matcher m = p.matcher(s);
+            if (m.matches()) {
+                fax = m.group(1);
+                System.out.println(fax);
+                break;
+            }
+        }
+
+        for (String s : res) {
+            Pattern p = Pattern.compile("(E-mail|email|e-mail|E-Mail)[ :]?([a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z0-9]{2,6}).*");
+            Matcher m = p.matcher(s);
+            if (m.matches()) {
+                email = m.group(2);
+                System.out.println(email);
+                break;
+            }
+        }
+
+//                    card.setName(json.getJSONArray("NAME").getString(0));
+//                    card.setTitle(json.getJSONArray("TITLE").getString(0));
+//                    card.setAddress(json.getJSONArray("ADDR").getString(0));
+//                    card.setCompany(json.getJSONArray("COMPANY").getString(0));
+//                    card.setEmail(json.getJSONArray("EMAIL").getString(0));
+//                    card.setMobile_phone(json.getJSONArray("MOBILE").getString(0));
+
+                    card.setName(name);
+                    card.setTitle(title);
+                    card.setAddress(address);
+                    card.setCompany(company);
+                    card.setEmail(email);
+                    card.setMobile_phone(mobileePhone);
                     onDataReceived.callback(card);
 
                 } catch (JSONException e) {
@@ -78,57 +136,6 @@ public class BusinessCardOCR {
 
             }
         }).start();
-
-
-//        for (String s : res) {
-//            if (s.matches("^[\u4E00-\u9FA5a-zA-Z]{2,4}")) {
-//                name = s;
-//                System.out.println(name);
-//                break;
-//            }
-//        }
-//
-//        for (String s : res) {
-//            if (s.contains("地址")) {
-//                int begin = s.lastIndexOf("地址");
-//                s = s.substring(begin + 2).replace(":", "");
-//                address = s;
-//                System.out.println(address);
-//                break;
-//            }
-//        }
-//
-//        for (String s : res) {
-//            Pattern p = Pattern.compile(".*(1[0-9]{10}).*");
-//            Matcher m = p.matcher(s);
-//            if (m.matches()) {
-//                mobileePhone = m.group(1);
-//                System.out.println(mobileePhone);
-//                break;
-//            }
-//        }
-//
-//        for (String s : res) {
-//            Pattern p = Pattern.compile(".*([0-9]{4}-[0-9]{8}).*");
-//            Matcher m = p.matcher(s);
-//            if (m.matches()) {
-//                fax = m.group(1);
-//                System.out.println(fax);
-//                break;
-//            }
-//        }
-//
-//        for (String s : res) {
-//            Pattern p = Pattern.compile("(E-mail|email|e-mail|E-Mail)[ :]?([a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z0-9]{2,6}).*");
-//            Matcher m = p.matcher(s);
-//            if (m.matches()) {
-//                email = m.group(2);
-//                System.out.println(email);
-//                break;
-//            }
-//        }
-//
-//        System.out.println(res);
     }
 
 }
