@@ -115,6 +115,12 @@ public class Fragment3 extends BaseFragment {
         btn_cancel.setOnClickListener(btn_click_listener);
         btn_check_tags.setOnClickListener(btn_click_listener);
 
+
+        card_img.setOnClickListener(view -> {
+            pickLocalPhoto();
+            //return false;
+        });
+
         //card_tableLayout = (TableLayout) my_view.findViewById(R.id.Card_TableLayout);
 
 //        card_edittext_name.addTextChangedListener(new text_watcher(this.getContext(), card_edittext_name, 1));
@@ -295,6 +301,7 @@ public class Fragment3 extends BaseFragment {
                                         Log.d("HttpClient", "update user failed!");
                                     } else {
                                         Log.d("edit_self_card", data_1.toString());
+                                        Toast.makeText(v.getContext(),"保存成功",Toast.LENGTH_SHORT);
                                     }
                                     return;
                                 });
