@@ -191,7 +191,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
         SpannableBuilder builder = new SpannableBuilder(this.getActivity());
         builder
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append(R.string.phone).append(": ")
+                .append(R.string.mobile_phone).append(": ")
                 .clearStyle()
                 .append(card.getMobile_phone()).append("\n");
 
@@ -221,7 +221,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
                     .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                     .append(R.string.title).append(": ")
                     .clearStyle()
-                    .append(card.getTitle()).append("\n");
+                    .append(card.getTitle());
         description.setText(builder.build());
 
         unfoldableView.unfold(coverView, detailsLayout);

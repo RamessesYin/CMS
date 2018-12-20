@@ -54,6 +54,7 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         final Card item = getItem(position);
 
         holder.image.setTag(R.id.list_item_image, item);
+        holder.btn_add.setTag(R.id.list_item_image, item);
 
         int imgId = paintings[item.getImage()% paintings.length].getImageId();
         GlideHelper.loadPaintingImage(holder.image, imgId);

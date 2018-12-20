@@ -109,7 +109,7 @@ public class Fragment3 extends BaseFragment {
         card_edittext_title = (EditText) my_view.findViewById(R.id.card_edit_title);
 
         InitSelfCard();
-        btn_click_listener = new f3_clickListener(this.getContext());
+        btn_click_listener = new f3_clickListener(this.getContext(), this.getActivity());
         btn_card_img.setOnClickListener(btn_click_listener);
         btn_save_card.setOnClickListener(btn_click_listener);
         btn_cancel.setOnClickListener(btn_click_listener);
@@ -258,9 +258,11 @@ public class Fragment3 extends BaseFragment {
         private EditText edit = null;
         private TagsAdapter tag_adapter = null;
         private Context m_context;
+        private Activity activity;
 
-        public f3_clickListener(Context m_context) {
+        public f3_clickListener(Context m_context, Activity activity) {
             this.m_context = m_context;
+            this.activity = activity;
         }
 
         public f3_clickListener(EditText edit, TagsAdapter tag_adapter) {
@@ -281,6 +283,7 @@ public class Fragment3 extends BaseFragment {
                         HttpClient.user.self_card = new Card();
                     }
 
+                    //HttpClient.user.self_card.setSource(String.valueOf(HttpClient.user.id));
                     HttpClient.user.self_card.setImage(image_id);
                     HttpClient.user.self_card.setName(card_edittext_name.getText().toString());
                     HttpClient.user.self_card.setMobile_phone(card_edittext_mobile_phone.getText().toString());
@@ -288,7 +291,26 @@ public class Fragment3 extends BaseFragment {
                     HttpClient.user.self_card.setAddress(card_edittext_address.getText().toString());
                     HttpClient.user.self_card.setCompany(card_edittext_company.getText().toString());
                     HttpClient.user.self_card.setTitle(card_edittext_title.getText().toString());
+                    HttpClient.user.setUser_name(card_edittext_name.getText().toString());
+                    HttpClient.user.setMobile_phone(card_edittext_mobile_phone.getText().toString());
+                    HttpClient.user.setEmail(card_edittext_email.getText().toString());
+                    HttpClient.user.setAddress(card_edittext_address.getText().toString());
+                    HttpClient.user.setCompany(card_edittext_company.getText().toString());
+                    HttpClient.user.setTitle(card_edittext_title.getText().toString());
+                    for (Card card : HttpClient.user.cards){
+                        if (card.getId() == HttpClient.user.self_card.getId()){
+                            card.setImage(image_id);
+                            card.setName(card_edittext_name.getText().toString());
+                            card.setMobile_phone(card_edittext_mobile_phone.getText().toString());
+                            card.setEmail(card_edittext_email.getText().toString());
+                            card.setAddress(card_edittext_address.getText().toString());
+                            card.setCompany(card_edittext_company.getText().toString());
+                            card.setTitle(card_edittext_title.getText().toString());
+                            break;
+                        }
+                    }
                     Log.d("edit_self_card", HttpClient.user.self_card.getTitle());
+                    Toast.makeText(activity,"保存成功",Toast.LENGTH_LONG).show();
 
                     if (HttpClient.user.self_card != null) {
                         HttpClient.updateCard(HttpClient.user.self_card, (data) -> {
@@ -301,7 +323,6 @@ public class Fragment3 extends BaseFragment {
                                         Log.d("HttpClient", "update user failed!");
                                     } else {
                                         Log.d("edit_self_card", data_1.toString());
-                                        Toast.makeText(v.getContext(),"保存成功",Toast.LENGTH_SHORT);
                                     }
                                     return;
                                 });

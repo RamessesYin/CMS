@@ -37,8 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#333"
-        android:orientation="vertical"
-        android:visibility="invisible">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/details_image"
@@ -148,7 +147,7 @@
             <LinearLayout
                 android:id="@+id/bottom_tab_img"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="20dp"
                 android:layout_above="@+id/bottom_tab_text"
                 android:baselineAligned="true"
                 android:background="#333"

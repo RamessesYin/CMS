@@ -208,15 +208,18 @@ public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable, 
         unfoldableView.unfold(coverView, detailsLayout);
     }
 
+    @Override
     public void onClick(View view) {
         Card new_card = (Card) view.getTag(R.id.list_item_image);
+        Log.d("add recommoned card", "add recommond card");
         if(new_card != null) {
+            Log.d("add recommoned card", "add recommond card");
             cards.remove(new_card);
             card_adapter.notifyDataSetChanged();
             List<Card> self_card_list = HttpClient.user.getCards();
             for (Card card_item : self_card_list){
                 if (card_item.getId() == new_card.getId()){
-                    Toast.makeText(this.getContext(), "你已经添加过该名片", Toast.LENGTH_LONG);
+                    Toast.makeText(this.getActivity(), "你已经添加过该名片", Toast.LENGTH_LONG).show();
                     return;
                 }
             }

@@ -51,7 +51,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="@dimen/default_margin"
                     android:layout_marginBottom="2dp"
-                    android:text="Name:"
+                    android:text="@string/name"
                     android:textColor="#fff"
                     android:textSize="18sp" />
 
@@ -84,7 +84,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="@dimen/default_margin"
                     android:layout_marginBottom="2dp"
-                    android:text="Mobile Phone"
+                    android:text="@string/mobile_phone"
                     android:textColor="#fff"
                     android:textSize="18sp" />
 
@@ -118,7 +118,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="@dimen/default_margin"
                     android:layout_marginBottom="2dp"
-                    android:text="Email:"
+                    android:text="@string/email"
                     android:textColor="#fff"
                     android:textSize="18sp" />
 
@@ -151,7 +151,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="@dimen/default_margin"
                     android:layout_marginBottom="2dp"
-                    android:text="Address:"
+                    android:text="@string/address"
                     android:textColor="#fff"
                     android:textSize="18sp" />
 
@@ -183,7 +183,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="@dimen/default_margin"
                     android:layout_marginBottom="2dp"
-                    android:text="Company:"
+                    android:text="@string/company"
                     android:textColor="#fff"
                     android:textSize="18sp" />
 
@@ -216,7 +216,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="@dimen/default_margin"
                     android:layout_marginBottom="2dp"
-                    android:text="Title:"
+                    android:text="@string/title"
                     android:textColor="#fff"
                     android:textSize="18sp" />
 
