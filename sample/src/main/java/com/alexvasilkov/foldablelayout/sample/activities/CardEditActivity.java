@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -130,6 +131,7 @@ public class CardEditActivity extends BaseActivity{
                     pickLocalPhoto();
                     break;
                 case R.id.btn_save_card:
+
                     Card new_card = new Card();
                     new_card.setImage(image_id);
                     new_card.setName(card_edittext_name.getText().toString());
@@ -227,5 +229,8 @@ public class CardEditActivity extends BaseActivity{
         }
         card_img.setImageBitmap(img_bitmap);
     }
+
+
+
 
 }
