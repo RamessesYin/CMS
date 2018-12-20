@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/window_background"
@@ -10,10 +12,17 @@
         android:id="@+id/btn_edit_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/menu_color"
         android:text="导入名片"
         android:textColor="@color/white"
-        android:background="@color/menu_color"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        tools:paddingBottom="5dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:srcCompat="@android:color/black" />
 
     <Button
         android:id="@+id/btn_take_card_photo"
@@ -24,6 +33,12 @@
         android:background="@color/menu_color"
         android:textSize="18sp" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:srcCompat="@android:color/black" />
+
     <Button
         android:id="@+id/btn_recommond_user"
         android:layout_width="match_parent"
@@ -33,13 +48,19 @@
         android:background="@color/menu_color"
         android:textSize="18sp" />
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:srcCompat="@android:color/black" />
+
     <Button
         android:id="@+id/btn_scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/menu_color"
         android:text="扫一扫"
         android:textColor="@color/white"
-        android:background="@color/menu_color"
         android:textSize="18sp" />
 
 </LinearLayout>

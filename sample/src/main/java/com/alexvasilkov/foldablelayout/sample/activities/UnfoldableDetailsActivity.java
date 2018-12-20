@@ -98,9 +98,9 @@ public class UnfoldableDetailsActivity extends BaseActivity {
                             R.drawable.contacts_icon2,
                             R.drawable.contacts_icon4)
                     .addItem(Fragment2.class,
-                            "扫一扫",
-                            R.drawable.scan_icon2,
-                            R.drawable.scan_icon3)
+                            "推荐",
+                            R.drawable.recommand,
+                            R.drawable.recommand2 )
                     .addItem(Fragment3.class,
                             "我的",
                             R.drawable.my_icon2,
