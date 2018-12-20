@@ -28,13 +28,13 @@ import java.util.Arrays;
 public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         implements View.OnClickListener {
 
-    private Fragment1 fragment1;
+    private Unfordable unfordable;
     public Painting [] paintings;
 
 
-    public CardsAdapter(Context context, Fragment1 fragment) {
+    public CardsAdapter(Context context, Unfordable unfordable) {
         setItemsList(HttpClient.user.getCards());
-        fragment1 = fragment;
+        this.unfordable = unfordable;
         paintings = Painting.getAllPaintings(context.getResources());
     }
     public void resetCards(){
@@ -58,7 +58,7 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
         int imgId = paintings[item.getImage()% paintings.length].getImageId();
         GlideHelper.loadPaintingImage(holder.image, imgId);
         holder.title.setText(item.getName());
-        if (fragment1 != null){
+        if (!unfordable.addCardBtn()){
             holder.btn_add.setVisibility(View.INVISIBLE);
         }
     }
@@ -74,7 +74,7 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
                 break;
             case R.id.list_item_image:
                 if (activity instanceof UnfoldableDetailsActivity) {
-                    fragment1.openDetails(view, item);
+                    unfordable.openDetails(view, item);
                 } else if (activity instanceof FoldableListActivity) {
                     Toast.makeText(activity, item.getName(), Toast.LENGTH_SHORT).show();
                 } else if (activity instanceof RecommondUserActivity) {
@@ -97,6 +97,12 @@ public class CardsAdapter extends ItemsAdapter<Card, CardsAdapter.ViewHolder>
             title = Views.find(itemView, R.id.list_item_title);
             btn_add = Views.find(itemView, R.id.btn_add_new_card);
         }
+    }
+
+    public interface Unfordable {
+
+        public void openDetails(View coverView, Card card);
+        public boolean addCardBtn();
     }
 
 }

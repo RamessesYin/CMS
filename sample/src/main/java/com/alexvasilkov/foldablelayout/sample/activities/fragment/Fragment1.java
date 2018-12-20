@@ -37,7 +37,7 @@ import org.json.HTTP;
 
 import java.util.ArrayList;
 
-public class Fragment1 extends BaseFragment {
+public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
     private View listTouchInterceptor;
     private View detailsLayout;
     private UnfoldableView unfoldableView;
@@ -179,6 +179,7 @@ public class Fragment1 extends BaseFragment {
 //        is_check = false;
     }
 
+    @Override
     public void openDetails(View coverView, Card card) {
         final ImageView image = Views.find(detailsLayout, R.id.details_image);
         final TextView title = Views.find(detailsLayout, R.id.details_title);
@@ -224,5 +225,10 @@ public class Fragment1 extends BaseFragment {
         description.setText(builder.build());
 
         unfoldableView.unfold(coverView, detailsLayout);
+    }
+
+    @Override
+    public boolean addCardBtn() {
+        return false;
     }
 }

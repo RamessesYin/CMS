@@ -131,52 +131,21 @@ public class BaseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("scan_card", "tttttt");
         Toast.makeText(this, "ttttt", Toast.LENGTH_LONG).show();
-        if (data != null) {
-            Toast.makeText(this, data.getData().toString(), Toast.LENGTH_LONG).show();
-        }
         if (resultCode == Activity.RESULT_OK){
             if (data != null){
                 String card_id = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
                 Log.d("scan_card", card_id);
                 Toast.makeText(this, card_id, Toast.LENGTH_LONG).show();
+                HttpClient.getCard(Long.parseLong(card_id),(card)->{
+                    if(card==null){
+                        Toast.makeText(this, "获取名片失败", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    Intent i = new Intent(this, CardEditActivity.class);
+                    i.putExtra("card", card.toString());
+                    startActivity(i);
+                });
 
-//                TextView debug_text = (TextView) Views.find(this, R.id.debug_text);
-//                debug_text.setText(card_id);
-//                Toast.makeText(this, card_id, Toast.LENGTH_LONG).show();
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                builder.setTitle("");
-//                builder.setMessage("确认要添加CardId为" + card_id + "的名片？");
-//                builder.setNegativeButton("Cancel", (dialog, which) -> {
-//                    dialog.dismiss();
-//                });
-//                builder.setPositiveButton("OK", (dialog, which) -> {
-//                    Log.d("scan_card", card_id);
-//                    HttpClient.getCard(Long.valueOf(card_id).longValue(),(card_data)-> {
-//                        Card card = (Card) card_data;
-//                        if (card == null) {
-//                            Log.d("HttpClient", "get card failed.");
-//                            return;
-//                        }
-//                        else{
-//                            Log.d("scan_card", card.toString());
-//                            HttpClient.user.cards.add(card);
-//                            HttpClient.updateUser(HttpClient.user, (user_data) -> {
-//                                if (user_data == null) {
-//                                    Log.d("HttpClient", "update user failed!");
-//                                }
-//                                else{
-//                                    Log.d("scan_card", user_data.toString());
-//                                }
-//                                return;
-//                            });
-//                        }
-//                    });
-//                    dialog.dismiss();
-//                });
-//                builder.create().show();
-                //setAlertDialog(scan_view, card_id.toString());
-                //dialog.show();
             }
         }
     }
