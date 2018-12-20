@@ -182,13 +182,15 @@ public class UnfoldableDetailsActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_OPEN_ALBUM || requestCode == PERMISSIONS_REQUEST_CAMERA) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //授权成功
-                Toast.makeText(this, "Permission Passed", Toast.LENGTH_SHORT).show();
+            if (grantResults != null) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //授权成功
+                    Toast.makeText(this, "Permission Passed", Toast.LENGTH_SHORT).show();
 
-            } else {
-                //授权失败
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                } else {
+                    //授权失败
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

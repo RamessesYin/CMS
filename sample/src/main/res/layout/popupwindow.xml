@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_pop_bg"
+    android:background="@color/window_background"
     android:gravity="right"
     android:orientation="vertical">
 
@@ -10,32 +10,36 @@
         android:id="@+id/btn_edit_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="手动导入名片"
+        android:text="导入名片"
+        android:textColor="@color/white"
+        android:background="@color/menu_color"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/btn_take_card_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="拍照导入名片"
+        android:text="识别名片"
+        android:textColor="@color/white"
+        android:background="@color/menu_color"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/btn_recommond_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:text="联系人推荐"
+        android:textColor="@color/white"
+        android:background="@color/menu_color"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/btn_scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:text="扫一扫"
+        android:textColor="@color/white"
+        android:background="@color/menu_color"
         android:textSize="18sp" />
 
 </LinearLayout>

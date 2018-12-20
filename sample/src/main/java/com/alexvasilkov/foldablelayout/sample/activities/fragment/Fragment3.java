@@ -40,6 +40,8 @@ import com.alexvasilkov.foldablelayout.sample.activities.BaseActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
 import com.alexvasilkov.foldablelayout.sample.activities.CardEditActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.FoldableListActivity;
+import com.alexvasilkov.foldablelayout.sample.activities.RecommondUserActivity;
+import com.alexvasilkov.foldablelayout.sample.activities.TagsActivity;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.Tag;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
@@ -68,6 +70,8 @@ public class Fragment3 extends BaseFragment {
     private Button btn_card_img;
     private Button btn_save_card;
     private Button btn_cancel;
+    private Button btn_check_tags;
+
     private ImageView btn_add_tag;
 
     private ListView tag_info;
@@ -95,7 +99,7 @@ public class Fragment3 extends BaseFragment {
         btn_card_img = (Button) my_view.findViewById(R.id.btn_import_image);
         btn_save_card = (Button) my_view.findViewById(R.id.btn_save_card);
         btn_cancel = (Button) my_view.findViewById(R.id.btn_cancel);
-
+        btn_check_tags = (Button)my_view.findViewById(R.id.btn_check_tags);
 
         card_edittext_name = (EditText) my_view.findViewById(R.id.card_edit_username);
         card_edittext_mobile_phone = (EditText) my_view.findViewById(R.id.card_edit_mobile_phone);
@@ -103,12 +107,13 @@ public class Fragment3 extends BaseFragment {
         card_edittext_address = (EditText) my_view.findViewById(R.id.card_edit_address);
         card_edittext_company = (EditText) my_view.findViewById(R.id.card_edit_company);
         card_edittext_title = (EditText) my_view.findViewById(R.id.card_edit_title);
-        InitSelfCard();
 
-        btn_click_listener = new f3_clickListener();
+        InitSelfCard();
+        btn_click_listener = new f3_clickListener(this.getContext());
         btn_card_img.setOnClickListener(btn_click_listener);
         btn_save_card.setOnClickListener(btn_click_listener);
         btn_cancel.setOnClickListener(btn_click_listener);
+        btn_check_tags.setOnClickListener(btn_click_listener);
 
         //card_tableLayout = (TableLayout) my_view.findViewById(R.id.Card_TableLayout);
 
@@ -246,8 +251,10 @@ public class Fragment3 extends BaseFragment {
     protected class f3_clickListener implements View.OnClickListener {
         private EditText edit = null;
         private TagsAdapter tag_adapter = null;
+        private Context m_context;
 
-        public f3_clickListener() {
+        public f3_clickListener(Context m_context) {
+            this.m_context = m_context;
         }
 
         public f3_clickListener(EditText edit, TagsAdapter tag_adapter) {
@@ -321,7 +328,12 @@ public class Fragment3 extends BaseFragment {
                     card_edittext_company.setText(HttpClient.user.self_card.getCompany());
                     card_edittext_title.setText(HttpClient.user.self_card.getTitle());
                     break;
-
+                case R.id.btn_check_tags:
+                    Intent intent_tag_activity = new Intent();
+                    intent_tag_activity.setComponent(new ComponentName(m_context, TagsActivity.class));
+                    //intent_recommond_user.setComponent(new ComponentName(BaseActivity.this, TagsActivity.class));
+                    startActivity(intent_tag_activity);
+                    break;
                 case R.id.btn_tag_OK_dialog:
                     if (edit != null) {
                         Tag new_tag = new Tag();

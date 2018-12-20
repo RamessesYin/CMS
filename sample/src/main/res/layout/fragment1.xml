@@ -148,7 +148,7 @@
             <LinearLayout
                 android:id="@+id/bottom_tab_img"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="30dp"
                 android:layout_above="@+id/bottom_tab_text"
                 android:baselineAligned="true"
                 android:background="#333"

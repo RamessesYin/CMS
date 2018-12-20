@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.TagsActivity">
 
-
     <ListView
         android:id="@+id/list_tag_view"
         android:layout_width="0dp"
