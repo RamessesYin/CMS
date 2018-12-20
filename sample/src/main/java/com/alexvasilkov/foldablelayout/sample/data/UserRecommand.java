@@ -34,6 +34,8 @@ public class UserRecommand {
     private static List<Map.Entry<Long, Double>> getNeighbourScores(User user) {
 
         HashMap<Long, Double> scores = new HashMap<Long, Double>();
+        if(user==null || user.cards==null)
+            return new ArrayList<>();
         for (Card card : user.cards) {
             double score = 1.0 / Math.log(card.getSharedto().size());
             for (long id : card.getSharedto()) {
@@ -55,6 +57,8 @@ public class UserRecommand {
         for (Tag tag : user.tags)
             totalCnt += tag.count;
 
+        if(user==null || user.tags==null)
+            return new ArrayList<>();
         for (Tag tag : user.tags) {
             double score = ((double) tag.count) / (totalCnt * Math.log(tag.getTaggedto().size()));
             for (long id : tag.getTaggedto()) {

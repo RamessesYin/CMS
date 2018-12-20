@@ -99,12 +99,9 @@ public class CardEditActivity extends BaseActivity{
         btn_save_card.setOnClickListener(btn_click_listener);
         btn_cancel.setOnClickListener(btn_click_listener);
 
-        card_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pickLocalPhoto();
-                //return false;
-            }
+        card_img.setOnClickListener(view -> {
+            pickLocalPhoto();
+            //return false;
         });
 
         //ImageView loading_image_view = Views.find(this, R.id.loading_image);

@@ -117,8 +117,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("scan_card", "tttttt");
-        Toast.makeText(this, "ttttt", Toast.LENGTH_LONG).show();
         if (resultCode == Activity.RESULT_OK){
             switch (requestCode){
                 case REQUEST_CODE_QR_SCAN:

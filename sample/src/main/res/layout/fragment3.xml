@@ -17,7 +17,8 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="选择名片图片"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/my_card_img"
@@ -255,7 +256,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="2"
                 android:orientation="horizontal">
@@ -265,7 +266,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="5dp"
                     android:text="保存名片"
                     android:textSize="18sp" />
 
@@ -283,7 +283,7 @@
             <Button
                 android:id="@+id/btn_check_tags"
                 android:layout_width="match_parent"
-                android:layout_height="18dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:text="查看标签"

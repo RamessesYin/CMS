@@ -47,7 +47,7 @@ import com.blikoon.qrcodescanner.QrCodeActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable {
+public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable, View.OnClickListener {
     private CardsAdapter card_adapter;
     private View listTouchInterceptor;
     private View detailsLayout;
@@ -208,36 +208,35 @@ public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable {
         unfoldableView.unfold(coverView, detailsLayout);
     }
 
-    @Override
-    public boolean addCardBtn(Card new_card) {
-//        if(new_card != null) {
-//            cards.remove(new_card);
-//            card_adapter.notifyDataSetChanged();
-//            List<Card> self_card_list = HttpClient.user.getCards();
-//            for (Card card_item : self_card_list){
-//                if (card_item.getId() == new_card.getId()){
-//                    Toast.makeText(this.getContext(), "你已经添加过该名片", Toast.LENGTH_LONG);
-//                    return true;
-//                }
-//            }
-//
-//            Log.d("card_check",new_card.toString());
-//            HttpClient.user.setCards(self_card_list);
-//            Log.d("card_check",HttpClient.user.toString());
-//            HttpClient.updateUser(HttpClient.user, (data_1)->{
-//                if(data_1 == null) {
-//                    Log.d("HttpClient","update user  failed after adding new card!");
-//                    return;
-//                }
-//                else{
-//                    self_card_list.add((Card)new_card);
-//                }
-//            });
-//        }
-//        else{
-//            Log.d("HttpClient","add new card failed!");
-//        }
+    public void onClick(View view) {
+        Card new_card = (Card) view.getTag(R.id.list_item_image);
+        if(new_card != null) {
+            cards.remove(new_card);
+            card_adapter.notifyDataSetChanged();
+            List<Card> self_card_list = HttpClient.user.getCards();
+            for (Card card_item : self_card_list){
+                if (card_item.getId() == new_card.getId()){
+                    Toast.makeText(this.getContext(), "你已经添加过该名片", Toast.LENGTH_LONG);
+                    return;
+                }
+            }
 
-        return true;
+            Log.d("card_check",new_card.toString());
+            HttpClient.user.setCards(self_card_list);
+            Log.d("card_check",HttpClient.user.toString());
+            HttpClient.updateUser(HttpClient.user, (data_1)->{
+                if(data_1 == null) {
+                    Log.d("HttpClient","update user  failed after adding new card!");
+                    return;
+                }
+                else{
+                    self_card_list.add((Card)new_card);
+                }
+            });
+        }
+        else{
+            Log.d("HttpClient","add new card failed!");
+        }
+        return;
     }
 }
