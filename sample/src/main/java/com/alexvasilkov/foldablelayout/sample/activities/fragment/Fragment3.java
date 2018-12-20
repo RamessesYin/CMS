@@ -1,5 +1,6 @@
 package com.alexvasilkov.foldablelayout.sample.activities.fragment;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -12,6 +13,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -35,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
+import com.alexvasilkov.android.commons.ui.ContextHelper;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
@@ -59,6 +63,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+
 
 
 public class Fragment3 extends BaseFragment {
@@ -91,6 +96,8 @@ public class Fragment3 extends BaseFragment {
 
     private f3_clickListener btn_click_listener;
 
+    private Handler handler = new Handler();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,7 +106,7 @@ public class Fragment3 extends BaseFragment {
         btn_card_img = (Button) my_view.findViewById(R.id.btn_import_image);
         btn_save_card = (Button) my_view.findViewById(R.id.btn_save_card);
         btn_cancel = (Button) my_view.findViewById(R.id.btn_cancel);
-        btn_check_tags = (Button)my_view.findViewById(R.id.btn_check_tags);
+        btn_check_tags = (Button) my_view.findViewById(R.id.btn_check_tags);
 
         card_edittext_name = (EditText) my_view.findViewById(R.id.card_edit_username);
         card_edittext_mobile_phone = (EditText) my_view.findViewById(R.id.card_edit_mobile_phone);
@@ -120,6 +127,8 @@ public class Fragment3 extends BaseFragment {
             pickLocalPhoto();
             //return false;
         });
+
+        displayTags(my_view);
 
         //card_tableLayout = (TableLayout) my_view.findViewById(R.id.Card_TableLayout);
 
@@ -186,8 +195,7 @@ public class Fragment3 extends BaseFragment {
             card_edittext_address.setText(HttpClient.user.getAddress());
             card_edittext_company.setText(HttpClient.user.getCompany());
             card_edittext_title.setText(HttpClient.user.getTitle());
-        }
-        else{
+        } else {
             GlideHelper.loadPaintingImage(card_img, image_id);
         }
     }
@@ -275,6 +283,7 @@ public class Fragment3 extends BaseFragment {
                     pickLocalPhoto();
                     break;
                 case R.id.btn_save_card:
+
                     Log.d("edit_self_card", String.valueOf(image_id));
 
                     if (HttpClient.user.self_card == null) {
@@ -301,14 +310,13 @@ public class Fragment3 extends BaseFragment {
                                         Log.d("HttpClient", "update user failed!");
                                     } else {
                                         Log.d("edit_self_card", data_1.toString());
-                                        Toast.makeText(v.getContext(),"保存成功",Toast.LENGTH_SHORT);
+                                        Toast.makeText(v.getContext(), "保存成功", Toast.LENGTH_SHORT);
                                     }
                                     return;
                                 });
                             }
                         });
-                    }
-                    else{
+                    } else {
                         HttpClient.addCard(HttpClient.user.self_card, (data) -> {
                             if (data == null) {
                                 Log.d("HttpClient", "update card failed!");
@@ -500,5 +508,184 @@ public class Fragment3 extends BaseFragment {
                 .create();
     }
 
+
+    public void addTag(Tag tag){
+        LinearLayout root = (LinearLayout) getView().findViewById(R.id.tags_root);
+        int root_width = root.getMeasuredWidth();
+
+        LinearLayout parent = (LinearLayout) root.getChildAt(root.getChildCount() - 1);
+        List<Tag> tags = HttpClient.user.getTags();
+        View add_tag = root.findViewById(R.id.add_tag);
+        parent.removeView(add_tag);
+        parent.measure(root_width,root.getMeasuredHeight());
+        int cur_width = parent.getMeasuredWidth();
+        View tagView = LayoutInflater.from(getActivity()).inflate(R.layout.tag_item, parent, false);
+        TextView text = (TextView) tagView.findViewById(R.id.list_item_tag_name);
+        TextView count = (TextView) tagView.findViewById(R.id.list_item_tag_count);
+        text.setText(tag.getText());
+        text.setOnClickListener((v) -> {
+            tag.setCount(tag.getCount() + 1);
+            HttpClient.updateTag(tag, (data) -> {
+                if (data == null) {
+                    Log.d("HttpClient", "update tag failed!");
+                    return;
+                }
+            });
+            count.setText(String.valueOf(tag.getCount()));
+        });
+        count.setText(String.valueOf(tag.getCount()));
+        tagView.measure(root.getMeasuredWidth(), 10);
+        int tag_width = tagView.getMeasuredWidth();
+
+        if (cur_width + tag_width + 15 >= root_width) {
+            parent = new LinearLayout(root.getContext());
+            root.addView(parent);
+            parent.setOrientation(LinearLayout.HORIZONTAL);
+            ViewGroup.LayoutParams lp;
+            lp = parent.getLayoutParams();
+            lp.width = ActionBar.LayoutParams.WRAP_CONTENT;
+            parent.setLayoutParams(lp);
+        }
+        parent.addView(tagView);
+        parent.measure(root_width,root.getMeasuredHeight());
+        cur_width = parent.getMeasuredWidth();
+        add_tag.measure(root.getMeasuredWidth(), 0);
+        int add_tag_width = add_tag.getMeasuredWidth();
+
+        if (cur_width + add_tag_width + 15 >= root_width) {
+            parent = new LinearLayout(root.getContext());
+            root.addView(parent);
+            parent.setOrientation(LinearLayout.HORIZONTAL);
+            ViewGroup.LayoutParams lp;
+            lp = parent.getLayoutParams();
+            lp.width = ActionBar.LayoutParams.WRAP_CONTENT;
+            parent.setLayoutParams(lp);
+        }
+        parent.addView(add_tag);
+
+    }
+
+    public void displayTags(View view) {
+        LinearLayout root = (LinearLayout) view.findViewById(R.id.tags_root);
+        int root_width = 1080;
+
+        LinearLayout parent = (LinearLayout) root.getChildAt(root.getChildCount() - 1);
+        List<Tag> tags = HttpClient.user.getTags();
+        View add_tag = root.findViewById(R.id.add_tag);
+        parent.removeAllViews();
+        TextView add_tag_text = (TextView) add_tag.findViewById(R.id.text_add_tag);
+        add_tag_text.setOnClickListener((vv) -> {
+
+            EditText txtNewTag = new EditText(root.getContext());
+            txtNewTag.setHint("添加新标签");
+            txtNewTag.setText("好人");
+
+            LinearLayout r = new LinearLayout(root.getContext());
+            r.setOrientation(LinearLayout.VERTICAL);
+            r.addView(txtNewTag);
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+            builder.setTitle("添加新标签");
+            builder.setView(r);
+            builder.setNegativeButton("取消", (dialog, which) -> {
+                dialog.dismiss();
+            });
+            builder.setPositiveButton("确认", (dialog, which) -> {
+
+                Tag new_tag = new Tag();
+                new_tag.setText(txtNewTag.getText().toString());
+                new_tag.setCount(1);
+                List<Long> taggedto = new LinkedList<>();
+                taggedto.add(HttpClient.user.getId());
+                new_tag.setTaggedto(taggedto);
+                Log.d("TAGS", HttpClient.user.toString());
+
+
+
+
+                HttpClient.addTag(new_tag, (data) -> {
+                    if (data == null) {
+                        Log.d("HttpClient", "add new tag failed!");
+                    } else {
+
+                        Log.d("TAGS", "add tag");
+                        List<Tag> tag_list = HttpClient.user.getTags();
+                        tag_list.add((Tag) data);
+                        HttpClient.user.setTags(tag_list);
+
+                        HttpClient.updateUser(HttpClient.user, (data_1) -> {
+                            if (data_1 == null) {
+                                Log.d("HttpClient", "update when adding new tag failed!");
+                                return;
+                            }
+
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    addTag((Tag) data);
+                                    return;
+                                }
+                            });
+                        });
+                    }
+                });
+
+            });
+            builder.create().show();
+
+        });
+
+
+        for (Tag tag : tags) {
+            int cur_width = parent.getMeasuredWidth();
+            View tagView = LayoutInflater.from(getActivity()).inflate(R.layout.tag_item, parent, false);
+            TextView text = (TextView) tagView.findViewById(R.id.list_item_tag_name);
+            TextView count = (TextView) tagView.findViewById(R.id.list_item_tag_count);
+            text.setText(tag.getText());
+            text.setOnClickListener((v) -> {
+                tag.setCount(tag.getCount() + 1);
+                HttpClient.updateTag(tag, (data) -> {
+                    if (data == null) {
+                        Log.d("HttpClient", "update tag failed!");
+                        return;
+                    }
+                });
+                count.setText(String.valueOf(tag.getCount()));
+            });
+            count.setText(String.valueOf(tag.getCount()));
+            tagView.measure(root.getMeasuredWidth(), 10);
+            int tag_width = tagView.getMeasuredWidth();
+
+
+            if (cur_width + tag_width + 15 >= root_width) {
+                parent = new LinearLayout(root.getContext());
+                root.addView(parent);
+                parent.setOrientation(LinearLayout.HORIZONTAL);
+                ViewGroup.LayoutParams lp;
+                lp = parent.getLayoutParams();
+                lp.width = ActionBar.LayoutParams.WRAP_CONTENT;
+                parent.setLayoutParams(lp);
+            }
+            parent.addView(tagView);
+            parent.measure(root.getMeasuredWidth(), root.getMeasuredHeight());
+        }
+
+        int cur_width = parent.getMeasuredWidth();
+        add_tag.measure(root.getMeasuredWidth(), 0);
+        int add_tag_width = add_tag.getMeasuredWidth();
+
+        if (cur_width + add_tag_width + 15 >= root_width) {
+            parent = new LinearLayout(root.getContext());
+            root.addView(parent);
+            parent.setOrientation(LinearLayout.HORIZONTAL);
+            ViewGroup.LayoutParams lp;
+            lp = parent.getLayoutParams();
+            lp.width = ActionBar.LayoutParams.WRAP_CONTENT;
+            parent.setLayoutParams(lp);
+        }
+        parent.addView(add_tag);
+    }
 
 }

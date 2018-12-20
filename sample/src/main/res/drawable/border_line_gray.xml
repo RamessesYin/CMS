@@ -8,7 +8,9 @@
         android:bottom="1dip"/>
 
     <stroke android:width="2dip"
-        android:color="@color/tag_num"
+        android:dashGap="2dp"
+        android:dashWidth="5dp"
+        android:color="@color/tag_add"
         />
     <!--边框宽度-->
     <size android:width="50dip"

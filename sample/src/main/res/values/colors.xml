@@ -8,6 +8,7 @@
     <color name="tag">#3a5775</color>
     <color name="menu_color">#212121</color>
     <color name="tag_num">#3caf33</color>
+    <color name="tag_add">#646464</color>
     <color name="tag_background">#E0FFFF</color>
 </resources>
 
