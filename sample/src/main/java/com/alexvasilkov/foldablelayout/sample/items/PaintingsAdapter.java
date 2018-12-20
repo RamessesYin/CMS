@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,12 +65,32 @@ public class PaintingsAdapter extends ItemsAdapter<Painting, PaintingsAdapter.Vi
         final Painting item = (Painting) view.getTag(R.id.list_item_image);
         final Activity activity = ContextHelper.asActivity(view.getContext());
 
+
         if (activity instanceof UnfoldableDetailsActivity) {
             //fragment1.openDetails(view, item);
         } else if (activity instanceof FoldableListActivity) {
             Toast.makeText(activity, item.getTitle(), Toast.LENGTH_SHORT).show();
-            setAlertDialog(view, item.getTitle(), item.getImageId());
-            dialog.show();
+//            TextView textView = new TextView(view.getContext());
+//            textView.setText("使用"+ item.getTitle() +"作为名片背景？");
+//
+//            LinearLayout root = new LinearLayout(view.getContext());
+//            root.setOrientation(LinearLayout.VERTICAL);
+//            root.addView(textView);
+//            // root.addView(txtPort);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setTitle("使用"+ item.getTitle() +"作为名片背景？");
+            //builder.setView(root);
+            builder.setNegativeButton("取消", (dialog, which) -> {
+                dialog.dismiss();
+            });
+            builder.setPositiveButton("确认", (dialog, which) -> {
+                Intent in = new Intent();
+                activity.setResult(Activity.RESULT_OK, in.putExtra("img_id", item.getImageId()));
+                dialog.dismiss();
+                activity.finish();
+            });
+            builder.create().show();
         }
     }
 

@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="选择名片图片"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/my_card_img"
@@ -270,7 +271,8 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="55dp"/>
+            android:layout_height="55dp"
+            android:visibility="gone" />
 
 
     </LinearLayout>
