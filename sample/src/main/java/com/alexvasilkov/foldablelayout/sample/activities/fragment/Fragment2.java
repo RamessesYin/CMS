@@ -209,7 +209,35 @@ public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable {
     }
 
     @Override
-    public boolean addCardBtn() {
+    public boolean addCardBtn(Card new_card) {
+//        if(new_card != null) {
+//            cards.remove(new_card);
+//            card_adapter.notifyDataSetChanged();
+//            List<Card> self_card_list = HttpClient.user.getCards();
+//            for (Card card_item : self_card_list){
+//                if (card_item.getId() == new_card.getId()){
+//                    Toast.makeText(this.getContext(), "你已经添加过该名片", Toast.LENGTH_LONG);
+//                    return true;
+//                }
+//            }
+//
+//            Log.d("card_check",new_card.toString());
+//            HttpClient.user.setCards(self_card_list);
+//            Log.d("card_check",HttpClient.user.toString());
+//            HttpClient.updateUser(HttpClient.user, (data_1)->{
+//                if(data_1 == null) {
+//                    Log.d("HttpClient","update user  failed after adding new card!");
+//                    return;
+//                }
+//                else{
+//                    self_card_list.add((Card)new_card);
+//                }
+//            });
+//        }
+//        else{
+//            Log.d("HttpClient","add new card failed!");
+//        }
+
         return true;
     }
 }

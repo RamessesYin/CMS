@@ -143,10 +143,8 @@ public class CardEditActivity extends BaseActivity{
                     new_card.setTitle(card_edittext_title.getText().toString());
                     HttpClient.addCard(new_card, (data)->{
                         if(data != null) {
-
-                            List<Card> self_card_list = HttpClient.user.getCards();
+                            HttpClient.user.cards.add((Card)data);
                             Log.d("card_check",data.toString());
-                            HttpClient.user.setCards(self_card_list);
                             Log.d("card_check",HttpClient.user.toString());
                             HttpClient.updateUser(HttpClient.user, (data_1)->{
                                 if(data_1 == null) {
@@ -154,7 +152,6 @@ public class CardEditActivity extends BaseActivity{
                                     return;
                                 }
                                 else{
-                                    self_card_list.add((Card)data);
                                     finish();
                                 }
                             });

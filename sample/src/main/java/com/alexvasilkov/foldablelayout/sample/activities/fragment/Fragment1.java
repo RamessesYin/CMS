@@ -228,7 +228,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
     }
 
     @Override
-    public boolean addCardBtn() {
+    public boolean addCardBtn(Card new_card) {
         return false;
     }
 }
