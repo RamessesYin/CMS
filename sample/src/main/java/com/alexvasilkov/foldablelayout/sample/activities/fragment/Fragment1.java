@@ -45,6 +45,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
     private ImageView btn_share;
     private f1_clickListener btn_click_listener;
     private static boolean is_check = false;
+    private Card card;
 
     private BottomBar bottom_bar;
 
@@ -54,8 +55,9 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
         View contacts_view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment1, container, false);
 
         ListView listView = (ListView) contacts_view.findViewById(R.id.list_view);
+        card = null;
 
-        HttpClient.getUser(1544704862401l,(data)->{
+        HttpClient.getUser(1545311083139l,(data)->{
             User user = (User) data;
             if(user==null) {
                 Log.d("HttpClient","get user failed.");
@@ -144,7 +146,9 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.iv_share:
-                    QRCode.showQRCode(String.valueOf(HttpClient.user.self_card.id), m_context);
+                    if (card != null) {
+                        QRCode.showQRCode(String.valueOf(card.id), m_context);
+                    }
                     break;
                 default:
                     break;
@@ -184,6 +188,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
         final ImageView image = Views.find(detailsLayout, R.id.details_image);
         final TextView title = Views.find(detailsLayout, R.id.details_title);
         final TextView description = Views.find(detailsLayout, R.id.details_text);
+        this.card = card;
 
         GlideHelper.loadPaintingImage(image, card.getImage());
         title.setText(card.getName());
