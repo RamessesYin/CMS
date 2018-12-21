@@ -1,6 +1,8 @@
 package com.alexvasilkov.foldablelayout.sample.activities.fragment;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -22,6 +24,7 @@ import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.activities.BaseFragment;
 import com.alexvasilkov.foldablelayout.sample.activities.BottomBar;
+import com.alexvasilkov.foldablelayout.sample.activities.TagsActivity;
 import com.alexvasilkov.foldablelayout.sample.activities.UnfoldableDetailsActivity;
 import com.alexvasilkov.foldablelayout.sample.data.Card;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
@@ -43,6 +46,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
     private UnfoldableView unfoldableView;
     private CardsAdapter card_adapter;
     private ImageView btn_share;
+    private ImageView btn_tag;
     private f1_clickListener btn_click_listener;
     private static boolean is_check = false;
 
@@ -55,15 +59,17 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
 
         ListView listView = (ListView) contacts_view.findViewById(R.id.list_view);
 
-        HttpClient.getUser(1544704862401l,(data)->{
+        //1544704862401l  example
+        //1545311083139l  libai
+        HttpClient.getUser(1545311083139l, (data) -> {
             User user = (User) data;
-            if(user==null) {
-                Log.d("HttpClient","get user failed.");
+            if (user == null) {
+                Log.d("HttpClient", "get user failed.");
                 HttpClient.user = new User();
                 return;
             }
-            Log.d("HttpClient",user.toString());
-            if(user.getCards()==null)
+            Log.d("HttpClient", user.toString());
+            if (user.getCards() == null)
                 user.cards = new ArrayList<Card>();
             HttpClient.user = user;
 
@@ -72,12 +78,11 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
             main.handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    card_adapter = new CardsAdapter(main ,fragment1);
+                    card_adapter = new CardsAdapter(main, fragment1);
                     listView.setAdapter(card_adapter);
                 }
             });
         });
-
 
 
         listTouchInterceptor = contacts_view.findViewById(R.id.touch_interceptor_view);
@@ -92,9 +97,12 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
         unfoldableView.setFoldShading(new GlanceFoldShading(glance));
 
         btn_click_listener = new f1_clickListener(this.getContext());
-        btn_share = (ImageView)contacts_view.findViewById(R.id.iv_share);
-        btn_share.setOnClickListener(btn_click_listener);
+        btn_share = (ImageView) contacts_view.findViewById(R.id.iv_share);
+        //btn_share.setOnClickListener(btn_click_listener);
         bottom_bar = (BottomBar) Views.find(this.getActivity(), R.id.bottom_bar);
+
+        btn_tag = (ImageView) contacts_view.findViewById(R.id.iv_edit);
+
 
         //QRCode.showQRCode("hello world!",this.getActivity());
 
@@ -134,15 +142,16 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
         //return LayoutInflater.from(getActivity()).inflate(R.layout.fragment1, container, false);
     }
 
-    protected class f1_clickListener implements View.OnClickListener{
+    protected class f1_clickListener implements View.OnClickListener {
         Context m_context;
-        public f1_clickListener(Context m_context){
+
+        public f1_clickListener(Context m_context) {
             this.m_context = m_context;
         }
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.iv_share:
                     QRCode.showQRCode(String.valueOf(HttpClient.user.self_card.id), m_context);
                     break;
@@ -154,7 +163,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
     }
 
     @Override
-    public void onVisible(){
+    public void onVisible() {
 //        HttpClient.getUser(1544704862401l,(data)->{
 //            User user = (User) data;
 //            if(user==null) {
@@ -168,7 +177,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
 //            HttpClient.user = user;
 //            //is_check = true;
 //        });
-        if(card_adapter != null) {
+        if (card_adapter != null) {
             card_adapter.resetCards();
             card_adapter.notifyDataSetChanged();
         }
@@ -223,6 +232,14 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
                     .clearStyle()
                     .append(card.getTitle());
         description.setText(builder.build());
+
+        btn_tag.setOnClickListener((view) -> {
+            Intent i = new Intent(getContext(), TagsActivity.class);
+            i.putExtra("user", card.getOwner());
+            startActivity(i);
+        });
+
+        btn_share.setOnClickListener((view) -> QRCode.showQRCode(String.valueOf(card.id), getContext()));
 
         unfoldableView.unfold(coverView, detailsLayout);
     }

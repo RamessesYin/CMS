@@ -6,8 +6,9 @@
     <string name="phone">Phone</string>
 
     <string name="name">姓名</string>
-    <string name="mobile_phone">移动电话</string>
-    <string name="email">电子邮箱</string>
+
+    <string name="mobile_phone">手机</string>
+    <string name="email">邮箱</string>
     <string name="address">住址</string>
     <string name="company">公司</string>
     <string name="title">头衔</string>

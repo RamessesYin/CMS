@@ -8,8 +8,6 @@
         android:bottom="1dip"/>
 
     <stroke android:width="2dip"
-        android:dashGap="2dp"
-        android:dashWidth="5dp"
         android:color="#fff"
         />
     <!--边框宽度-->
@@ -17,7 +15,7 @@
         android:height="30dip"
         />
 
-    <solid android:color="#333"/>
+    <solid android:color="@color/window_background"/>
     <corners android:topLeftRadius="30dip"
         android:topRightRadius="30dip"
         android:bottomRightRadius="30dip"

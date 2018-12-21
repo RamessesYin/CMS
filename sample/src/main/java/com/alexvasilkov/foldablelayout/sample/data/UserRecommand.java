@@ -12,19 +12,40 @@ import java.util.logging.Logger;
 
 public class UserRecommand {
 
+    private static boolean hasCard(User user, long id) {
+        if (user == null || user.cards == null)
+            return false;
+        if (user.id == id)
+            return true;
+        for (Card card : user.cards) {
+            if (card.owner == id)
+                return true;
+        }
+        return false;
+    }
 
     public static List<Long> recommandUser(User user, int top_n) {
+
 
         List<Map.Entry<Long, Double>> commonFriends = getNeighbourScores(user);
         List<Map.Entry<Long, Double>> commonTags = getTagScores(user);
 
         List<Long> ids = new ArrayList<>();
-        for (int i = 0; i < top_n && i < commonFriends.size(); i++) {
-            ids.add(commonFriends.get(i).getKey());
+        for (int i = 0, n = 0; n < top_n && i < commonFriends.size(); i++) {
+            long id = commonFriends.get(i).getKey();
+            if (!hasCard(user, id)) {
+                ids.add(id);
+                n++;
+            }
         }
 
-        for (int i = 0; i < top_n && i < commonTags.size(); i++) {
-            ids.add(commonTags.get(i).getKey());
+        for (int i = 0, n = 0; n < top_n && i < commonTags.size(); i++) {
+            long id = commonTags.get(i).getKey();
+            if (!hasCard(user, id)) {
+                ids.add(id);
+                n++;
+            }
+
         }
 
         //Log.d("UserRecommand", new ArrayList(ids).toString());
@@ -34,7 +55,7 @@ public class UserRecommand {
     private static List<Map.Entry<Long, Double>> getNeighbourScores(User user) {
 
         HashMap<Long, Double> scores = new HashMap<Long, Double>();
-        if(user==null || user.cards==null)
+        if (user == null || user.cards == null)
             return new ArrayList<>();
         for (Card card : user.cards) {
             double score = 1.0 / Math.log(card.getSharedto().size());
@@ -57,7 +78,7 @@ public class UserRecommand {
         for (Tag tag : user.tags)
             totalCnt += tag.count;
 
-        if(user==null || user.tags==null)
+        if (user == null || user.tags == null)
             return new ArrayList<>();
         for (Tag tag : user.tags) {
             double score = ((double) tag.count) / (totalCnt * Math.log(tag.getTaggedto().size()));
