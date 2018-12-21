@@ -20,6 +20,7 @@ public class Card {
     public int image;
     public long valid;
     private String users;
+    public long owner;
 
     @Expose(serialize = false, deserialize = false)
     private transient List<Long> sharedto;
@@ -102,6 +103,14 @@ public class Card {
 
     public void setValid(long valid) {
         this.valid = valid;
+    }
+
+    public long getOwner() {
+        return owner;
+    }
+
+    public void setOwner(long owner) {
+        this.owner = owner;
     }
 
     public List<Long> getSharedto() {

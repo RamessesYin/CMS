@@ -3,7 +3,7 @@
 
     <string name="bottom_tag_share">Share</string>
     <string name="bottom_tag_delete">Delete</string>
-    <string name="bottom_tag_edit">Edit</string>
+    <string name="bottom_tag_tags">Tags</string>
     <string name="bottom_tag_contacts">Contacts</string>
     <string name="bottom_tag_scan">Scan</string>
     <string name="bottom_tag_me">Me</string>

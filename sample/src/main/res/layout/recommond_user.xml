@@ -13,6 +13,7 @@
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="32dp"
         android:cacheColorHint="@android:color/transparent"
         android:clipToPadding="false"
         android:divider="@android:color/transparent"
@@ -21,7 +22,8 @@
         android:listSelector="@android:color/transparent"
         android:padding="12dp"
         android:scrollbarStyle="outsideOverlay"
-        android:scrollingCache="false" />
+        android:scrollingCache="false"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <View
         android:id="@+id/touch_interceptor_view"

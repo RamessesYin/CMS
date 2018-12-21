@@ -13,14 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alexvasilkov.foldablelayout.sample.R;
 import com.alexvasilkov.foldablelayout.sample.data.HttpClient;
 import com.alexvasilkov.foldablelayout.sample.data.Tag;
+import com.alexvasilkov.foldablelayout.sample.data.User;
 import com.alexvasilkov.foldablelayout.sample.items.TagsAdapter;
 import com.blikoon.qrcodescanner.QrCodeActivity;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class TagsActivity extends AppCompatActivity {
 
     private ListView tag_info;
     private TagsAdapter tag_adapter;
+    private User user;
 
     private Handler mHandler = new Handler();
 
@@ -36,11 +40,26 @@ public class TagsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tags);
 
+        Intent i =getIntent();
+        long id = i.getLongExtra("user",0);
         tag_info = (ListView) findViewById(R.id.list_tag_view);
-        tag_adapter = new TagsAdapter(this);
-        tag_info.setAdapter(tag_adapter);
 
-        Button btn_add_tag = (Button) findViewById(R.id.btn_add_tag);
+        HttpClient.getUser(id,(data)->{
+            user = (User) data;
+            if(user==null)
+                return;
+            mHandler.post(()->{
+
+                tag_adapter = new TagsAdapter(this);
+                tag_adapter.setItemsList(user.tags);
+                tag_adapter.notifyDataSetChanged();
+                tag_info.setAdapter(tag_adapter);
+            });
+        });
+
+
+
+        TextView btn_add_tag = (TextView) findViewById(R.id.text_add_tag);
         btn_add_tag.setOnClickListener((view) -> {
 
             EditText txtNewTag = new EditText(this);
@@ -63,11 +82,14 @@ public class TagsActivity extends AppCompatActivity {
             });
             builder.setPositiveButton("确认", (dialog, which) -> {
 
+                if(user==null)
+                    return;
+
                 Tag new_tag = new Tag();
                 new_tag.setText(txtNewTag.getText().toString());
                 new_tag.setCount(1);
                 List<Long> taggedto = new LinkedList<>();
-                taggedto.add(HttpClient.user.getId());
+                taggedto.add(user.getId());
                 new_tag.setTaggedto(taggedto);
                 Log.d("TAGS", "add tag");
 
@@ -76,19 +98,16 @@ public class TagsActivity extends AppCompatActivity {
                     if (data == null) {
                         Log.d("HttpClient", "add new tag failed!");
                     } else {
-                        List<Tag> tag_list = HttpClient.user.getTags();
+                        List<Tag> tag_list = user.getTags();
+                        if(tag_list==null)
+                            tag_list = new ArrayList<>();
                         tag_list.add((Tag) data);
-                        HttpClient.user.setTags(tag_list);
-                        Log.d("TAGS", HttpClient.user.toString());
+                        user.setTags(tag_list);
+                        Log.d("TAGS", user.toString());
 
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                tag_adapter.notifyDataSetChanged();
-                            }
-                        });
+                        mHandler.post(() -> tag_adapter.notifyDataSetChanged());
 
-                        HttpClient.updateUser(HttpClient.user, (data_1) -> {
+                        HttpClient.updateUser(user, (data_1) -> {
                             if (data_1 == null) {
                                 Log.d("HttpClient", "update when adding new tag failed!");
                                 return;
@@ -96,10 +115,6 @@ public class TagsActivity extends AppCompatActivity {
                         });
                     }
                 });
-
-
-                tag_adapter.resetTags();
-                tag_adapter.notifyDataSetChanged();
 
             });
             builder.create().show();
