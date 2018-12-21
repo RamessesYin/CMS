@@ -4,6 +4,7 @@ package com.alexvasilkov.foldablelayout.sample.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -21,6 +22,23 @@ public class User {
     public Card self_card;
     public List<Tag> tags;
     public List<Card> cards;
+
+    public User() {
+        this.id = 0;
+        this.user_name = "";
+        this.mobile_phone = "";
+        this.email = "";
+        this.address = "";
+        this.company = "";
+        this.title = "";
+        this.birthday = "";
+        this.authority = 0;
+        this.card_id = 0;
+        this.self_card = new Card();
+        this.tags = new ArrayList<>();
+        this.cards = new ArrayList<>();
+    }
+
 
 
     public long getId() {
