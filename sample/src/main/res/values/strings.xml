@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BusinessCardManageSystem</string>
+    <string name="app_name">印象名片</string>
     <string name="year">Year</string>
     <string name="location">Location</string>
     <string name="phone">Phone</string>

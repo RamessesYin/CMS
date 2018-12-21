@@ -11,7 +11,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
@@ -40,16 +40,16 @@
 
         <activity
             android:name=".activities.FoldableListActivity"
-            android:label="Foldable list" />
+            android:label="名片背景" />
         <activity
             android:name=".activities.CardEditActivity"
-            android:label="Edit Card" />
+            android:label="编辑名片" />
         <activity
             android:name=".activities.CardImportActivity"
-            android:label="Import Card" />
+            android:label="识别名片" />
         <activity
             android:name=".activities.RecommondUserActivity"
-            android:label="Recommond User" />
+            android:label="推荐用户" />
         <activity android:name=".activities.TagsActivity"></activity>
     </application>
 
