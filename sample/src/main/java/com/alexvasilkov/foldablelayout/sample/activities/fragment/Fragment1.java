@@ -63,7 +63,8 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
 
         //1544704862401l  example
         //1545311083139l  libai
-        HttpClient.getUser(1545311906491l, (data) -> {
+        HttpClient.user = new User();
+        HttpClient.getUser(1545311083139l, (data) -> {
             User user = (User) data;
             if (user == null) {
                 Log.d("HttpClient", "get user failed.");
