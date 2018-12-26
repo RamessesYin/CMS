@@ -14,4 +14,6 @@
     <string name="title">头衔</string>
     <string name="title_activity_tags">TagsActivity</string>
 
+    <string name="loading">正在识别名片中，请稍后...</string>
+
 </resources>
