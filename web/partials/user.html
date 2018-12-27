@@ -1,0 +1,322 @@
+  <!-- 页面内 -->
+<div class="container">
+
+
+  <!-- 顶部标签 -->
+  <nav class="navbar navbar-default " role="navigation" >
+    <ul class="nav navbar-nav">
+
+             <li class="nav-item">
+              <a class="nav-link active" id="home" ng-click="setSchedule()">排程设置 &nbsp;</a>
+            </li>
+                  <li class="nav-item">
+              <a class="nav-link active" id="home" ng-click="setVol()">志愿者工作 &nbsp;</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" id="home" ng-click="showRec()">好友推荐 &nbsp;</a>
+            </li>
+       </ul>
+     </nav>
+  <!-- 联系人列表 --> 
+  <div class="content">
+
+    <div ng-repeat=" cur in users" ng-show="cur.isVol==1">
+        <div class="row" >
+            <div class="m-title hot" id="TVplays">
+                <p>
+                    <span id="heart"> </span>
+                    <a class="more " >{{cur.name}}</a>
+                  
+                      <a class="more pull-right" ng-click="addCard($index)">添加新名片</a>
+               </p>
+               <hr class="classline">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="m-list clearfix">
+
+                <div class="list col-lg-2 col-md-3 col-sm-4 col-xs-6" ng-repeat="item in cur.cards" ng-click="toBrief(item.id)">
+                    <div class="m-column" >
+                        <div style="height:250px;overflow:hidden">
+                        <img class="list-img" src="{{FILE_URL}}{{item.image}}">
+                        </div>
+                        
+
+                    </div>
+
+                    
+                </div>
+
+            </div>
+        </div> <!-- end row -->
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 添加卡片模态框（Modal） -->
+<div class="modal fade" id="CardModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog " >
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               添加卡片
+            </h4>
+         </div>
+         <div class="modal-body">
+           <form role="form">
+             <div class="form-group">
+                <label for="name">称呼</label>
+                <input type="text"  size="20" maxlength="15" class="form-control"  ng-model="tmp.name">
+             </div>
+              <div class="form-group">
+                <label for="password">联系方式</label>
+                <input type="text" size="20" maxlength="15" class="form-control"  ng-model="tmp.contact">
+             </div>
+                    <div class="form-group">
+                <label for="password">社交圈</label>
+                <input type="text" size="20" maxlength="15" class="form-control"  ng-model="tmp.company">
+             </div>
+                               <div class="form-group">
+                <label for="password">备注</label>
+                <input type="text" size="20" maxlength="15" class="form-control"  ng-model="tmp.detail">
+             </div>
+ 
+                                  <div class="form-group">
+                <label for="password">封面</label>
+                <input type="text" size="20" maxlength="15" class="form-control"  ng-model="tmp.image">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="saveCard(tmp)">
+               保存
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+<!-- 申请志愿者模态框（Modal） -->
+<div class="modal fade" id="appVolModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog " >
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               志愿者工作
+            </h4>
+         </div>
+         <div class="modal-body">
+          <div >
+            <p style="font-family:楷体;font-weight:900;color: #CD69C9;">
+            用户您好，您还不是我们的志愿者。志愿者可以帮助我们审核用户的标签是否合法、健康，我们十分希望您加入成为我们的志愿者。如果您想成为我们的志愿者，请单击申请</p>
+          </div>
+
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="apply()">
+               申请志愿者
+            </button>
+
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+<!-- 退出志愿者模态框（Modal） -->
+<div class="modal fade" id="exitVolModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog " >
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               志愿者工作
+            </h4>
+         </div>
+         <div class="modal-body">
+          <div >
+            <p style="font-family:楷体;font-weight:900;color: #CD69C9;">
+            用户您好，您已经成为我们的志愿者，下面是您要进行审核的标签，请认真判断</p>
+          </div>
+              <div class="row"  ng-repeat="item in tags">
+                  <div class="col-xs-2" ng-show="item.valid==1" >
+                <p >
+                  ->
+                  </p>
+                </div>
+              <div class="col-xs-4" ng-show="item.valid==1">
+                <p style="font-family:楷体;font-weight:900;color: #87CEFF;">
+                  {{item.info}}
+                  </p>
+                </div>
+                         <div class="col-xs-2">
+               <bolck  ng-show="item.valid==1"><span class="episodes"  ng-click="pass($index)">通过审核</span></bolck>  
+          
+                </div>
+                <div class="col-xs-2">
+               <bolck  ng-show="item.valid==1"><span class="newtag" ng-click="reject($index)">不通过审核</span></bolck>  
+          
+                </div>
+                    
+
+         </div>
+
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="exit()">
+               退出志愿者
+            </button>
+
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+<!-- 查看排程模态框（Modal） -->
+<div class="modal fade" id="showSchModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               查看排程情况
+            </h4>
+         </div>
+         <div class="modal-body">
+             <div class="row"  ng-repeat="item in schedule">
+                  <div class="col-xs-3">
+                <p>
+                  ->预定将与
+                  </p>
+                </div>
+              <div class="col-xs-3">
+                <p style="font-family:楷体;font-weight:900;color: #CD69C9;">
+                  {{item.partner}}
+                  </p>
+                </div>
+                     <div class="col-xs-3">
+                <p  style="font-family:楷体;font-weight:900;color:  #87CEFF;">
+                  进行 {{item.title}}
+                  </p>
+                </div>
+                     <div class="col-xs-3">
+                <p style="font-family:楷体;font-weight:900;color: #8FBC8F;">
+                  设定在{{item.time}}天之内
+                  </p>
+                </div> 
+
+         </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="addSchedule()">
+               添加新日程
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+<!-- 添加排程模态框（Modal） -->
+<div class="modal fade" id="addSchModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               添加排程
+         </div>
+         <div class="modal-body">
+           <form role="form">
+             <div class="form-group">
+                <label for="name">内容</label>
+                <input type="text" class="form-control"  ng-model="newSch.title">
+             </div>
+              <div class="form-group">
+                <label for="name">对象</label>
+                <input type="text" class="form-control"  ng-model="newSch.id">
+             </div>
+               <div class="form-group">
+                <label for="name">时间</label>
+                <input type="text" class="form-control"  ng-model="newSch.time">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="saveSchedule(newSch)">
+               保存
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+<!-- 好友推荐模态框（Modal） -->
+<div class="modal fade" id="friRecModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               好友推荐
+         </div>
+         <div class="modal-body">
+            <div class="m-column">
+                <bolck ng-repeat="item in users" ng-show="item.isVol==0"><span class="episodes" ng-click="addFri($index)">
+                {{item.name}}</span></bolck>
+            </div>
+
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>

@@ -1,0 +1,150 @@
+<div class="container">
+
+
+<div class="content">
+
+
+
+           <div class="row">
+                  <div class="col-xs-1">
+
+               </div>
+
+              <div class="col-xs-3" align="center">
+
+              <img src="{{FILE_URL}}user.jpg" ng-click="selectImg($index)" id="relate_pic_{{item.id}}" 
+                  style="height:250px"/>
+                </div>
+                                  <div class="col-xs-1">
+               &nbsp;
+               </div>
+              <div class="col-xs-3" align="center">
+               <img src="{{FILE_URL}}seller.jpg" ng-click="selectImg($index)" id="relate_pic_{{item.id}}" 
+                  style="height:250px"/>
+          
+              </div>
+                                <div class="col-xs-1">
+               &nbsp;
+               </div>
+              <div class="col-xs-3" align="center">
+              <img src="{{FILE_URL}}root.jpg" ng-click="selectImg($index)" id="relate_pic_{{item.id}}" 
+                  style="height:250px"/>
+             
+              </div>
+         </div>
+            <div class="row">
+                  <div class="col-xs-1">
+               &nbsp;
+               </div>
+
+              <div align="center" class="col-xs-3">
+                 <bolck ><span class="episodes"  ng-click="GoUser()">
+                        普通用户</span></bolck>
+                </div>
+                                  <div class="col-xs-1">
+               &nbsp;
+               </div>
+              <div align="center" class="col-xs-3">
+                  <bolck  ><span class="episodes"  ng-click="GoSeller()">
+                        入驻商家</span></bolck>
+              </div>
+                  <div class="col-xs-1">
+               &nbsp;
+               </div>
+              <div align="center"  class="col-xs-3">
+                    <bolck ><span class="episodes"  ng-click="GoRoot()">
+                        管理员</span></bolck>
+              </div>
+         </div>
+
+
+
+     
+
+
+</div>
+
+</div>
+
+
+
+<!-- 登录模态框（Modal） -->
+<div class="modal fade" id="SignInModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog " >
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               登录
+            </h4>
+         </div>
+         <div class="modal-body">
+           <form role="form">
+             <div class="form-group">
+                <label for="name">用户名</label>
+                <input type="text"  size="20" maxlength="15" class="form-control"  ng-model="SignInfo.name">
+             </div>
+              <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" size="20" maxlength="15" class="form-control"  ng-model="SignInfo.password">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="SignIn(SignInfo)">
+               登录
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog " >
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               注册
+            </h4>
+         </div>
+         <div class="modal-body">
+           <form role="form">
+             <div class="form-group">
+                <label for="name">用户名</label>
+                <input type="text"  size="20" maxlength="15" class="form-control"  ng-model="RegInfo.name">
+             </div>
+             <div class="form-group">
+                <label for="name">邮箱</label>
+                <input type="text"  size="20" maxlength="15" class="form-control"  ng-model="RegInfo.mail">
+             </div>
+              <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" size="20" maxlength="15" class="form-control"  ng-model="RegInfo.password">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="Register(RegInfo)">
+               注册
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>

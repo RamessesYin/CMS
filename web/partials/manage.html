@@ -1,0 +1,148 @@
+<div class="row">
+
+ <div class="col-xs-6">
+        <div class="row">
+      <div class="col-xs-4"></div>
+             <div class="col-xs-6">
+              <p style="font-family:楷体;font-weight:900;color:  #FF8C00;text-align:center;">
+             活动列表
+           </p>
+             </div>
+           
+      </div>
+     <!--商家项 -->
+              <div class="row">
+                      <div class="row">&nbsp;</div>
+            <div class="m-list clearfix">
+
+            
+                    <div class="col-xs-4" ng-repeat="item in option" class="m-column" ng-show="item.status==0">
+                        <div class="abstract-list" >
+                          <p id="name" style="color:#FF0000 " >未通过审核</p>
+                    <p id="name" style="color:#34495e" > 活动名称：{{item.act_name}}</p>
+                    <p id="provider" style="color:#34495e"> 提供商家：{{item.provider}} </p>
+                    <p id="price" style="color:#34495e"> 预计消费：{{item.price}}</p>
+                     <p id="location" style="color:#34495e">地点：{{item.location}}</p>
+                     <p id="abstract" style="color:#34495e">简介：{{item.detail}}</p>
+                </div>
+                        
+                  <div align="center">   
+ <bolck  ><span class="episodes" ng-click="check($index)">审核活动</span></bolck>             </div> 
+                    </div>
+                    <div class="col-xs-4" ng-repeat="item in option" class="m-column" ng-show="item.status==1">
+                        <div class="abstract-list" >
+                          <p id="name" style="color:#9F5F9F  " >已通过审核</p>
+                    <p id="name" style="color:#87CEFF" > 活动名称：{{item.act_name}}</p>
+                    <p id="provider" style="color:#87CEFF"> 提供商家：{{item.provider}} </p>
+                    <p id="price" style="color:#87CEFF"> 预计消费：{{item.price}}</p>
+                     <p id="location" style="color:#87CEFF">地点：{{item.location}}</p>
+                     <p id="abstract" style="color:#87CEFF">简介：{{item.detail}}</p>
+                </div>
+                        
+                  <div align="center">   
+                     <bolck  ><span class="episodes" ng-click="check($index)">审核活动</span></bolck> 
+
+            </div> 
+                    </div>
+
+
+
+        
+
+                    
+                </div>
+        </div> <!-- end row -->
+ </div>
+
+
+  <div class="col-xs-6">
+          <div class="row">
+      <div class="col-xs-4"></div>
+             <div class="col-xs-6">
+              <p style="font-family:楷体;font-weight:900;color:  #FF8C00;text-align:center;">
+             志愿者列表
+           </p>
+             </div>
+           
+      </div>
+      <!--志愿者项 -->
+              <div class="row">
+                      <div class="row">&nbsp;</div>
+            <div class="m-list clearfix">
+
+            
+                    <div class="col-xs-4" ng-repeat="item in volunteer" class="m-column" >
+                        <div class="abstract-list" >
+                    <p id="name" style="color:#000000" > 志愿者名称：{{item.name}}</p>
+                    <p id="provider" style="color:#000000"> 审核次数：{{item.counts}} </p>
+                    <p id="price" style="color:#000000"> 个人信用：{{item.degree}}</p>
+                </div>
+                        
+                  <div align="center">   
+                 <bolck  ><span class="episodes" ng-click="cancel($index)">取消志愿者</span></bolck> 
+            </div> 
+                    </div>
+
+
+
+        
+
+                    
+                </div>
+        </div> <!-- end row -->
+ </div>
+
+
+         
+
+</div>
+
+<!-- 编辑模态框（Modal） -->
+<div class="modal fade" id="CheckModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog " >
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               审核活动
+            </h4>
+         </div>
+         <div class="modal-body">
+           <form role="form">
+             <div class="form-group">
+                <label for="name">活动名称</label>
+                <input type="text"  size="20" maxlength="15" class="form-control"  ng-model="tmp.act_name">
+             </div>
+              <div class="form-group">
+                <label for="password">提供商家</label>
+                <input type="text" size="20" maxlength="15" class="form-control"  ng-model="tmp.provider">
+             </div>
+                    <div class="form-group">
+                <label for="password">地点</label>
+                <input type="text" size="20" maxlength="15" class="form-control"  ng-model="tmp.location">
+             </div>
+                               <div class="form-group">
+                <label for="password">简介</label>
+                <input type="text" size="20" maxlength="15" class="form-control"  ng-model="tmp.detail">
+             </div>
+              <div class="form-group">
+                <label for="password">状态</label>
+                <input type="text" size="20" maxlength="15" class="form-control"  ng-model="tmp.status">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="saveCheck(tmp)">
+               保存
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>

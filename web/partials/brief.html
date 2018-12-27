@@ -1,0 +1,413 @@
+<div class="container">
+
+    <div class="content">
+      <div class="row">
+        <div class="m-title hot">
+          <p style="font-family:黑体;font-weight:bold;color: #b2b2b2;">名片信息</p>
+          <hr>
+        </div>
+      </div> 
+      <div class="inner">
+
+          <div class="row">
+            
+            <div class="col-lg-3 col-lg-offset-0 col-md-4 col-md-offset-0 col-sm-5 col-xs-12">
+              <div class="m-abstract">
+                  <div class="poster">
+                    <!-- <img class="title" src="../resource/image/heyi.jpg" style="width:11em;height:9em;"> -->
+                    <div style="max-height:300px;overflow:hidden;">
+                      <img class="title" src="{{FILE_URL}}{{curCard.image}}" style="">
+                    </div>
+                    
+                    
+                    <div class="carousel-text" id="play_btn1">
+                      <h1 class="title"></h1>
+                      <hr class="line">
+                      <div class="play-btn">
+                        <img class="play" src="img/img-play.png" alt="play">
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <!-- 名片信息 -->
+            <div class="col-lg-7 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-7  col-xs-12">
+              <div class="row">&nbsp;</div>
+                <div class="abstract-list" style="">
+                    <p class="TV-title" style=""><!-- 片名： -->称呼：{{curCard.name}}</p>
+                     <div class="row">&nbsp;</div>
+                    <p id="moblie_phone"><!-- 演员： -->    联系方式：{{curCard.contact}} </p>
+                     <div class="row">&nbsp;</div>
+                    <p id="email"><!-- 导演： --> 社交圈：{{curCard.company}}</p>
+                     <div class="row">&nbsp;</div>
+                    <p id="email"><!-- 导演： --> 备注：{{curCard.detail}}</p>
+                     <div class="row">&nbsp;</div>
+                    <p id="play_btn2" style="margin-top:0.5rem;cursor: pointer;" ng-click="ToPlayFirst()">
+                </div>
+                <div  style="padding-left:2.5rem">
+                  <button class="btn btn-primary" ng-click="editCard()">编辑名片</button>
+                  <button class="btn btn-primary" ng-click="shareCard()">分享该名片</button>
+                   <button class="btn btn-primary" ng-click="setSchedule()">排程设置</button>
+                  <button class="btn btn-primary" ng-click="delCard()">删除该名片</button>
+                  
+
+                </div>
+
+            </div>            
+          </div>
+
+
+          <!-- 其他列表 -->
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-12 col-xs-12">
+              <ul class="nav nav-tabs" role="tablist" id="navTab" style="margin-top:20px;">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#tag-list" role="tab" data-toggle="tab" aria-controls="tag-list">个人标签</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#record" role="tab" data-toggle="tab" aria-controls="record">活动记录</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#advise" role="tab" data-toggle="tab" aria-controls="advise">互动建议</a>
+                </li>             
+              </ul>
+            </div>
+          </div>
+          
+
+          <div class="tab-content">
+
+              <!-- 标签内容-->
+            <div role="tabpanel" class="tab-pane active" id="tag-list" >
+                <div class="row" >
+                  <div class="col-lg-8 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-12 col-xs-12">
+                      
+                      <div class="m-column">
+
+                          <bolck ng-repeat="item in tags" ng-show="item.valid==0"><span class="newtag" ng-click="SetTag(item.id)">{{item.info}}</span></bolck>
+                          <bolck ng-repeat="item in tags" ng-show="item.valid==1"><span class="episodes" ng-click="SetTag(item.id)">{{item.info}}</span></bolck>  
+
+                         <button class="btn btn-primary" ng-click="addTag()">添加标签</button>
+                                               
+                      </div>
+                 
+                  </div>
+                  
+                </div>
+
+            </div>
+
+            <!-- 活动记录-->
+            <div role="tabpanel" class="tab-pane" id="record">
+              <div class="row">
+                <button class="btn btn-primary" ng-click="addRecord()">添加活动记录</button>
+                <div class="col-lg-7 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-12 col-xs-12">
+           
+                <div class="row"  ng-repeat="item in record">
+                  <div class="col-xs-3">
+                <p style="font-family:楷体;font-weight:900;color: #8B4500;">
+                  ->您与{{curCard.name}}
+                  </p>
+                </div>
+              <div class="col-xs-3">
+                <p style="font-family:楷体;font-weight:900;color: #CD69C9;">
+                   于{{item.date}}
+                  </p>
+                </div>
+                     <div class="col-xs-3">
+                <p  style="font-family:楷体;font-weight:900;color:  #87CEFF;">
+                  在{{item.Location}}
+                  </p>
+                </div>
+                     <div class="col-xs-3">
+                <p style="font-family:楷体;font-weight:900;color: #8FBC8F;">
+                  {{item.Activity}}
+                  </p>
+                </div> 
+
+              </div>
+                
+                      
+                    </div>
+                </div>
+              </div>
+
+
+            <!-- 互动建议-->
+           <div role="tabpanel" class="tab-pane" id="advise" >
+                <div class="row" >
+                  <div class="col-lg-8 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-12 col-xs-12">
+                      
+                      <div class="m-column">
+
+                          <bolck ng-repeat="item in option"><span class="episodes" ng-click="toDetail(item.id)">{{item.act_name}}</span>
+                          </bolck>
+                                               
+                      </div>
+                 
+                  </div>
+                  
+                </div>
+
+            </div>
+
+            </div>
+            
+          </div>
+          
+      </div><!-- end inner -->
+    </div><!-- end content -->
+      
+</div>
+
+<!-- 分享名片模态框（Modal） -->
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               分享名片
+            </h4>
+         </div>
+         <div class="modal-body">
+            <div style="max-height:300px" align="center">
+                      <img  class="title" src="{{FILE_URL}}{{shareIMG}}"  style="height:300px;width:300px">
+                    </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+
+<!-- 添加标签模态框（Modal） -->
+<div class="modal fade" id="addTagModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               添加标签
+            </h4>
+         </div>
+         <div class="modal-body">
+           <form role="form">
+             <div class="form-group">
+                <label for="name">标签内容</label>
+                <input type="text" class="form-control"  ng-model="tag.info">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="saveTag(tag)">
+               保存
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+<!-- 添加活动记录模态框（Modal） -->
+<div class="modal fade" id="addRecordModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               添加活动记录
+            </h4>
+         </div>
+         <div class="modal-body">
+           <form role="form">
+             <div class="form-group">
+                <label for="name">时间</label>
+                <input type="text" class="form-control"  ng-model="nRecord.date">
+             </div>
+              <div class="form-group">
+                <label for="name">地点</label>
+                <input type="text" class="form-control"  ng-model="nRecord.Location">
+             </div>
+            <div class="form-group">
+                <label for="name">对象</label>
+                <input type="text" class="form-control"  ng-model="curCard.name">
+             </div>
+               <div class="form-group">
+                <label for="name">内容</label>
+                <input type="text" class="form-control"  ng-model="nRecord.Activity">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="saveRecord(nRecord)">
+               保存
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+<!-- 修改卡片模态框（Modal） -->
+<div class="modal fade" id="editCardModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+              修改卡片
+            </h4>
+         </div>
+         <div class="modal-body">
+           <form role="form">
+                         <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" class="form-control"  ng-model="tmp.name">
+             </div>
+             <div class="form-group">
+                <label for="name">联系方式</label>
+                <input type="text" class="form-control"  ng-model="tmp.contact">
+             </div>
+                          <div class="form-group">
+                <label for="name">社交圈</label>
+                <input type="text" class="form-control"  ng-model="tmp.company">
+             </div>
+             <div class="form-group">
+                <label for="name">备注</label>
+                <input type="text" class="form-control"  ng-model="tmp.detail">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="saveCard(tmp)">
+               保存
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+<!-- 查看排程模态框（Modal） -->
+<div class="modal fade" id="showSchModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               查看排程情况
+            </h4>
+         </div>
+         <div class="modal-body">
+             <div class="row"  ng-repeat="item in schedule">
+                  <div class="col-xs-3">
+                <p >
+                  ->预定将与
+                  </p>
+                </div>
+              <div class="col-xs-3">
+                <p style="font-family:楷体;font-weight:900;color: #CD69C9;">
+                  {{item.partner}}
+                  </p>
+                </div>
+                     <div class="col-xs-3">
+                <p  style="font-family:楷体;font-weight:900;color:  #87CEFF;">
+                  进行 {{item.title}}
+                  </p>
+                </div>
+                     <div class="col-xs-3">
+                <p style="font-family:楷体;font-weight:900;color: #8FBC8F;">
+                  设定在{{item.time}}天之内
+                  </p>
+                </div> 
+
+         </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="addSchedule()">
+               添加新日程
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+<!-- 添加排程模态框（Modal） -->
+<div class="modal fade" id="addSchModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" >
+               添加排程
+         </div>
+         <div class="modal-body">
+           <form role="form">
+             <div class="form-group">
+                <label for="name">内容</label>
+                <input type="text" class="form-control"  ng-model="schedule.title">
+             </div>
+              <div class="form-group">
+                <label for="name">对象</label>
+                <input type="text" class="form-control"  ng-model="curCard.name">
+             </div>
+               <div class="form-group">
+                <label for="name">时间</label>
+                <input type="text" class="form-control"  ng-model="schedule.time">
+             </div>
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="saveSchedule(schedule)">
+               保存
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
