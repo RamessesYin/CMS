@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.android.commons.ui.Views;
@@ -69,6 +70,7 @@ public class Fragment1 extends BaseFragment implements CardsAdapter.Unfordable {
             if (user == null) {
                 Log.d("HttpClient", "get user failed.");
                 HttpClient.user = new User();
+                Toast.makeText(this.getActivity(),"链接超时",Toast.LENGTH_LONG).show();
                 return;
             }
             Log.d("HttpClient", user.toString());

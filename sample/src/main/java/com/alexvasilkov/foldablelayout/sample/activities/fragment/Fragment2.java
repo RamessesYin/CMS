@@ -86,7 +86,7 @@ public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable, 
                         card_adapter.notifyDataSetChanged();
                     });
                 else
-                    Toast.makeText(this.getContext(),"链接超时",Toast.LENGTH_SHORT);
+                    Toast.makeText(this.getActivity(),"链接超时",Toast.LENGTH_LONG).show();
             });
         }
 
