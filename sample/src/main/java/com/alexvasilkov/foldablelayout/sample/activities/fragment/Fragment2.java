@@ -75,19 +75,22 @@ public class Fragment2 extends BaseFragment implements CardsAdapter.Unfordable, 
         listView.setAdapter(card_adapter);
 
         List<Long> ids = UserRecommand.recommandUser(HttpClient.user,5);
+
         for (long id : ids){
-            Log.d("UserRecommand", ""+id);
-            HttpClient.getUser(id,(data)->{
-                if(data!=null)
-                    handler.post(() -> {
-                        User user = (User) data;
-                        Log.d("UserRecommand", ""+user.self_card.toString());
-                        cards.add(user.self_card);
-                        card_adapter.notifyDataSetChanged();
-                    });
-                else
-                    Toast.makeText(this.getActivity(),"链接超时",Toast.LENGTH_LONG).show();
-            });
+            handler.postDelayed(()->{
+                Log.d("UserRecommand", ""+id);
+                HttpClient.getUser(id,(data)->{
+                    if(data!=null)
+                        handler.post(() -> {
+                            User user = (User) data;
+                            Log.d("UserRecommand", ""+user.self_card.toString());
+                            cards.add(user.self_card);
+                            card_adapter.notifyDataSetChanged();
+                        });
+                    else
+                        Toast.makeText(this.getActivity(),"链接超时",Toast.LENGTH_LONG).show();
+                });
+            },200);
         }
 
 
