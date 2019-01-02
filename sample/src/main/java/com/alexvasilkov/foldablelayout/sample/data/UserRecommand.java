@@ -48,7 +48,7 @@ public class UserRecommand {
 
         }
 
-        //Log.d("UserRecommand", new ArrayList(ids).toString());
+        Log.d("UserRecommand", new ArrayList(ids).toString());
         return ids;
     }
 

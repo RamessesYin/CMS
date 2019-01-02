@@ -1,12 +1,16 @@
 package com.alexvasilkov.foldablelayout.sample.data;
 
 
+import android.app.Application;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 import okhttp3.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HttpClient {
 
@@ -49,7 +53,7 @@ public class HttpClient {
     public static void getUser(long id, OnDataReceived onDataReceived){
 
         String url = "http://119.23.241.119:8080/Entity/U61e825a37daf4/CMS/User/" + String.valueOf(id);
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(2000,TimeUnit.MILLISECONDS).build();
         final Request request = new Request.Builder()
                 .url(url)
                 .get()//默认就是GET请求，可以不写
@@ -59,6 +63,7 @@ public class HttpClient {
             @Override
             public void onFailure(Call call, IOException e) {
                 System.out.println( "failed when get user "+String.valueOf(id));
+                System.out.println(e);
                 onDataReceived.callback(null);
             }
 
